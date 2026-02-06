@@ -1,38 +1,67 @@
+import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: {
-    default: "DMacht",
-    template: "%s • DMacht",
+    default: "D-Macht — AI Outreach you can inspect",
+    template: "%s · D-Macht",
   },
   description:
-    "Industrial inkjet printer service, electronics repair, and field support — Kansas City.",
-  applicationName: "DMacht",
-  icons: { icon: "/favicon.ico" },
+    "Translate AI outreach into digestible, step-based visuals. Clear capabilities, integrations, and reporting for technical decision makers.",
+  metadataBase: new URL("https://dmacht.com"),
+  openGraph: {
+    title: "D-Macht — AI Outreach you can inspect",
+    description:
+      "Step-based outreach automation with transparent logic, integration-friendly workflows, and audit-ready reporting.",
+    type: "website",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#050914",
-  width: "device-width",
-  initialScale: 1,
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-dvh antialiased text-white">
-        <div className="pcb min-h-dvh">
-          {/* Ambient FX overlays */}
-          <div className="fx-noise" aria-hidden />
-          <div className="fx-scanlines" aria-hidden />
+      <body className="min-h-dvh bg-black text-white">
+        <Navbar />
 
-          <Navbar />
-          <main id="main" className="relative">
-            {children}
-          </main>
-        </div>
+        <main className="mx-auto max-w-6xl px-4">{children}</main>
+
+        <footer className="mt-20 border-t border-white/10">
+          <div className="mx-auto max-w-6xl px-4 py-10">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-sm text-white/70">
+                <span className="font-medium text-white/85">D-Macht</span> ·
+                Step-based outreach automation
+              </div>
+
+              <div className="flex flex-wrap gap-4 text-sm text-white/60">
+                <a className="hover:text-white" href="#capabilities">
+                  Capabilities
+                </a>
+                <a className="hover:text-white" href="#integrations">
+                  Integrations
+                </a>
+                <a className="hover:text-white" href="#security">
+                  Security
+                </a>
+                <a className="hover:text-white" href="#contact">
+                  Contact
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-6 text-xs text-white/45">
+              © 2026 D-Macht. Built for clarity, fit, and repeatability.
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );

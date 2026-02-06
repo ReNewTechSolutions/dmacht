@@ -1,24 +1,47 @@
 @import "tailwindcss";
 
-/* =========================
-   DMACHT GLOBALS
-   PCB background + glass UI
-========================= */
+/* =========================================================
+   DMACHT GLOBALS — clarity-first dark system
+   - Step-based storytelling
+   - Technical audience: crisp type + predictable UI
+   - MotherboardHotspots treated as a signal diagram
+========================================================= */
 
 :root {
   color-scheme: dark;
 
-  --bg0: #000000;
+  /* Base surfaces */
+  --bg0: #000;
   --bg1: #02040a;
   --bg2: #050914;
 
-  --teal: 20 184 166;
-  --orange: 249 115 22;
-  --yellow: 234 179 8;
-  --purple: 168 85 247;
+  /* Brand accents (rgb for alpha-friendly usage) */
+  --blue: 59 130 246; /* Infinite Blue */
+  --teal: 20 184 166; /* Signal Teal */
+  --amber: 245 158 11; /* Caution */
 
   --white: 255 255 255;
   --black: 0 0 0;
+
+  /* Text */
+  --text: rgba(var(--white), 0.92);
+  --muted: rgba(var(--white), 0.68);
+  --faint: rgba(var(--white), 0.5);
+
+  /* Borders */
+  --line: rgba(var(--white), 0.10);
+  --line2: rgba(var(--white), 0.14);
+
+  /* Radii */
+  --r-lg: 18px;
+  --r-xl: 22px;
+
+  /* Shadows */
+  --shadow-soft: 0 20px 70px -45px rgba(0, 0, 0, 0.85);
+  --shadow-glow: 0 18px 70px -45px rgba(59, 130, 246, 0.85);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 html,
@@ -26,360 +49,448 @@ body {
   height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--bg0);
-  color: rgb(var(--white));
+  background: radial-gradient(
+      900px 600px at 15% 0%,
+      rgba(var(--blue), 0.20),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 85% 10%,
+      rgba(var(--teal), 0.14),
+      transparent 60%
+    ),
+    linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg0));
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* safer defaults */
-* {
-  box-sizing: border-box;
-}
-
+/* Media defaults */
 img,
 svg,
 video,
 canvas {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
-/* =========================
-   PCB BACKGROUND WRAPPER
-   Use: <div className="pcb">...</div>
-========================= */
-.pcb {
-  position: relative;
-  min-height: 100vh;
-  isolation: isolate;
-
-  background:
-    radial-gradient(1200px circle at 18% 0%, rgba(var(--teal), 0.08), transparent 42%),
-    radial-gradient(1100px circle at 86% 10%, rgba(var(--orange), 0.08), transparent 46%),
-    radial-gradient(1000px circle at 58% 86%, rgba(var(--purple), 0.08), transparent 52%),
-    linear-gradient(180deg, var(--bg2) 0%, var(--bg1) 60%, var(--bg0) 100%);
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-/* grid + vias */
-.pcb::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-
-  background-image:
-    linear-gradient(to right, rgba(var(--white), 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(var(--white), 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 14px 14px, rgba(var(--white), 0.08) 1.6px, transparent 2px),
-    radial-gradient(circle at 44px 44px, rgba(var(--white), 0.06) 1.2px, transparent 2px);
-
-  background-size:
-    72px 72px,
-    72px 72px,
-    56px 56px,
-    88px 88px;
-
-  opacity: 0.30;
+/* Selection */
+::selection {
+  background: rgba(var(--blue), 0.35);
 }
 
-/* glow pools */
-.pcb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  background-image:
-    radial-gradient(760px 240px at 18% 30%, rgba(var(--teal), 0.16), transparent 72%),
-    radial-gradient(820px 260px at 78% 28%, rgba(var(--orange), 0.14), transparent 72%),
-    radial-gradient(920px 340px at 55% 82%, rgba(var(--purple), 0.12), transparent 75%),
-    radial-gradient(700px 260px at 40% 60%, rgba(var(--yellow), 0.09), transparent 74%);
-
-  opacity: 0.95;
-  mix-blend-mode: screen;
+/* Focus ring (predictable for technical users) */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--white), 0.16),
+    0 0 0 6px rgba(var(--blue), 0.22);
+  border-radius: 10px;
 }
 
-/* =========================
-   GLASS CARDS
-========================= */
+/* ---------- Utility classes ---------- */
+
+.container-dmacht {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 16px;
+  max-width: 1152px; /* ~max-w-6xl */
+}
+
 .glass {
+  background: rgba(var(--black), 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(var(--white), 0.06), rgba(var(--white), 0.03));
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-soft);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* Step visuals: subtle connector line */
+.step-rail {
+  position: relative;
+}
+.step-rail::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
   background: linear-gradient(
     180deg,
-    rgba(var(--white), 0.10),
-    rgba(var(--white), 0.05)
+    rgba(var(--white), 0.18),
+    rgba(var(--white), 0.06),
+    transparent
   );
-  border: 1px solid rgba(var(--white), 0.12);
-  box-shadow:
-    0 0 0 1px rgba(var(--white), 0.04) inset,
-    0 14px 44px rgba(var(--black), 0.55);
-  backdrop-filter: blur(14px);
 }
 
-.glass-soft {
-  background: rgba(var(--white), 0.06);
-  border: 1px solid rgba(var(--white), 0.10);
-  box-shadow: 0 0 0 1px rgba(var(--white), 0.03) inset;
-  backdrop-filter: blur(12px);
+/* Background grid */
+.bg-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(circle at 50% 10%, black 30%, transparent 72%);
 }
 
-/* =========================
-   BUTTONS
-========================= */
-.btn {
-  border-radius: 0.85rem;
-  padding: 0.85rem 1.15rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  line-height: 1;
-  transition: transform 120ms ease, opacity 120ms ease, background 120ms ease, box-shadow 120ms ease;
-  user-select: none;
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn-primary {
-  color: rgb(var(--black));
-  background: linear-gradient(90deg, rgba(var(--orange), 1), rgba(var(--yellow), 1));
-  box-shadow: 0 10px 30px rgba(var(--orange), 0.14);
-}
-
-.btn-primary:hover {
-  opacity: 0.95;
-}
-
-.btn-secondary {
-  color: rgb(var(--white));
-  background: rgba(var(--white), 0.10);
-  border: 1px solid rgba(var(--white), 0.14);
-}
-
-.btn-secondary:hover {
-  background: rgba(var(--white), 0.14);
-}
-
-/* =========================
-   INPUTS / TEXTAREA / SELECT
-========================= */
-.input {
-  width: 100%;
-  border-radius: 0.95rem;
-  padding: 0.9rem 0.95rem;
-  font-size: 0.95rem;
-  color: rgb(var(--white));
-  background: rgba(var(--black), 0.40);
-  border: 1px solid rgba(var(--white), 0.12);
-  outline: none;
-  transition: border 120ms ease, background 120ms ease, box-shadow 120ms ease;
-}
-
-.input::placeholder {
-  color: rgba(var(--white), 0.45);
-}
-
-.input:focus {
-  border-color: rgba(var(--teal), 0.55);
-  box-shadow: 0 0 0 3px rgba(var(--teal), 0.14);
-  background: rgba(var(--black), 0.48);
-}
-
-textarea.input {
-  resize: vertical;
-  min-height: 120px;
-}
-
-/* select looks cleaner on dark */
-select.input {
-  appearance: none;
-  background-image:
-    linear-gradient(45deg, transparent 50%, rgba(var(--white), 0.55) 50%),
-    linear-gradient(135deg, rgba(var(--white), 0.55) 50%, transparent 50%);
-  background-position:
-    calc(100% - 18px) calc(50% - 3px),
-    calc(100% - 12px) calc(50% - 3px);
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-  padding-right: 2.25rem;
-}
-
-/* =========================
-   SUBTLE TRACE GLOW
-   Use: className="trace"
-========================= */
-.trace {
-  position: relative;
-  overflow: hidden;
-}
-
-.trace::before {
-  content: "";
-  position: absolute;
-  inset: -52px;
-  pointer-events: none;
-
-  background:
-    radial-gradient(680px 240px at 20% 20%, rgba(var(--teal), 0.14), transparent 60%),
-    radial-gradient(720px 260px at 80% 10%, rgba(var(--orange), 0.12), transparent 62%),
-    radial-gradient(820px 320px at 60% 85%, rgba(var(--purple), 0.10), transparent 66%);
-
-  opacity: 0.85;
-  mix-blend-mode: screen;
-  filter: blur(2px);
-  animation: traceFloat 12s ease-in-out infinite;
-}
-
-@keyframes traceFloat {
-  0%   { transform: translate3d(0px, 0px, 0px); opacity: 0.68; }
-  50%  { transform: translate3d(14px, -10px, 0px); opacity: 0.95; }
-  100% { transform: translate3d(0px, 0px, 0px); opacity: 0.68; }
-}
-
-/* Reduce motion */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .trace::before { animation: none; }
-  .btn { transition: none; }
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
-/* =========================
-   OPTIONAL: nicer tap targets
-========================= */
-@media (max-width: 640px) {
-  .btn { padding: 0.95rem 1.1rem; }
-}
+/* =========================================================
+   MOTHERBOARD HOTSPOTS (signal diagram)
+========================================================= */
 
-/* ---------------------------
-   Brand marquee (BrandStrip)
---------------------------- */
-.brand-marquee {
-  overflow: hidden;
+.mb-hotspots {
   width: 100%;
 }
 
-.brand-track {
+.mb-head {
   display: flex;
-  gap: 10px;
-  width: max-content;
-  padding: 2px 0;
-  animation: brandScroll 18s linear infinite;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
-.brand-pill {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.35);
-  padding: 8px 12px;
+.mb-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.mb-sub {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 48ch;
+}
+
+.mb-tip {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.78);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.5);
 }
 
-@keyframes brandScroll {
+.mb-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .mb-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mb-boardWrap {
+  position: relative;
+  min-height: 520px;
+}
+
+.mb-board {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: radial-gradient(
+      1200px 600px at 50% 15%,
+      rgba(255, 255, 255, 0.06),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.35));
+  box-shadow: var(--shadow-soft);
+}
+
+.mb-boardLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+      900px 420px at 30% 20%,
+      rgba(var(--blue), 0.10),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 420px at 75% 45%,
+      rgba(var(--teal), 0.07),
+      transparent 60%
+    );
+  opacity: 0.9;
+}
+
+.mb-traces {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mb-connector {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+.mb-connector.is-active {
+  opacity: 1;
+}
+
+.mb-spark {
+  fill: none;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.6;
+  stroke-dasharray: 10 16;
+  animation: mbSpark 0.9s linear infinite;
+}
+
+@keyframes mbSpark {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -52;
+  }
+}
+
+/* Nodes: icon-only, no text on the board */
+.mb-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.mb-nodeHalo {
+  position: absolute;
+  inset: -18px;
+  border-radius: 999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--blue), 0.22),
+    transparent 70%
+  );
+  opacity: 0.35;
+  transition: opacity 220ms var(--ease);
+}
+
+.mb-nodeCore {
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 60px -45px rgba(0, 0, 0, 0.9);
+}
+
+.mb-nodeChip {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.mb-nodeIcon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.88);
+  transition: transform 220ms var(--ease), color 220ms var(--ease);
+}
+
+.mb-node:hover .mb-nodeIcon,
+.mb-node:focus-visible .mb-nodeIcon {
+  transform: translateY(-1px);
+  color: rgba(255, 255, 255, 0.98);
+}
+
+.mb-node.is-active .mb-nodeHalo {
+  opacity: 0.6;
+}
+
+.mb-node.is-active .mb-nodeChip {
+  border-color: rgba(var(--blue), 0.45);
+  box-shadow: 0 0 0 1px rgba(var(--blue), 0.22),
+    0 24px 80px -55px rgba(var(--blue), 0.75);
+}
+
+/* Activation pulse ring */
+.mb-nodePulse {
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--blue), 0.55);
+  opacity: 0;
+  animation: mbPulse 700ms var(--ease) 1;
+}
+
+@keyframes mbPulse {
   0% {
-    transform: translateX(0);
+    transform: scale(0.85);
+    opacity: 0.6;
   }
   100% {
-    transform: translateX(-50%);
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .brand-track {
-    animation: none;
-  }
-}
-
-/* ---------------------------
-   Boot / Click-to-enter overlay
---------------------------- */
-.boot {
-  background:
-    radial-gradient(1200px circle at 50% 0%, rgba(20,184,166,0.10), transparent 46%),
-    radial-gradient(900px circle at 75% 20%, rgba(249,115,22,0.10), transparent 52%),
-    radial-gradient(900px circle at 30% 80%, rgba(168,85,247,0.10), transparent 55%),
-    linear-gradient(180deg, #050914 0%, #02040a 60%, #000 100%);
-  transition: opacity 450ms ease, transform 450ms ease, visibility 450ms ease;
-}
-
-.boot-card {
-  box-shadow: 0 40px 120px rgba(0,0,0,0.55);
-}
-
-.boot--off {
+/* Tooltip */
+.mb-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
   opacity: 0;
-  transform: scale(0.98);
-  visibility: hidden;
-  pointer-events: none;
+  transition: opacity 160ms var(--ease), transform 160ms var(--ease);
+  z-index: 20;
 }
 
-/* ---------------------------
-   Ambient: noise + scanlines
---------------------------- */
-.fx-noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-  background-size: 220px 220px;
-}
-
-.fx-scanlines {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.10;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.03) 0px,
-    rgba(255,255,255,0.03) 1px,
-    transparent 2px,
-    transparent 6px
-  );
-  mix-blend-mode: overlay;
-}
-
-/* ensure your content sits above FX */
-.pcb > *:not(.fx-noise):not(.fx-scanlines) {
-  position: relative;
-  z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fx-noise,
-  .fx-scanlines {
-    display: none;
-  }
-}
-
-/* ---------------------------
-   Power-on reveal animations
---------------------------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(10px);
-  filter: blur(1px);
-  transition: opacity 600ms ease, transform 600ms ease, filter 600ms ease;
-  will-change: opacity, transform;
-}
-
-.reveal.is-on {
+.mb-node:hover .mb-tooltip,
+.mb-node:focus-visible .mb-tooltip {
   opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
+  transform: translateX(-50%) translateY(0);
 }
 
-.reveal.delay-1 { transition-delay: 80ms; }
-.reveal.delay-2 { transition-delay: 160ms; }
-.reveal.delay-3 { transition-delay: 240ms; }
-.reveal.delay-4 { transition-delay: 320ms; }
+.mb-tooltipInner {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.86);
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 10px;
+  box-shadow: 0 18px 60px -45px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.mb-tooltipInner::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.78);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Right panel */
+.mb-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: var(--shadow-soft);
+}
+
+.mb-panelTop {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.mb-panelKicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mb-panelTitle {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.mb-panelDesc {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.mb-panelCard {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mb-panelCardKicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 10px;
+}
+
+.mb-panelList {
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.mb-panelHint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}

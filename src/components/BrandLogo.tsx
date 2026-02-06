@@ -1,21 +1,35 @@
 import Image from "next/image";
 
 type Props = {
-  className?: string;
   priority?: boolean;
+  variant?: "nav" | "hero";
+  className?: string;
 };
 
-export default function BrandLogo({ className = "", priority = false }: Props) {
+export default function BrandLogo({
+  priority = false,
+  variant = "hero",
+  className = "",
+}: Props) {
+  const isNav = variant === "nav";
+
   return (
-    <div className={className}>
+    <span
+      className={[
+        "relative inline-block overflow-hidden",
+        isNav ? "h-9 w-9 rounded-xl" : "h-[56px] w-[180px] rounded-2xl",
+        "border border-white/10 bg-white/5",
+        className,
+      ].join(" ")}
+    >
       <Image
         src="/brand/dmacht-logo.png"
-        alt="dmacht logo"
-        width={900}
-        height={300}
+        alt="D-Macht"
+        fill
         priority={priority}
-        className="h-auto w-full select-none"
+        sizes={isNav ? "36px" : "180px"}
+        className="object-contain p-1"
       />
-    </div>
+    </span>
   );
 }

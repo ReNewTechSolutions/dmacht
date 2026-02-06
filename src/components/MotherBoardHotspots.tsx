@@ -1,180 +1,286 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Hotspot = {
   id: string;
-  label: string;
-  title: string;
-  desc: string;
-  x: string; // percent
-  y: string; // percent
+  icon: "target" | "steps" | "plug" | "eye";
+  tooltip: string; // short label for hover
+  title: string;   // full title (panel)
+  desc: string;    // full desc (panel)
+  x: number;       // 0..100
+  y: number;       // 0..100
 };
 
-export default function MotherboardHotspots() {
-  const [active, setActive] = useState<string>("pm");
+const VB_W = 1000;
+const VB_H = 625;
 
+// ✅ MUST be a single-line string to avoid hydration mismatch
+const MB_GLOW_MATRIX = "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.85 0";
+
+function pctToX(p: number) {
+  return (p / 100) * VB_W;
+}
+function pctToY(p: number) {
+  return (p / 100) * VB_H;
+}
+
+function Icon({ name }: { name: Hotspot["icon"] }) {
+  // tiny inline SVGs — no dependencies, stable markup
+  switch (name) {
+    case "target":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="2" opacity="0.9" />
+          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="2" opacity="0.7" />
+        </svg>
+      );
+    case "steps":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M7 7h10M7 12h10M7 17h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <path d="M4 7h.01M4 12h.01M4 17h.01" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        </svg>
+      );
+    case "plug":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M9 7v4m6-4v4M8 11h8v2a4 4 0 0 1-4 4v3"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "eye":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+          <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="2" />
+        </svg>
+      );
+  }
+}
+
+export default function MotherboardHotspots() {
   const spots: Hotspot[] = useMemo(
     () => [
       {
-        id: "pm",
-        label: "PM",
-        title: "Preventative Maintenance",
-        desc: "Pressure balancing, cleaning cycles, inspections, and component checks to prevent downtime.",
-        x: "18%",
-        y: "34%",
+        id: "target",
+        icon: "target",
+        tooltip: "Targeting",
+        title: "Targeting + Inputs",
+        desc: "Define the audience and constraints up front: ICP fields, exclusions, source data, and routing rules.",
+        x: 18,
+        y: 34,
       },
       {
-        id: "inkjet",
-        label: "IJ",
-        title: "Inkjet Printer Service",
-        desc: "Domino + Markem-Imaje expertise — calibration, print quality, repairs, refurb, and line readiness.",
-        x: "62%",
-        y: "28%",
+        id: "steps",
+        icon: "steps",
+        tooltip: "Step Logic",
+        title: "Sequence Logic",
+        desc: "Step-based outreach you can inspect: timing, branching, stop conditions, retries, and handoff triggers.",
+        x: 62,
+        y: 28,
       },
       {
-        id: "board",
-        label: "PCB",
-        title: "Board-Level Diagnostics",
-        desc: "Power systems, sensors, controllers, and electromechanical assemblies — isolate faults cleanly.",
-        x: "44%",
-        y: "60%",
+        id: "integrate",
+        icon: "plug",
+        tooltip: "Integrations",
+        title: "Integration + Handoff",
+        desc: "Fits your workflow: log events to CRM, update lifecycle states, and route replies without breaking ownership.",
+        x: 44,
+        y: 60,
       },
       {
-        id: "field",
-        label: "FIELD",
-        title: "Field Install + Integration",
-        desc: "On-site installs with clean wiring, alignment, validation, and production handoff support.",
-        x: "78%",
-        y: "62%",
+        id: "observe",
+        icon: "eye",
+        tooltip: "Observability",
+        title: "Observability + Audit Trail",
+        desc: "See what happened and why: step-level metrics, deliverability signals, and an event timeline for debugging.",
+        x: 78,
+        y: 62,
       },
     ],
     []
   );
 
+  const [active, setActive] = useState<string>(spots[0]?.id ?? "target");
+  const [pulse, setPulse] = useState(0);
+  const [nodePulse, setNodePulse] = useState(0);
+
   const current = spots.find((s) => s.id === active) ?? spots[0];
 
+  const hub = useMemo(() => ({ x: 520, y: 330 }), []);
+
+  const paths = useMemo(() => {
+    return spots.map((s) => {
+      const x = pctToX(s.x);
+      const y = pctToY(s.y);
+      const midX = (hub.x + x) / 2;
+      const midY = (hub.y + y) / 2;
+      const elbowX = midX + (x > hub.x ? 44 : -44);
+      const elbowY = midY + (y > hub.y ? 26 : -26);
+      const d = `M ${hub.x} ${hub.y} Q ${elbowX} ${elbowY} ${x} ${y}`;
+      return { id: s.id, d, x, y };
+    });
+  }, [spots, hub]);
+
+  const activePath = paths.find((p) => p.id === active) ?? null;
+
+  function activate(id: string) {
+    setActive(id);
+    setPulse((n) => n + 1);
+    setNodePulse((n) => n + 1);
+  }
+
   return (
-    <section aria-label="Interactive motherboard map" className="mt-10 md:mt-14">
-      <div className="glass trace rounded-3xl p-6 md:p-10">
-        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              Motherboard map
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Hover or tap nodes to see service details — built like a diagnostic workflow.
-            </p>
-          </div>
-          <div className="text-xs text-white/55">
-            Tip: tap nodes on mobile
+    <section aria-label="Interactive workflow map" className="mb-hotspots">
+      <div className="mb-head">
+        <div>
+          <div className="mb-kicker">Workflow map</div>
+          <div className="mb-sub">
+            Hover or tap nodes to inspect the outreach system — the board shows signal, the panel shows detail.
           </div>
         </div>
+        <div className="mb-tip">Tip: tap nodes on mobile</div>
+      </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-12">
-          {/* board */}
-          <div className="md:col-span-7">
-            <div className="board relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
-              {/* traces */}
-              <div className="pointer-events-none absolute inset-0 opacity-90">
-                <div className="traceA" />
-                <div className="traceB" />
-                <div className="traceC" />
-              </div>
+      <div className="mb-grid">
+        {/* BOARD */}
+        <div className="mb-boardWrap">
+          <div className="mb-board" role="application" aria-label="Workflow board view">
+            <div className="mb-boardLayer" aria-hidden />
 
-              {/* hotspots */}
-              {spots.map((s) => (
+            <svg className="mb-traces" viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="none" aria-hidden>
+              <defs>
+                <linearGradient id="mbTraceBase" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="rgba(255,255,255,0.12)" />
+                  <stop offset="1" stopColor="rgba(255,255,255,0.06)" />
+                </linearGradient>
+
+                <linearGradient id="mbTraceActive" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="rgba(110,210,255,0.50)" />
+                  <stop offset="1" stopColor="rgba(77,255,204,0.32)" />
+                </linearGradient>
+
+                <filter id="mbGlow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feColorMatrix in="blur" type="matrix" values={MB_GLOW_MATRIX} result="glow" />
+                  <feMerge>
+                    <feMergeNode in="glow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* Hub */}
+              <circle cx={hub.x} cy={hub.y} r="10" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.16)" />
+              <circle cx={hub.x} cy={hub.y} r="4" fill="rgba(255,255,255,0.85)" opacity="0.9" />
+
+              {/* Connectors */}
+              {paths.map((p) => {
+                const isActive = p.id === active;
+                return (
+                  <path
+                    key={p.id}
+                    d={p.d}
+                    className={`mb-connector ${isActive ? "is-active" : ""}`}
+                    stroke={isActive ? "url(#mbTraceActive)" : "url(#mbTraceBase)"}
+                    filter={isActive ? "url(#mbGlow)" : undefined}
+                  />
+                );
+              })}
+
+              {/* Electrical signal */}
+              {activePath && (
+                <g key={`sig-${active}-${pulse}`} className="mb-signal">
+                  <circle r="8" fill="rgba(110,210,255,0.14)">
+                    <animateMotion dur="0.75s" path={activePath.d} rotate="auto" />
+                  </circle>
+                  <circle r="3.2" fill="rgba(255,255,255,0.92)">
+                    <animateMotion dur="0.75s" path={activePath.d} rotate="auto" />
+                  </circle>
+                  <circle r="2.2" fill="rgba(77,255,204,0.88)" opacity="0.95">
+                    <animateMotion begin="0.14s" dur="0.75s" path={activePath.d} rotate="auto" />
+                  </circle>
+                </g>
+              )}
+
+              {/* Spark highlight */}
+              {activePath && (
+                <path
+                  key={`spark-${active}-${pulse}`}
+                  d={activePath.d}
+                  className="mb-spark"
+                  stroke="rgba(255,255,255,0.70)"
+                />
+              )}
+            </svg>
+
+            {/* Nodes (icon + tooltip) */}
+            {spots.map((s) => {
+              const isActive = s.id === active;
+              return (
                 <button
                   key={s.id}
                   type="button"
-                  className={[
-                    "node",
-                    active === s.id ? "node--active" : "",
-                  ].join(" ")}
-                  style={{ left: s.x, top: s.y }}
-                  onMouseEnter={() => setActive(s.id)}
-                  onFocus={() => setActive(s.id)}
-                  onClick={() => setActive(s.id)}
+                  className={`mb-node ${isActive ? "is-active" : ""}`}
+                  style={{ left: `${s.x}%`, top: `${s.y}%` } as React.CSSProperties}
+                  onMouseEnter={() => activate(s.id)}
+                  onFocus={() => activate(s.id)}
+                  onClick={() => activate(s.id)}
                   aria-label={s.title}
+                  aria-pressed={isActive}
                 >
-                  <span className="nodeLabel">{s.label}</span>
+                  {isActive && <span key={`ring-${nodePulse}`} className="mb-nodePulse" aria-hidden />}
+
+                  <span className="mb-nodeHalo" aria-hidden />
+                  <span className="mb-nodeCore" aria-hidden />
+                  <span className="mb-nodeChip" aria-hidden />
+
+                  <span className="mb-nodeIcon" aria-hidden>
+                    <Icon name={s.icon} />
+                  </span>
+
+                  <span className="sr-only">{s.tooltip}</span>
+
+                  <span className="mb-tooltip" role="tooltip" aria-hidden>
+                    <span className="mb-tooltipInner">{s.tooltip}</span>
+                  </span>
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* detail panel */}
-          <div className="md:col-span-5">
-            <div className="glass-soft rounded-3xl p-5">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">
-                Active node
-              </div>
-              <div className="mt-2 text-xl font-semibold text-white">
-                {current.title}
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-white/75">
-                {current.desc}
-              </p>
-
-              <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-white/75">
-                <div className="text-xs text-white/55">What to include</div>
-                <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-white/65">
-                  <li>Brand + model</li>
-                  <li>Symptoms + fault code (if any)</li>
-                  <li>When it started + what changed</li>
-                  <li>Facility location</li>
-                </ul>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* local CSS via global-safe classnames (no styled-jsx) */}
-        <style>{`
-          .board { aspect-ratio: 16 / 10; min-height: 260px; }
-          .node {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            border-radius: 9999px;
-            border: 1px solid rgba(255,255,255,0.14);
-            background: rgba(0,0,0,0.45);
-            padding: 10px 12px;
-            font-size: 11px;
-            color: rgba(255,255,255,0.78);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 10px 30px rgba(0,0,0,0.35);
-            transition: transform 160ms ease, background 160ms ease, border 160ms ease;
-          }
-          .node:hover, .node:focus {
-            transform: translate(-50%, -50%) scale(1.03);
-            background: rgba(255,255,255,0.08);
-          }
-          .node--active {
-            border-color: rgba(20,184,166,0.45);
-            box-shadow: 0 0 0 3px rgba(20,184,166,0.12), 0 18px 60px rgba(20,184,166,0.10);
-          }
-          .nodeLabel { letter-spacing: .12em; font-weight: 700; }
+        {/* DETAIL PANEL (full text lives here) */}
+        <aside className="mb-panel" aria-label="Active node details">
+          <div className="mb-panelTop">
+            <div className="mb-panelKicker">Active step</div>
+            <div className="mb-panelTitle">{current?.title}</div>
+            <div className="mb-panelDesc">{current?.desc}</div>
+          </div>
 
-          .traceA, .traceB, .traceC {
-            position: absolute;
-            inset: -20%;
-            background: radial-gradient(closest-side, rgba(20,184,166,0.22), transparent 60%);
-            filter: blur(10px);
-            opacity: .45;
-            animation: floatTrace 10s ease-in-out infinite;
-          }
-          .traceB { background: radial-gradient(closest-side, rgba(249,115,22,0.18), transparent 62%); animation-duration: 12s; }
-          .traceC { background: radial-gradient(closest-side, rgba(168,85,247,0.16), transparent 64%); animation-duration: 14s; }
-
-          @keyframes floatTrace {
-            0% { transform: translate3d(0,0,0); }
-            50% { transform: translate3d(18px,-10px,0); }
-            100% { transform: translate3d(0,0,0); }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .traceA, .traceB, .traceC { animation: none; }
-          }
-        `}</style>
+          <div className="mb-panelCard">
+            <div className="mb-panelCardKicker">What we need from you</div>
+            <ul className="mb-panelList">
+              <li>ICP definition + exclusions</li>
+              <li>Current stack (CRM, email, enrichment)</li>
+              <li>Constraints (domains, compliance, limits)</li>
+              <li>Success metric (replies, meetings, pipeline)</li>
+            </ul>
+            <div className="mb-panelHint">
+              Fastest fit-check = your current workflow + the exact fields you track.
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   );
