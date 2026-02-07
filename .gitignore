@@ -8,3 +8,5 @@ out
 .vscode
 .idea
 .vercel
+.env.local
+.env*
