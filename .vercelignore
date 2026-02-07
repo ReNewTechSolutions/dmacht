@@ -1,0 +1,19 @@
+# Ignore heavy / generated stuff
+node_modules
+.next
+.git
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vercel
+
+# IMPORTANT: ship source + assets
+!src/**
+!public/**
+!package.json
+!package-lock.json
+!next.config.*
+!tsconfig.json
+!postcss.config.*
+!tailwind.config.*
