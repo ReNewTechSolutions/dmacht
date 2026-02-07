@@ -4,6 +4,20 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Providers from "./providers";
 
+import { RegionProvider } from "@/components/region/RegionProvider";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <RegionProvider>
+          {children}
+        </RegionProvider>
+      </body>
+    </html>
+  );
+}
+
 export const metadata: Metadata = {
   title: {
     default: "D-Macht — AI Outreach, explained step-by-step",
