@@ -8,7 +8,7 @@ import StickyCTA from "@/components/StickyCTA";
 import RequestForm from "@/components/RequestForm";
 
 import useRevealOnScroll from "@/components/useRevealOnScroll";
-import MotherboardHotspots from "@/components/MotherboardHotspots";
+import MotherboardHotspots from "@/components/motherboard-hotspots";
 import ServiceCards, { type ServiceSkill } from "@/components/ServiceCards";
 
 const CONTACT = {
