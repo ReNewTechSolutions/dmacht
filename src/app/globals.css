@@ -494,3 +494,517 @@ a {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.55);
 }
+
+/* =========================
+   MB — Premium Enhancements
+   (mobile drawer + scanlines + tilt/glow + pulse badges)
+========================= */
+
+/* board scanlines + faint noise */
+.mb-board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* scanlines */
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 2px,
+      transparent 6px
+    ),
+    /* soft vignette */
+    radial-gradient(
+      1200px 700px at 50% 20%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+
+/* subtle moving scan highlight (optional) */
+.mb-board::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(var(--teal), 0.08) 45%,
+    rgba(var(--blue), 0.10) 50%,
+    rgba(var(--teal), 0.06) 55%,
+    transparent 65%
+  );
+  transform: translate3d(-12%, -8%, 0) rotate(10deg);
+  opacity: 0.55;
+  animation: mbSweep 7.5s linear infinite;
+}
+
+@keyframes mbSweep {
+  0%   { transform: translate3d(-18%, -10%, 0) rotate(10deg); }
+  100% { transform: translate3d(18%, 10%, 0) rotate(10deg); }
+}
+
+/* =========================
+   Desktop tilt/lift/glow for nodes
+========================= */
+
+@media (hover: hover) and (pointer: fine) {
+  .mb-node {
+    transition: transform 220ms var(--ease), filter 220ms var(--ease);
+    transform: translate(-50%, -50%) translateZ(0);
+  }
+
+  .mb-node:hover,
+  .mb-node:focus-visible {
+    transform: translate(-50%, -50%) translateY(-2px) scale(1.02);
+    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
+  }
+
+  .mb-node:hover .mb-nodeHalo,
+  .mb-node:focus-visible .mb-nodeHalo {
+    opacity: 0.55;
+  }
+
+  .mb-node:hover .mb-nodeChip,
+  .mb-node:focus-visible .mb-nodeChip {
+    border-color: rgba(var(--teal), 0.35);
+    box-shadow:
+      0 0 0 1px rgba(var(--blue), 0.18),
+      0 26px 90px -65px rgba(var(--teal), 0.9);
+  }
+
+  /* “magnetic” feel without JS: brighten the active node a bit */
+  .mb-node.is-active .mb-nodeIcon {
+    transform: translateY(-1px) scale(1.03);
+  }
+}
+
+/* =========================
+   Pulse badge (reusable)
+   Put a <span class="mb-badgeDot" /> inside anything.
+========================= */
+.mb-badgeDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(var(--teal), 0.9);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 18px rgba(var(--teal), 0.35);
+}
+
+.mb-badgeDot::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--teal), 0.35);
+  opacity: 0;
+  animation: mbBadgePulse 1.4s ease-out infinite;
+}
+
+@keyframes mbBadgePulse {
+  0%   { transform: scale(0.6); opacity: 0.65; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+/* =========================
+   Mobile drawer polish
+   (your component already uses fixed overlay)
+========================= */
+
+.mb-drawerBackdrop {
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.mb-drawerSheet {
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background:
+    radial-gradient(900px 420px at 20% 20%, rgba(var(--blue), 0.10), transparent 60%),
+    radial-gradient(900px 420px at 80% 50%, rgba(var(--teal), 0.08), transparent 60%),
+    rgba(0, 0, 0, 0.92);
+  box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.65);
+  animation: mbSheetUp 180ms ease-out both;
+  overflow: hidden;
+  position: relative;
+}
+
+/* drawer scanlines */
+.mb-drawerSheet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 2px,
+    transparent 7px
+  );
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+}
+
+@keyframes mbSheetUp {
+  from { transform: translateY(14px); opacity: 0.0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================
+   Applications grid effects
+========================= */
+
+@keyframes dm-scanline {
+  0% { transform: translateY(-120%); opacity: 0; }
+  15% { opacity: 0.35; }
+  50% { opacity: 0.25; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+
+@keyframes dm-pulse {
+  0% { transform: scale(0.9); opacity: 0.55; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.55; }
+}
+
+.app-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+  will-change: transform;
+}
+
+.app-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+.app-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.00), rgba(255,255,255,0.06), rgba(255,255,255,0.00));
+}
+
+.app-card:hover {
+  transform: translateY(-6px) rotateX(4deg) rotateY(-5deg);
+}
+
+.app-card:hover::before {
+  opacity: 1;
+}
+
+.app-card:hover::after {
+  opacity: 1;
+}
+
+/* Scanline overlay */
+.app-scanline {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.18;
+}
+
+.app-scanline::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 0;
+  height: 42%;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.00),
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.00)
+  );
+  animation: dm-scanline 3.6s ease-in-out infinite;
+}
+
+/* Pulse badge */
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+}
+
+.app-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.10), 0 0 18px rgba(255,255,255,0.20);
+  animation: dm-pulse 1.6s ease-in-out infinite;
+}
+
+.app-dot--slow { animation-duration: 2.2s; opacity: 0.85; }
+.app-dot--fast { animation-duration: 1.2s; }
+
+/* ============================
+   Mobile Snap Drawer
+============================ */
+
+.mb-drawerBackdrop{
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(6px);
+}
+
+/* The sheet itself */
+.mb-drawerSheet{
+  /* default animation / transitions */
+  transition: height 220ms var(--ease), transform 220ms var(--ease), opacity 220ms var(--ease);
+  opacity: 1;
+  will-change: height, transform;
+}
+
+/* remove transition while actively dragging */
+.mb-drawerSheet.is-dragging{
+  transition: none !important;
+}
+
+/* Card inside the sheet */
+.mb-sheetCard{
+  height: 100%;
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.92);
+  box-shadow: 0 -30px 80px rgba(0,0,0,0.65);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Handle bar area */
+.mb-sheetHandle{
+  padding: 10px 0 6px;
+  touch-action: none; /* IMPORTANT for pointer dragging */
+  cursor: grab;
+}
+.mb-sheetHandle:active{
+  cursor: grabbing;
+}
+.mb-sheetGrab{
+  margin: 0 auto;
+  width: 46px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.22);
+}
+
+/* Header row */
+.mb-sheetHeader{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.mb-sheetKicker{
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+
+.mb-sheetTitle{
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 650;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: -0.01em;
+}
+
+.mb-sheetHeaderActions{
+  display: flex;
+  gap: 8px;
+}
+
+.mb-sheetChip{
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.mb-sheetBody{
+  padding: 12px 14px 16px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+.mb-sheetDesc{
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+}
+
+/* Snap helper buttons */
+.mb-sheetSnaps{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.mb-snapBtn{
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.70);
+  padding: 10px 10px;
+  font-size: 12px;
+}
+.mb-snapBtn.is-active{
+  border-color: rgba(var(--blue), 0.45);
+  box-shadow: 0 0 0 1px rgba(var(--blue), 0.22), 0 20px 60px -45px rgba(var(--blue), 0.80);
+  color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.06);
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce){
+  .mb-drawerSheet{
+    transition: none !important;
+  }
+}
+
+/* Mobile snap-sheet drawer */
+.mb-drawerRoot{
+  position:fixed; inset:0; z-index:80;
+}
+
+.mb-drawerBackdrop{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.70);
+}
+
+.mb-drawerSheet{
+  position:absolute; left:0; right:0; bottom:0;
+  margin:0 auto;
+  max-width:72rem;
+  border:1px solid rgba(255,255,255,.10);
+  border-bottom:0;
+  background:rgba(0,0,0,.92);
+  border-radius:24px 24px 0 0;
+  box-shadow:0 -30px 80px rgba(0,0,0,.65);
+  overflow:hidden;
+  transition:height 220ms var(--ease), transform 220ms var(--ease);
+}
+
+.mb-drawerSheet.snap-0{ height:30vh; }
+.mb-drawerSheet.snap-1{ height:60vh; }
+.mb-drawerSheet.snap-2{ height:90vh; }
+
+.mb-drawerHandle{
+  width:48px; height:6px;
+  margin:10px auto 8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.18);
+}
+
+.mb-drawerHeader{
+  display:flex; gap:10px;
+  align-items:flex-start; justify-content:space-between;
+  padding:10px 14px 0;
+}
+
+.mb-drawerKicker{
+  font-size:11px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+}
+
+.mb-drawerTitle{
+  margin-top:4px;
+  font-size:15px;
+  font-weight:650;
+  color:rgba(255,255,255,.92);
+}
+
+.mb-drawerBtns{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.mb-snapBtn,.mb-closeBtn{
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  padding:6px 10px;
+  font-size:12px;
+  color:rgba(255,255,255,.75);
+}
+
+.mb-drawerBody{
+  padding:12px 14px 16px;
+  overflow:auto;
+  height:calc(100% - 70px);
+}
+
+.mb-drawerDesc{
+  font-size:13px;
+  line-height:1.5;
+  color:rgba(255,255,255,.72);
+}
+
+.mb-drawerCard{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  border-radius:16px;
+  padding:12px;
+}
+
+.mb-drawerCardKicker{
+  font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+}
+
+.mb-drawerList{
+  margin:10px 0 0;
+  padding:0;
+  list-style:none;
+  font-size:13px;
+  color:rgba(255,255,255,.75);
+  display:grid;
+  gap:8px;
+}

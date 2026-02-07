@@ -1,75 +1,84 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-export type Region = "us" | "in" | "global";
+export type Region = "IN" | "US";
+
+const REGION_KEY = "dmacht_region";
+const REGION_EVENT = "dmacht:region";
 
 type RegionCtx = {
   region: Region;
   setRegion: (r: Region) => void;
-  label: (r?: Region) => string;
+  toggleRegion: () => void;
 };
 
-const RegionContext = createContext<RegionCtx | null>(null);
-const STORAGE_KEY = "dmacht_region";
+const Ctx = createContext<RegionCtx | null>(null);
 
-function normalizeRegion(v: unknown): Region | null {
-  if (v === "us" || v === "in" || v === "global") return v;
+function getRegionFromUrl(): Region | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const url = new URL(window.location.href);
+    const qp = url.searchParams.get("region");
+    if (qp === "IN" || qp === "US") return qp;
+  } catch {}
   return null;
 }
 
-function detectFromHostname(hostname: string): Region {
-  if (hostname.endsWith(".in")) return "in";
-  return "us"; // canonical default
+function getRegionFromStorage(): Region | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const saved = window.localStorage.getItem(REGION_KEY);
+    if (saved === "IN" || saved === "US") return saved;
+  } catch {}
+  return null;
 }
 
-export function RegionProvider({ children }: { children: React.ReactNode }) {
-  const [region, setRegion] = useState<Region>("us");
+export function RegionProvider({
+  children,
+  defaultRegion = "IN",
+}: {
+  children: React.ReactNode;
+  defaultRegion?: Region;
+}) {
+  const [region, _setRegion] = useState<Region>(() => {
+    // Only read window-dependent values in the initializer (no effect setState needed)
+    const qp = getRegionFromUrl();
+    if (qp) return qp;
+    const saved = getRegionFromStorage();
+    if (saved) return saved;
+    return defaultRegion;
+  });
 
-  // Set region after mount (prevents SSR/CSR mismatch + avoids window access on server)
-  useEffect(() => {
+  const setRegion = useCallback((next: Region) => {
+    _setRegion(next);
     try {
-      const saved = normalizeRegion(localStorage.getItem(STORAGE_KEY));
-      const detected = detectFromHostname(window.location.hostname);
-      setRegion(saved ?? detected);
-    } catch {
-      // If localStorage blocked, at least detect from hostname
-      try {
-        setRegion(detectFromHostname(window.location.hostname));
-      } catch {
-        setRegion("us");
-      }
-    }
+      window.localStorage.setItem(REGION_KEY, next);
+      window.dispatchEvent(new CustomEvent(REGION_EVENT, { detail: next }));
+    } catch {}
   }, []);
 
-  // Persist + tag the document for optional styling hooks
+  const toggleRegion = useCallback(() => {
+    setRegion(region === "IN" ? "US" : "IN");
+  }, [region, setRegion]);
+
+  // Sync if something else dispatches region event (optional but helpful)
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, region);
-    } catch {
-      // ignore
-    }
-    try {
-      document.documentElement.dataset.region = region;
-    } catch {
-      // ignore
-    }
-  }, [region]);
+    const onRegion = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail === "IN" || detail === "US") _setRegion(detail);
+    };
+    window.addEventListener(REGION_EVENT, onRegion as EventListener);
+    return () => window.removeEventListener(REGION_EVENT, onRegion as EventListener);
+  }, []);
 
-  const ctx = useMemo<RegionCtx>(
-    () => ({
-      region,
-      setRegion,
-      label: (r = region) => (r === "us" ? "US" : r === "in" ? "IN" : "Global"),
-    }),
-    [region]
-  );
+  const value = useMemo(() => ({ region, setRegion, toggleRegion }), [region, setRegion, toggleRegion]);
 
-  return <RegionContext.Provider value={ctx}>{children}</RegionContext.Provider>;
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
 export function useRegion() {
-  const ctx = useContext(RegionContext);
-  if (!ctx) throw new Error("useRegion must be used within <RegionProvider />");
+  const ctx = useContext(Ctx);
+  if (!ctx) throw new Error("useRegion must be used inside <RegionProvider />");
   return ctx;
 }
