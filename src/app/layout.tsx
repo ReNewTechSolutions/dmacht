@@ -1,47 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import Navbar from "@/components/Navbar";
 import Providers from "./providers";
-
-import { RegionProvider } from "@/components/region/RegionProvider";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        <RegionProvider>
-          {children}
-        </RegionProvider>
-      </body>
-    </html>
-  );
-}
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: {
-    default: "D-Macht — AI Outreach, explained step-by-step",
-    template: "%s · D-Macht",
-  },
-  description:
-    "Translate AI outreach into a transparent, step-based workflow. Quickly assess capabilities, integrations, and fit.",
-  metadataBase: new URL("https://dmacht.com"),
-  openGraph: {
-    title: "D-Macht — AI Outreach, explained step-by-step",
-    description:
-      "Clarity-first AI outreach: step visuals, transparent capabilities, fast fit checks for technical teams.",
-    type: "website",
-  },
-  icons: { icon: "/favicon.ico" },
+  title: "D-Macht",
+  description: "Industrial inkjet printer support • Remote-first",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-dvh bg-black text-white">
         <Providers>
           <Navbar />
-          <main className="mx-auto max-w-6xl px-4">{children}</main>
+          {children}
         </Providers>
       </body>
     </html>

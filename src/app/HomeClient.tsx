@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import RequestForm from "@/components/RequestForm";
 import useRevealOnScroll from "@/components/useRevealOnScroll";
-import MotherboardHotspots from "@/components/MotherBoardHotspots";
+import MotherboardHotspots from "@/components/motherboard-hotspots";
 import ApplicationsGrid from "@/components/ApplicationsGrid";
 
 type Region = "IN" | "US";
