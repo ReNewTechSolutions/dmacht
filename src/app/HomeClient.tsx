@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import BrandLogo from "@/components/BrandLogo";
 import BrandStrip from "@/components/BrandStrip";
 import StickyCTA from "@/components/StickyCTA";
 import RequestForm from "@/components/RequestForm";
@@ -20,57 +19,45 @@ function digitsOnlyPhone(phone: string) {
   return phone.replace(/\D/g, "");
 }
 
-/**
- * D-Macht: translate a complex outreach process into digestible, step-based visuals
- * so technical teams can assess fit fast (capabilities, constraints, integrations, auditability).
- */
 const CAPABILITIES: ServiceSkill[] = [
   {
-    title: "Targeting + Inputs",
-    subtitle: "Define the audience",
-    desc: "Start with clean inputs: ICP fields, exclusions, source data, and routing constraints so the system behaves predictably.",
-    badge: "Inputs",
-    examples: ["ICP fields + exclusions", "Enrichment + de-dupe", "Routing constraints"],
+    title: "Remote Diagnostics",
+    subtitle: "Find the fault fast",
+    desc: "Video + logs + symptoms → isolate likely causes and give a clean next-step plan your team can execute.",
+    badge: "Diagnostics",
+    examples: ["Fault isolation", "Print quality triage", "Error code interpretation"],
   },
   {
-    title: "Sequence Logic",
-    subtitle: "Step-based orchestration",
-    desc: "Inspectable steps and rules: timing, branching, stop conditions, retries, and handoff triggers — no black boxes.",
-    badge: "Steps",
-    examples: ["Timing + delays", "Branching + stop rules", "Retries + fallbacks"],
+    title: "Preventative Maintenance Planning",
+    subtitle: "Reduce downtime",
+    desc: "PM schedules, cleaning cycles, and checklists tailored to your environment and printer workload.",
+    badge: "PM",
+    examples: ["Cleaning cycles", "Consumables plan", "Quarterly PM checklist"],
   },
   {
-    title: "Personalization Guardrails",
-    subtitle: "Human tone at scale",
-    desc: "Personalization that stays constrained to your inputs: controlled sources, explicit rules, and consistent voice — no guessing.",
-    badge: "AI",
-    examples: ["Source-bound inputs", "Voice + tone controls", "Hallucination-resistant prompts"],
+    title: "Parts Guidance",
+    subtitle: "Order the right thing",
+    desc: "Tell us the model + symptoms and we’ll advise what to order (and what to avoid) before you spend money twice.",
+    badge: "Parts",
+    examples: ["Parts shortlist", "Compatibility checks", "Risk callouts"],
   },
   {
-    title: "Integrations + Handoff",
-    subtitle: "Fits your workflow",
-    desc: "Log events, update lifecycle state, and route replies cleanly into your CRM without breaking ownership or process boundaries.",
-    badge: "Stack",
-    examples: ["HubSpot/Salesforce logging", "Lifecycle + routing rules", "Webhooks / API events"],
-  },
-  {
-    title: "Observability + Audit Trail",
-    subtitle: "Know what happened",
-    desc: "Step-level metrics and an event timeline for debugging: deliverability signals, conversions, and a clear record of what ran.",
-    badge: "Audit",
-    examples: ["Step conversion metrics", "Event timeline", "Deliverability + domain health"],
+    title: "Field Service (Kansas City)",
+    subtitle: "Coming online soon",
+    desc: "As Dee relocates, KC service transitions from remote-first to on-site PM, installs, and repairs.",
+    badge: "KC",
+    examples: ["Booking soon", "Installs & PM", "Repair visits"],
   },
 ];
 
 export default function HomeClient() {
-  // subtle “system boot” animation (deterministic)
-  const [boot, setBoot] = useState(0);
+  useRevealOnScroll();
 
   const telHref = useMemo(() => `tel:+1${digitsOnlyPhone(CONTACT.phone)}`, []);
   const mailHref = useMemo(() => `mailto:${CONTACT.email}`, []);
 
-  // reveal animations (expects .reveal elements toggled with .is-on)
-  useRevealOnScroll();
+  // optional: close-open state, etc. (keeping simple)
+  const [boot, setBoot] = useState(0);
 
   useEffect(() => {
     let p = 0;
@@ -85,101 +72,66 @@ export default function HomeClient() {
   return (
     <>
       <main id="main" className="mx-auto max-w-6xl px-4 pb-24 pt-6 md:pt-8">
-        {/* HERO */}
+        {/* HERO — Rule: One kicker line, one headline, one subhead, two CTAs, one proof row */}
         <section className="glass-hero trace relative overflow-hidden rounded-3xl p-6 md:p-10 reveal is-on">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-          <div className="grid gap-10 md:grid-cols-12 md:items-center">
-            <div className="md:col-span-7">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[11px] text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-[rgba(20,184,166,0.9)] shadow-[0_0_18px_rgba(20,184,166,0.35)]" />
-                Step-based outreach • Built for fast fit checks
+          {/* Kicker */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70">
+            Industrial Inkjet Printer Support • Remote-first today
+          </div>
+
+          {/* Headline */}
+          <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
+            Keep your production line running.
+          </h1>
+
+          {/* Subhead */}
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/75 md:text-[17px]">
+            Remote diagnostics, planning, and preventative maintenance—built around Markem-Imaje &amp; Domino.
+            Kansas City field service is coming online soon.
+          </p>
+
+          {/* CTAs */}
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="#contact" className="btn btn-primary text-center">
+              Request support
+            </a>
+            <a href="#workflow" className="btn btn-secondary text-center">
+              See how it works
+            </a>
+          </div>
+
+          {/* Proof row (4) */}
+          <div className="mt-7 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
+            {[
+              ["Remote diagnostics", "fault isolation + next steps"],
+              ["PM planning", "reduce downtime"],
+              ["Parts guidance", "what to order + why"],
+              ["KC expansion", "booking soon"],
+            ].map(([a, b]) => (
+              <div key={a} className="rounded-2xl border border-white/10 bg-black/40 p-3">
+                <div className="font-semibold text-white/90">{a}</div>
+                <div className="mt-1 text-white/60">{b}</div>
               </div>
+            ))}
+          </div>
 
-              <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
-                Industrial outreach,
-                <span className="block text-white/70">diagnosed with clarity.</span>
-              </h1>
-
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75 md:text-[17px]">
-                Translate a complex outreach process into clear, inspectable steps — targeting, sequence logic,
-                constrained personalization, integrations, and audit trails. Built for technical teams who want
-                predictable behavior.
-              </p>
-
-              {/* System check bar */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between text-xs text-white/55">
-                  <span>System check</span>
-                  <span>{boot}%</span>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full border border-white/10 bg-black/55">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-400/80 via-teal-300/80 to-amber-300/80"
-                    style={{ width: `${boot}%` }}
-                    aria-hidden
-                  />
-                </div>
-              </div>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <a href="#contact" className="btn btn-primary text-center">
-                  Request Diagnostic Assessment
-                </a>
-                <a href="#capabilities" className="btn btn-secondary text-center">
-                  View Capabilities
-                </a>
-              </div>
-
-              <div className="mt-7 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
-                {[
-                  ["Step logic", "visible + testable"],
-                  ["Guardrails", "source-bound"],
-                  ["Integrations", "stack-friendly"],
-                  ["Audit trail", "debug-ready"],
-                ].map(([a, b]) => (
-                  <div key={a} className="rounded-2xl border border-white/10 bg-black/40 p-3">
-                    <div className="font-semibold text-white/90">{a}</div>
-                    <div className="mt-1 text-white/60">{b}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 text-[11px] text-white/45">
-                Canonical:{" "}
-                <span className="text-white/70">dmacht.com</span> • Region adapts context + routing (not features)
-              </div>
+          {/* Optional tiny “system check” (kept subtle) */}
+          <div className="mt-7 max-w-sm">
+            <div className="flex items-center justify-between text-xs text-white/55">
+              <span>System check</span>
+              <span>{boot}%</span>
             </div>
-
-            <div className="md:col-span-5">
-              <div className="glass-soft rounded-3xl p-5 md:p-6">
-                <BrandLogo className="w-full" priority />
-
-                <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-white/70">
-                  {[
-                    ["Clarity", "see every step"],
-                    ["Control", "rules + routing"],
-                    ["Fit", "workflow-ready"],
-                    ["Trust", "audit trails"],
-                  ].map(([a, b]) => (
-                    <div key={a} className="rounded-2xl border border-white/10 bg-black/30 p-3">
-                      <div className="font-semibold text-white/90">{a}</div>
-                      <div className="mt-1 text-white/60">{b}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-4 text-[11px] text-white/50">
-                  Email:{" "}
-                  <a className="underline underline-offset-4" href={mailHref}>
-                    {CONTACT.email}
-                  </a>{" "}
-                  • Call/Text:{" "}
-                  <a className="underline underline-offset-4" href={telHref}>
-                    {CONTACT.phone}
-                  </a>
-                </div>
-              </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full border border-white/10 bg-black/55">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-sky-400/80 via-teal-300/80 to-amber-300/80"
+                style={{ width: `${boot}%` }}
+                aria-hidden
+              />
+            </div>
+            <div className="mt-2 text-[11px] text-white/45">
+              DMacht is a service line operated in partnership with ReNewTech Solutions.
             </div>
           </div>
         </section>
@@ -189,17 +141,87 @@ export default function HomeClient() {
           <BrandStrip />
         </div>
 
-        {/* WORKFLOW VISUAL (hotspots) */}
-        <section className="mt-10 md:mt-14 reveal" aria-label="Outreach workflow visual">
+        {/* AVAILABILITY ROADMAP (exact section you provided) */}
+        <section id="availability" className="mt-10 md:mt-14 reveal">
+          <div className="glass trace rounded-3xl p-6 md:p-10">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                  Availability roadmap
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm text-white/70">
+                  We’re live now for India (remote + regional). Kansas City field service comes online as Dee relocates.
+                </p>
+              </div>
+
+              <a href="#contact" className="btn btn-primary">
+                Request support
+              </a>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {/* Phase 1 */}
+              <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
+                    Phase 1
+                  </div>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70">
+                    Live now • India
+                  </span>
+                </div>
+
+                <div className="mt-3 text-lg font-semibold text-white/90">
+                  Remote-first support (India)
+                </div>
+
+                <ul className="mt-3 space-y-2 text-sm text-white/75">
+                  <li>• Remote diagnostics (fault isolation + action plan)</li>
+                  <li>• Planning &amp; PM guidance (cleaning cycles, schedules, checklists)</li>
+                  <li>• Regional India availability (site visits where possible)</li>
+                  <li>• US expansion coming soon (quietly)</li>
+                </ul>
+              </div>
+
+              {/* Phase 2 */}
+              <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
+                    Phase 2
+                  </div>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70">
+                    2–3 months out
+                  </span>
+                </div>
+
+                <div className="mt-3 text-lg font-semibold text-white/90">
+                  Pre-arrival ramp (Kansas City)
+                </div>
+
+                <ul className="mt-3 space-y-2 text-sm text-white/75">
+                  <li>• Add “Kansas City — booking soon”</li>
+                  <li>• Offer calendar slots for future dates</li>
+                  <li>• Start SEO / local service pages</li>
+                </ul>
+
+                <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 p-3 text-xs text-white/65">
+                  Tip: we can capture leads now and schedule installs/PM dates ahead of arrival.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* WORKFLOW MAP */}
+        <section id="workflow" className="mt-10 md:mt-14 reveal" aria-label="Workflow map">
           <div className="glass trace rounded-3xl p-6 md:p-10">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                  The workflow map
+                  How it works
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm text-white/70">
-                  Click through the steps to inspect inputs, logic, outputs, and where the system plugs into
-                  your stack — designed like a diagnostic flow, not a marketing diagram.
+                  Tap through the diagnostic flow — what we ask for, how we isolate faults, and what you get back.
                 </p>
               </div>
 
@@ -208,7 +230,7 @@ export default function HomeClient() {
                   Email
                 </a>
                 <a href="#contact" className="btn btn-primary py-3 text-sm">
-                  Request assessment
+                  Request support
                 </a>
               </div>
             </div>
@@ -226,7 +248,7 @@ export default function HomeClient() {
               Capabilities
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Tap a card for concrete examples — signals, rules, logs, and what we need from you to move fast.
+              Built for Markem-Imaje + Domino, and adaptable across major industrial coding &amp; marking platforms.
             </p>
           </div>
 
@@ -239,13 +261,12 @@ export default function HomeClient() {
             <div className="grid gap-8 md:grid-cols-12 md:items-start">
               <div className="md:col-span-7">
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                  Request a diagnostic assessment
+                  Request support
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75">
-                  Share your CRM, outreach volume, and constraints (domains, compliance, limits). If you’re
-                  evaluating quickly, mark{" "}
-                  <span className="font-semibold text-white/90">Priority</span>{" "}
-                  and we’ll reply with a fit check and next steps.
+                  Share your location, equipment, and urgency. If the line is down, mark{" "}
+                  <span className="font-semibold text-white/90">Urgent</span>{" "}
+                  so we can prioritize next steps.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -258,7 +279,7 @@ export default function HomeClient() {
                 </div>
 
                 <p className="mt-4 text-xs text-white/50">
-                  D-Macht • Step-based outreach automation with audit-ready transparency
+                  DMacht • Operated in partnership with ReNewTech Solutions
                 </p>
               </div>
 

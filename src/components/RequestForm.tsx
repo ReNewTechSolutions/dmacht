@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Props = {
   defaultEmail: string;
@@ -14,8 +14,14 @@ type FormState = {
   company: string;
   email: string;
   phone: string;
+
+  // NEW required fields
+  location_region: "India" | "Kansas City (Coming soon)" | "Other / Not sure" | "";
+  equipment_type: "Markem-Imaje" | "Domino" | "Videojet" | "Linx" | "Hitachi" | "Other" | "";
+  urgency: "Urgent (line down)" | "High (quality issue)" | "Normal (PM/planning)";
+
+  // existing details
   serviceType: string;
-  urgency: string;
   brand: string;
   model: string;
   location: string;
@@ -27,8 +33,12 @@ const INITIAL: FormState = {
   company: "",
   email: "",
   phone: "",
+
+  location_region: "",
+  equipment_type: "",
+  urgency: "Normal (PM/planning)",
+
   serviceType: "",
-  urgency: "Standard",
   brand: "",
   model: "",
   location: "",
@@ -58,6 +68,9 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
     isEmail(form.email) &&
     clean(form.serviceType).length > 0 &&
     clean(form.symptoms).length > 0 &&
+    clean(form.location_region).length > 0 &&
+    clean(form.equipment_type).length > 0 &&
+    clean(form.urgency).length > 0 &&
     status !== "sending";
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -71,22 +84,24 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
     setStatus("sending");
     setError("");
 
-    // Build payload with trimmed values
     const payload = {
       ...form,
       name: clean(form.name),
       company: clean(form.company),
       email: clean(form.email),
       phone: clean(form.phone),
-      serviceType: clean(form.serviceType),
+
+      location_region: clean(form.location_region),
+      equipment_type: clean(form.equipment_type),
       urgency: clean(form.urgency),
+
+      serviceType: clean(form.serviceType),
       brand: clean(form.brand),
       model: clean(form.model),
       location: clean(form.location),
       symptoms: clean(form.symptoms),
     };
 
-    // Timeout protection
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
 
@@ -98,7 +113,9 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
         signal: controller.signal,
       });
 
-      const data: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
+      const data: { ok?: boolean; error?: string } = await res
+        .json()
+        .catch(() => ({}));
 
       if (!res.ok || !data.ok) {
         throw new Error(data.error || "Unable to send request. Please try again.");
@@ -180,6 +197,43 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
           />
         </div>
 
+        {/* NEW: location_region + equipment_type */}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <select
+            className="input"
+            name="location_region"
+            value={form.location_region}
+            onChange={(e) => update("location_region", e.target.value as FormState["location_region"])}
+            required
+          >
+            <option value="" disabled>
+              Location *
+            </option>
+            <option value="India">India</option>
+            <option value="Kansas City (Coming soon)">Kansas City (Coming soon)</option>
+            <option value="Other / Not sure">Other / Not sure</option>
+          </select>
+
+          <select
+            className="input"
+            name="equipment_type"
+            value={form.equipment_type}
+            onChange={(e) => update("equipment_type", e.target.value as FormState["equipment_type"])}
+            required
+          >
+            <option value="" disabled>
+              Equipment type *
+            </option>
+            <option value="Markem-Imaje">Markem-Imaje</option>
+            <option value="Domino">Domino</option>
+            <option value="Videojet">Videojet</option>
+            <option value="Linx">Linx</option>
+            <option value="Hitachi">Hitachi</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        {/* ServiceType + NEW urgency */}
         <div className="grid gap-3 sm:grid-cols-2">
           <select
             className="input"
@@ -191,22 +245,23 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
             <option value="" disabled>
               Service type *
             </option>
-            <option value="Industrial printer service">Industrial printer service</option>
-            <option value="Preventative maintenance">Preventative maintenance</option>
-            <option value="Electronics / board repair">Electronics / board repair</option>
-            <option value="Field installation">Field installation</option>
-            <option value="CCTV / low-voltage">CCTV / low-voltage</option>
+            <option value="Remote diagnostics">Remote diagnostics</option>
+            <option value="Preventative maintenance planning">Preventative maintenance planning</option>
+            <option value="Parts guidance / pre-order review">Parts guidance / pre-order review</option>
+            <option value="Install / integration planning">Install / integration planning</option>
+            <option value="Other">Other</option>
           </select>
 
           <select
             className="input"
             name="urgency"
             value={form.urgency}
-            onChange={(e) => update("urgency", e.target.value)}
+            onChange={(e) => update("urgency", e.target.value as FormState["urgency"])}
+            required
           >
-            <option value="Standard">Standard</option>
             <option value="Urgent (line down)">Urgent (line down)</option>
-            <option value="Scheduling / quote">Scheduling / quote</option>
+            <option value="High (quality issue)">High (quality issue)</option>
+            <option value="Normal (PM/planning)">Normal (PM/planning)</option>
           </select>
         </div>
 
@@ -214,7 +269,7 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
           <input
             className="input"
             name="brand"
-            placeholder="Brand (Domino, Markem-Imaje...)"
+            placeholder="Brand (optional)"
             value={form.brand}
             onChange={(e) => update("brand", e.target.value)}
           />
@@ -230,7 +285,7 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
         <input
           className="input"
           name="location"
-          placeholder="Location (city / facility)"
+          placeholder="City / facility (optional)"
           value={form.location}
           onChange={(e) => update("location", e.target.value)}
         />
@@ -256,9 +311,7 @@ export default function RequestForm({ defaultEmail, defaultPhone }: Props) {
         {status === "sent" && (
           <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-sm text-white/80">
             ✅ Sent. We’ll respond as soon as possible.
-            <div className="mt-1 text-xs text-white/60">
-              If urgent, call/text {defaultPhone}.
-            </div>
+            <div className="mt-1 text-xs text-white/60">If urgent, call/text {defaultPhone}.</div>
           </div>
         )}
 
