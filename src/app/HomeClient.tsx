@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import BrandLogo from "@/components/BrandLogo";
 import BrandStrip from "@/components/BrandStrip";
@@ -8,7 +8,7 @@ import StickyCTA from "@/components/StickyCTA";
 import RequestForm from "@/components/RequestForm";
 
 import useRevealOnScroll from "@/components/useRevealOnScroll";
-import MotherboardHotspots from "@/components/motherboard-hotspots";
+import MotherboardHotspots from "@/components/MotherboardHotspots";
 import ServiceCards, { type ServiceSkill } from "@/components/ServiceCards";
 
 const CONTACT = {
@@ -22,71 +22,67 @@ function digitsOnlyPhone(phone: string) {
 
 const CAPABILITIES: ServiceSkill[] = [
   {
-    title: "Remote diagnostics",
+    title: "Remote Diagnostics",
     subtitle: "Fault isolation + next steps",
-    desc: "We identify the likely failure point, interpret errors, and provide a step-by-step action plan to restore uptime.",
+    desc: "We help you pinpoint the failure mode fast, translate symptoms into a clear action plan, and reduce trial-and-error.",
     badge: "Diagnostics",
     examples: [
-      "Fault codes + symptom mapping",
-      "Root-cause shortlist",
-      "Action plan + verification",
+      "Fault codes → probable causes",
+      "Sensor/valve/pump checks",
+      "Action plan + confirmation steps",
     ],
   },
   {
-    title: "Preventative maintenance planning",
+    title: "PM Planning",
     subtitle: "Reduce downtime",
-    desc: "PM guidance built around how these systems actually fail: cleaning cycles, schedules, and checklists you can run.",
+    desc: "Preventative maintenance guidance, schedules, and checklists—built around what actually causes stops in production.",
     badge: "PM",
     examples: [
-      "Cleaning cycle routines",
-      "PM schedule templates",
+      "Cleaning cycle planning",
+      "Wear-part schedules",
       "Operator checklists",
     ],
   },
   {
-    title: "Parts guidance",
+    title: "Parts Guidance",
     subtitle: "What to order + why",
-    desc: "We help you order the right parts the first time by matching symptoms to likely components and failure modes.",
+    desc: "We tell you what to buy (and what not to), with justification—so you don’t waste time or money.",
     badge: "Parts",
     examples: [
-      "Parts list from symptoms",
-      "Compatibility checks",
-      "Avoid mis-orders",
+      "Parts list by symptom",
+      "Compatibility notes",
+      "Priority ordering guidance",
     ],
   },
   {
-    title: "Brand specialties",
-    subtitle: "Markem-Imaje + Domino first",
-    desc: "Core focus on Markem-Imaje & Domino systems, with support across other major industrial coding brands.",
-    badge: "Brands",
+    title: "Markem-Imaje & Domino Focus",
+    subtitle: "Primary expertise",
+    desc: "Our workflows are tuned for the systems we know best, so responses are faster and more accurate.",
+    badge: "Focus",
     examples: [
-      "Markem-Imaje workflows",
-      "Domino workflows",
-      "Cross-brand triage",
+      "Common failure patterns",
+      "Setup/installation checks",
+      "Quality issue troubleshooting",
     ],
   },
   {
-    title: "Kansas City field service",
-    subtitle: "Booking soon",
-    desc: "We’re building the pipeline now and capturing leads so installs/PM visits can be scheduled ahead of arrival.",
+    title: "Field Service Expansion",
+    subtitle: "Kansas City coming online",
+    desc: "We’re building pipeline now. Scheduling opens as Dee relocates to Kansas City.",
     badge: "KC",
     examples: [
-      "Lead capture + scheduling",
-      "Future date bookings",
+      "Lead capture now",
+      "Booking soon",
       "Local pages + SEO ramp",
     ],
   },
 ];
 
 export default function HomeClient() {
-  const telHref = useMemo(() => `tel:+1${digitsOnlyPhone(CONTACT.phone)}`, []);
-  const mailHref = useMemo(() => `mailto:${CONTACT.email}`, []);
-
   useRevealOnScroll();
 
-  useEffect(() => {
-    // no-op, just ensures hook runs after hydration
-  }, []);
+  const telHref = useMemo(() => `tel:+1${digitsOnlyPhone(CONTACT.phone)}`, []);
+  const mailHref = useMemo(() => `mailto:${CONTACT.email}`, []);
 
   return (
     <>
@@ -96,27 +92,26 @@ export default function HomeClient() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
           <div className="grid gap-10 md:grid-cols-12 md:items-center">
-            {/* Left: hero copy (rule enforced) */}
+            {/* Left copy */}
             <div className="md:col-span-7">
-              {/* Kicker */}
+              {/* Kicker (ONE line) */}
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[11px] text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-[rgba(59,130,246,0.85)] shadow-[0_0_18px_rgba(59,130,246,0.35)]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-white/60" />
                 Industrial Inkjet Printer Support • Remote-first today
               </div>
 
-              {/* Headline */}
+              {/* Headline (ONE) */}
               <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
                 Keep your production line running.
               </h1>
 
-              {/* Subhead */}
+              {/* Subhead (ONE) */}
               <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75 md:text-[17px]">
-                Remote diagnostics, planning, and preventative maintenance—built
-                around Markem-Imaje &amp; Domino. Kansas City field service is
-                coming online soon.
+                Remote diagnostics, planning, and preventative maintenance—built around Markem-Imaje &amp; Domino.
+                Kansas City field service is coming online soon.
               </p>
 
-              {/* CTAs */}
+              {/* CTAs (TWO) */}
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#contact" className="btn btn-primary text-center">
                   Request support
@@ -126,7 +121,7 @@ export default function HomeClient() {
                 </a>
               </div>
 
-              {/* Proof row (4) */}
+              {/* Proof row (FOUR) */}
               <div className="mt-7 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
                 {[
                   ["Remote diagnostics", "fault isolation + next steps"],
@@ -134,42 +129,46 @@ export default function HomeClient() {
                   ["Parts guidance", "what to order + why"],
                   ["KC expansion", "booking soon"],
                 ].map(([a, b]) => (
-                  <div
-                    key={a}
-                    className="rounded-2xl border border-white/10 bg-black/40 p-3"
-                  >
+                  <div key={a} className="rounded-2xl border border-white/10 bg-black/40 p-3">
                     <div className="font-semibold text-white/90">{a}</div>
                     <div className="mt-1 text-white/60">{b}</div>
                   </div>
                 ))}
               </div>
-
-              <div className="mt-4 text-[11px] text-white/50">
-                Email:{" "}
-                <a className="underline underline-offset-4" href={mailHref}>
-                  {CONTACT.email}
-                </a>{" "}
-                • Call/Text:{" "}
-                <a className="underline underline-offset-4" href={telHref}>
-                  {CONTACT.phone}
-                </a>
-              </div>
             </div>
 
-            {/* Right: hero logo card */}
+            {/* Right logo card */}
             <div className="md:col-span-5">
-              <div className="glass-soft relative overflow-hidden rounded-3xl p-5 md:p-6">
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-                <div className="relative rounded-3xl border border-white/10 bg-black/35 p-5">
-                  <BrandLogo variant="hero" mode="wide" priority className="mx-auto" />
-                  <div className="mt-3 text-center text-xs text-white/60">
-                    A ReNewTech Solutions service line (DBA D-Macht)
-                  </div>
-                  <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[0_0_0_1px_rgba(255,255,255,.06),0_18px_55px_-30px_rgba(59,130,246,.55)]" />
+              <div className="glass-soft rounded-3xl p-5 md:p-6">
+                {/* Make the logo big and clean */}
+                <div className="rounded-3xl border border-white/10 bg-black/30 p-5">
+                  <BrandLogo className="w-full" priority />
                 </div>
 
-                <div className="pointer-events-none absolute -inset-10 opacity-35 blur-2xl bg-gradient-to-r from-sky-400/20 via-teal-300/20 to-amber-300/20" />
+                <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-white/70">
+                  {[
+                    ["Remote-first", "fast triage"],
+                    ["Clear steps", "no guessing"],
+                    ["Focused brands", "Markem + Domino"],
+                    ["Expansion", "KC booking soon"],
+                  ].map(([a, b]) => (
+                    <div key={a} className="rounded-2xl border border-white/10 bg-black/30 p-3">
+                      <div className="font-semibold text-white/90">{a}</div>
+                      <div className="mt-1 text-white/60">{b}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 text-[11px] text-white/55">
+                  Email:{" "}
+                  <a className="underline underline-offset-4" href={mailHref}>
+                    {CONTACT.email}
+                  </a>{" "}
+                  • Call/Text:{" "}
+                  <a className="underline underline-offset-4" href={telHref}>
+                    {CONTACT.phone}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -180,7 +179,7 @@ export default function HomeClient() {
           <BrandStrip />
         </div>
 
-        {/* AVAILABILITY ROADMAP (provided section) */}
+        {/* AVAILABILITY ROADMAP */}
         <section id="availability" className="mt-10 md:mt-14 reveal">
           <div className="glass trace rounded-3xl p-6 md:p-10">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -189,8 +188,7 @@ export default function HomeClient() {
                   Availability roadmap
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm text-white/70">
-                  We’re live now for India (remote + regional). Kansas City field
-                  service comes online as Dee relocates.
+                  We’re live now for India (remote + regional). Kansas City field service comes online as Dee relocates.
                 </p>
               </div>
 
@@ -253,19 +251,15 @@ export default function HomeClient() {
         </section>
 
         {/* WORKFLOW MAP */}
-        <section
-          id="workflow"
-          className="mt-10 md:mt-14 reveal"
-          aria-label="Service workflow map"
-        >
+        <section id="workflow" className="mt-10 md:mt-14 reveal" aria-label="Service workflow map">
           <div className="glass trace rounded-3xl p-6 md:p-10">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                  How support works
+                  How it works
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm text-white/70">
-                  A clear path from symptoms → diagnosis → action plan → parts guidance → verification.
+                  A step-by-step flow from symptoms → isolation → action plan → PM/parts guidance.
                 </p>
               </div>
 
@@ -292,7 +286,7 @@ export default function HomeClient() {
               Capabilities
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Tap a card to see concrete examples and what we need from you to move fast.
+              Tap a card for concrete examples (what we need from you, what we deliver, and how fast we can move).
             </p>
           </div>
 
@@ -308,8 +302,7 @@ export default function HomeClient() {
                   Request support
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75">
-                  Tell us your location, printer brand/model, and symptoms. If the line is down,
-                  mark <span className="font-semibold text-white/90">Urgent</span>.
+                  Send your model, symptoms, and location. If your line is down, mark urgency and we’ll prioritize.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -322,7 +315,7 @@ export default function HomeClient() {
                 </div>
 
                 <p className="mt-4 text-xs text-white/50">
-                  D-Macht • A ReNewTech Solutions service line (DBA)
+                  D-Macht • Industrial inkjet printer support (remote-first)
                 </p>
               </div>
 
