@@ -12,7 +12,7 @@ import MotherboardHotspots from "@/components/MotherboardHotspots";
 import ServiceCards, { type ServiceSkill } from "@/components/ServiceCards";
 
 const CONTACT = {
-  email: "hello@dmacht.com",
+  email: "hello@renewtech.solutions",
   phone: "816.957.3063",
 };
 
@@ -21,64 +21,44 @@ function digitsOnlyPhone(phone: string) {
 }
 
 /**
- * DMacht: translate complex AI outreach into digestible, step-based visuals
- * for technical decision makers who want fast fit + clear capabilities.
+ * D-Macht: translate a complex outreach process into digestible, step-based visuals
+ * so technical teams can assess fit fast (capabilities, constraints, integrations, auditability).
  */
 const CAPABILITIES: ServiceSkill[] = [
   {
-    title: "Data + ICP Targeting",
-    subtitle: "Define who we reach",
-    desc: "Map your ICP, enrich accounts, and segment lists so outreach starts with clean, workflow-ready targeting.",
-    badge: "Targeting",
-    examples: [
-      "ICP fields + segmentation",
-      "Enrichment & de-dupe",
-      "Account scoring signals",
-    ],
+    title: "Targeting + Inputs",
+    subtitle: "Define the audience",
+    desc: "Start with clean inputs: ICP fields, exclusions, source data, and routing constraints so the system behaves predictably.",
+    badge: "Inputs",
+    examples: ["ICP fields + exclusions", "Enrichment + de-dupe", "Routing constraints"],
   },
   {
-    title: "Outreach Orchestration",
-    subtitle: "Multi-step sequences",
-    desc: "Email + LinkedIn style sequencing with explicit logic: timing, retries, routing, and handoff rules.",
-    badge: "Sequences",
-    examples: [
-      "Step timing + delays",
-      "Retry / fallback paths",
-      "Warm handoff triggers",
-    ],
+    title: "Sequence Logic",
+    subtitle: "Step-based orchestration",
+    desc: "Inspectable steps and rules: timing, branching, stop conditions, retries, and handoff triggers — no black boxes.",
+    badge: "Steps",
+    examples: ["Timing + delays", "Branching + stop rules", "Retries + fallbacks"],
   },
   {
-    title: "Personalization Engine",
+    title: "Personalization Guardrails",
     subtitle: "Human tone at scale",
-    desc: "Message generation that stays constrained to your inputs: firm guardrails, clear source-of-truth, no guessing.",
+    desc: "Personalization that stays constrained to your inputs: controlled sources, explicit rules, and consistent voice — no guessing.",
     badge: "AI",
-    examples: [
-      "Profile-based angles",
-      "On-brand voice controls",
-      "Hallucination-resistant prompts",
-    ],
+    examples: ["Source-bound inputs", "Voice + tone controls", "Hallucination-resistant prompts"],
   },
   {
-    title: "CRM + Workflow Integration",
-    subtitle: "Fits your stack",
-    desc: "Connect to your pipeline and keep ownership clear: sync states, log events, and respect system boundaries.",
-    badge: "Integrations",
-    examples: [
-      "HubSpot/Salesforce logging",
-      "Lead routing rules",
-      "Webhook / API events",
-    ],
+    title: "Integrations + Handoff",
+    subtitle: "Fits your workflow",
+    desc: "Log events, update lifecycle state, and route replies cleanly into your CRM without breaking ownership or process boundaries.",
+    badge: "Stack",
+    examples: ["HubSpot/Salesforce logging", "Lifecycle + routing rules", "Webhooks / API events"],
   },
   {
-    title: "Observability + Compliance",
+    title: "Observability + Audit Trail",
     subtitle: "Know what happened",
-    desc: "Transparent reporting for technical teams: step-level metrics, audit trails, and deliverability signals.",
-    badge: "Analytics",
-    examples: [
-      "Step conversion metrics",
-      "Event/audit timeline",
-      "Deliverability & domain health",
-    ],
+    desc: "Step-level metrics and an event timeline for debugging: deliverability signals, conversions, and a clear record of what ran.",
+    badge: "Audit",
+    examples: ["Step conversion metrics", "Event timeline", "Deliverability + domain health"],
   },
 ];
 
@@ -112,24 +92,22 @@ export default function HomeClient() {
           <div className="grid gap-10 md:grid-cols-12 md:items-center">
             <div className="md:col-span-7">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[11px] text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-[rgba(59,130,246,0.85)] shadow-[0_0_18px_rgba(59,130,246,0.35)]" />
-                Step-based AI outreach • Built for technical teams
+                <span className="h-1.5 w-1.5 rounded-full bg-[rgba(20,184,166,0.9)] shadow-[0_0_18px_rgba(20,184,166,0.35)]" />
+                Step-based outreach • Built for fast fit checks
               </div>
 
               <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
-                D-Macht
-                <span className="block text-white/70">
-                  AI outreach you can actually inspect.
-                </span>
+                Industrial outreach,
+                <span className="block text-white/70">diagnosed with clarity.</span>
               </h1>
 
               <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75 md:text-[17px]">
-                Translate a complex outbound system into a clear workflow:
-                targeting → sequencing → personalization → integration → reporting.
-                No mystery boxes. Just steps you can validate.
+                Translate a complex outreach process into clear, inspectable steps — targeting, sequence logic,
+                constrained personalization, integrations, and audit trails. Built for technical teams who want
+                predictable behavior.
               </p>
 
-              {/* System boot bar */}
+              {/* System check bar */}
               <div className="mt-6">
                 <div className="flex items-center justify-between text-xs text-white/55">
                   <span>System check</span>
@@ -146,25 +124,30 @@ export default function HomeClient() {
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href="#contact" className="btn btn-primary text-center">
-                  Request a walkthrough
+                  Request Diagnostic Assessment
                 </a>
                 <a href="#capabilities" className="btn btn-secondary text-center">
-                  View capabilities
+                  View Capabilities
                 </a>
               </div>
 
               <div className="mt-7 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
                 {[
                   ["Step logic", "visible + testable"],
-                  ["Guardrails", "no guesswork"],
-                  ["Integrations", "CRM-friendly"],
-                  ["Reporting", "audit-ready"],
+                  ["Guardrails", "source-bound"],
+                  ["Integrations", "stack-friendly"],
+                  ["Audit trail", "debug-ready"],
                 ].map(([a, b]) => (
                   <div key={a} className="rounded-2xl border border-white/10 bg-black/40 p-3">
                     <div className="font-semibold text-white/90">{a}</div>
                     <div className="mt-1 text-white/60">{b}</div>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-4 text-[11px] text-white/45">
+                Canonical:{" "}
+                <span className="text-white/70">dmacht.com</span> • Region adapts context + routing (not features)
               </div>
             </div>
 
@@ -176,7 +159,7 @@ export default function HomeClient() {
                   {[
                     ["Clarity", "see every step"],
                     ["Control", "rules + routing"],
-                    ["Fit", "stack-friendly"],
+                    ["Fit", "workflow-ready"],
                     ["Trust", "audit trails"],
                   ].map(([a, b]) => (
                     <div key={a} className="rounded-2xl border border-white/10 bg-black/30 p-3">
@@ -212,11 +195,11 @@ export default function HomeClient() {
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                  Outreach workflow, visualized
+                  The workflow map
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm text-white/70">
-                  Click through the steps to see what’s happening under the hood —
-                  inputs, logic, outputs, and where it plugs into your stack.
+                  Click through the steps to inspect inputs, logic, outputs, and where the system plugs into
+                  your stack — designed like a diagnostic flow, not a marketing diagram.
                 </p>
               </div>
 
@@ -225,7 +208,7 @@ export default function HomeClient() {
                   Email
                 </a>
                 <a href="#contact" className="btn btn-primary py-3 text-sm">
-                  Walkthrough
+                  Request assessment
                 </a>
               </div>
             </div>
@@ -243,7 +226,7 @@ export default function HomeClient() {
               Capabilities
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Tap a card to see concrete examples (signals, steps, logs, and what we need from you to move fast).
+              Tap a card for concrete examples — signals, rules, logs, and what we need from you to move fast.
             </p>
           </div>
 
@@ -256,13 +239,13 @@ export default function HomeClient() {
             <div className="grid gap-8 md:grid-cols-12 md:items-start">
               <div className="md:col-span-7">
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                  Request a walkthrough
+                  Request a diagnostic assessment
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75">
-                  Tell us your CRM, outreach volume, and current tooling. If you’re evaluating quickly,
-                  mark{" "}
+                  Share your CRM, outreach volume, and constraints (domains, compliance, limits). If you’re
+                  evaluating quickly, mark{" "}
                   <span className="font-semibold text-white/90">Priority</span>{" "}
-                  and we’ll reply with a fit check + next steps.
+                  and we’ll reply with a fit check and next steps.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -275,7 +258,7 @@ export default function HomeClient() {
                 </div>
 
                 <p className="mt-4 text-xs text-white/50">
-                  D-Macht • Outreach automation with step-level transparency
+                  D-Macht • Step-based outreach automation with audit-ready transparency
                 </p>
               </div>
 
