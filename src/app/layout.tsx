@@ -7,7 +7,7 @@ import { RegionProvider } from "@/components/region";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dmacht.com"),
   title: "D-Macht",
-  description: "Industrial inkjet printer support + OEM compatible inks and fluids."
+  description: "Industrial inkjet printer support + OEM compatible inks and fluids.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-dvh bg-black text-white">
         <Providers>
-          <RegionProvider defaultRegion="IN">
+          <RegionProvider defaultRegion="unknown">
             <Navbar />
             {children}
           </RegionProvider>
