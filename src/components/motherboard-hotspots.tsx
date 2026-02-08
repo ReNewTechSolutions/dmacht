@@ -138,7 +138,7 @@ export default function MotherboardHotspots() {
   }
 
   return (
-    <section aria-label="Interactive workflow map" className="mb-hotspots" id="how-it-works">
+    <section aria-label="Interactive workflow map" className="mb-hotspots" id="workflow">
       <div className="mb-head">
         <div>
           <div className="mb-kicker">Workflow map</div>

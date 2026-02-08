@@ -16,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh bg-black text-white">
         <Providers>
           <RegionProvider defaultRegion="unknown">
-            <Navbar />
-            {children}
+            <div className="appShell">
+              <Navbar />
+              <main className="appMain">{children}</main>
+            </div>
           </RegionProvider>
         </Providers>
       </body>

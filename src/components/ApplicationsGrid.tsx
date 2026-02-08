@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type AppItem = {
   key: string;
@@ -81,6 +81,7 @@ function TiltCard({
   const [hover, setHover] = useState(false);
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (window.matchMedia?.("(hover: none)").matches) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;  // 0..1
     const py = (e.clientY - rect.top) / rect.height;  // 0..1

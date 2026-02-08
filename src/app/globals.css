@@ -15,18 +15,21 @@
 }
 
 /* Primary button = teal glow */
-.btn-primary{
-  background: linear-gradient(135deg, rgb(var(--teal) / .95), rgb(var(--blue) / .85));
-  color: #061014;
-  border: 1px solid rgb(var(--surface) / .14);
+.btn.btn-primary{
+  border: 1px solid rgba(59,130,246,.45);
+  background: linear-gradient(135deg, rgba(59,130,246,.28), rgba(20,184,166,.18));
   box-shadow:
-    0 10px 30px rgb(var(--teal) / .18),
-    0 0 0 1px rgb(var(--teal) / .20) inset;
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 10px 30px rgba(59,130,246,.12),
+    0 10px 30px rgba(20,184,166,.10);
+  color: rgba(255,255,255,.92);
 }
-.btn-primary:hover{
+
+.btn.btn-primary:hover{
   box-shadow:
-    0 14px 34px rgb(var(--teal) / .22),
-    0 0 0 1px rgb(var(--teal) / .28) inset;
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 14px 44px rgba(59,130,246,.18),
+    0 14px 44px rgba(20,184,166,.14);
   transform: translateY(-1px);
 }
 
@@ -97,6 +100,9 @@ a:hover{opacity: .98;}
   background: transparent;
   border-color: rgba(255,255,255,.10);
 }
+
+.appShell { min-height: 100dvh; }
+.appMain { min-height: calc(100dvh - 56px); } /* adjust if your nav height differs */
 
 /* ---------------------------------------------------------
    Hero
@@ -182,6 +188,23 @@ a:hover{opacity: .98;}
   display:flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.homeRoot{
+  position: relative;
+  min-height: 100dvh;
+}
+
+.homeBg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.homeContent{
+  position: relative;
+  z-index: 10;
 }
 
 /* Split logos row */
@@ -801,4 +824,151 @@ a:hover{opacity: .98;}
     animation: none;
     opacity: 0.55;
   }
+}
+
+.navWrap{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.55);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navInner{
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.navBrand{ display:flex; align-items:center; gap:10px; }
+
+.navLinks{
+  display: none;
+  gap: 14px;
+  align-items: center;
+}
+@media (min-width: 960px){
+  .navLinks{ display:flex; }
+}
+
+.navLink{
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+  text-decoration: none;
+}
+.navLink:hover{ color: rgba(255,255,255,0.92); }
+
+.navRight{ display:flex; align-items:center; gap:10px; }
+.navCta{ display:none; }
+@media (min-width: 960px){
+  .navCta{ display:inline-flex; }
+}
+
+.navBurger{
+  width: 42px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+}
+.navBurger span{
+  display:block;
+  height: 2px;
+  width: 100%;
+  background: rgba(255,255,255,0.75);
+  border-radius: 2px;
+}
+
+.navSub{
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 16px 10px 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+
+.navDrawer{
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: start center;
+  padding: 12px;
+}
+
+.navDrawerPanel{
+  width: min(520px, 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  padding: 14px;
+  position: relative;
+}
+
+.navDrawerTop{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navDrawerTitle{
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  font-weight: 700;
+}
+
+.navDrawerClose{
+  width: 36px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.navDrawerLinks{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 0;
+}
+
+.navDrawerLink{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navDrawerFoot{
+  margin-top: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+
+.navDrawerBackdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  border: 0;
 }

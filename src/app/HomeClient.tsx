@@ -2,8 +2,10 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
-import BrandLogo from "@/components/BrandLogo";
+import Link from "next/link";
 import { useRegion, type Region } from "@/components/region";
+import MotherboardHotspots from "@/components/motherboard-hotspots";
+import ApplicationsGrid from "@/components/ApplicationsGrid";
 
 type Meta = { title: string; sub: string };
 
@@ -39,7 +41,7 @@ const REGION_SUPPORT = {
   },
 } as const;
 
-function RegionSelect({
+function RegionBar({
   region,
   setRegion,
   ready,
@@ -48,32 +50,68 @@ function RegionSelect({
   setRegion: (r: Region) => void;
   ready: boolean;
 }) {
-  const showNudge = ready && region === "unknown";
+  const isIN = region === "IN";
+  const isUS = region === "US";
 
   return (
-    <div className="regionSelectRow">
-      {showNudge && (
-        <div className="regionNudgeWrap" aria-label="Select your region">
-          <div className="regionNudge">
-            <span className="regionNudgeDot" aria-hidden />
-            <span className="regionNudgeTextStrong">Select region</span>
-            <span className="regionNudgeTextSoft">to personalize service</span>
+    <section className="mx-auto max-w-6xl px-4 pt-4" aria-label="Region" id="region">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Region</div>
+            <div className="mt-1 text-sm text-white/75">
+              Choose your region to show the correct contact + availability.
+            </div>
+          </div>
+
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center md:w-auto">
+            {/* segmented */}
+            <div className="flex rounded-full border border-white/10 bg-black/40 p-1">
+              <button
+                type="button"
+                onClick={() => setRegion("IN")}
+                disabled={!ready}
+                className={[
+                  "px-4 py-2 text-xs rounded-full transition border",
+                  isIN
+                    ? "bg-[rgba(20,184,166,0.22)] text-white border-[rgba(20,184,166,0.45)]"
+                    : "bg-transparent text-white/70 border-transparent hover:text-white",
+                ].join(" ")}
+              >
+                India <span className="ml-1 text-white/50">(live)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRegion("US")}
+                disabled={!ready}
+                className={[
+                  "px-4 py-2 text-xs rounded-full transition border",
+                  isUS
+                    ? "bg-[rgba(59,130,246,0.22)] text-white border-[rgba(59,130,246,0.45)]"
+                    : "bg-transparent text-white/70 border-transparent hover:text-white",
+                ].join(" ")}
+              >
+                US / KC <span className="ml-1 text-white/50">(soon)</span>
+              </button>
+            </div>
+
+            {/* fallback select (mobile + a11y) */}
+            <select
+              className="rounded-full border border-white/10 bg-black/40 px-3 py-2 text-xs text-white/80 outline-none"
+              value={region}
+              onChange={(e) => setRegion(e.target.value as Region)}
+              disabled={!ready}
+              aria-label="Select region"
+            >
+              <option value="unknown">Select…</option>
+              <option value="IN">India (live)</option>
+              <option value="US">US / Kansas City (soon)</option>
+            </select>
           </div>
         </div>
-      )}
-
-      <select
-        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
-        value={region}
-        onChange={(e) => setRegion(e.target.value as Region)}
-        aria-label="Select region"
-        disabled={!ready}
-      >
-        <option value="unknown">Select region…</option>
-        <option value="IN">India (live now)</option>
-        <option value="US">US / Kansas City (booking soon)</option>
-      </select>
-    </div>
+      </div>
+    </section>
   );
 }
 
@@ -113,18 +151,23 @@ export default function HomeClient() {
     return REGION_SUPPORT.unknown;
   }, [ready, region]);
 
-  const metaCards: Meta[] = useMemo(() => {
-    return [
+  const metaCards: Meta[] = useMemo(
+    () => [
       { title: "Response", sub: "fast triage + next steps" },
       { title: "Format", sub: "remote-first support" },
       { title: "Brands", sub: "Markem + Domino focus" },
       { title: "Region", sub: region === "unknown" ? "pick to personalize" : support.label },
-    ];
-  }, [region, support.label]);
+    ],
+    [region, support.label]
+  );
 
   return (
-    <main className="mx-auto max-w-6xl px-4">
-      <section className="hero" aria-label="Hero">
+    <div className="homePage">
+      {/* RegionBar sits directly under Navbar */}
+      <RegionBar region={region} setRegion={setRegion} ready={ready} />
+
+      {/* HERO */}
+      <section className="mx-auto max-w-6xl px-4 pt-4" aria-label="Hero" id="top">
         <div className="heroWrap">
           {/* LEFT */}
           <div className="heroLeft">
@@ -141,36 +184,29 @@ export default function HomeClient() {
                 </span>
                 <span>Region-aware</span>
               </div>
-
-              {/* ✅ Removed the extra region chip to avoid “stacked” feel */}
             </div>
 
             <h1 className="heroH1">Keep your production line running.</h1>
-
             <p className="heroP">
               Fast triage, clear next steps, and preventive maintenance planning—built around Markem-Imaje &amp; Domino.
             </p>
 
             <div className="heroCtas">
-              <a className="btn btn-primary" href="#contact">
+              <Link className="btn btn-primary" href="#contact">
                 Request support
-              </a>
-              <a className="btn btn-ghost" href="#workflow">
+              </Link>
+              <Link className="btn btn-ghost" href="#workflow">
                 See workflow
-              </a>
-              <a className="text-sm text-white/70 hover:text-white/90" href="/maintenance">
+              </Link>
+              <Link className="btn btn-ghost" href="#maintenance">
                 Maintenance
-              </a>
+              </Link>
             </div>
 
-            {/* REGION PICKER */}
-            <div className="heroRegionRow">
-              <RegionSelect region={region} setRegion={setRegion} ready={ready} />
-              <div className="mt-2 text-xs text-white/55">
-                Current selection: <span className="text-white/80">{support.label}</span>
-              </div>
-              <div className="mt-2 text-[11px] text-white/45">{ENDORSEMENT}</div>
+            <div className="mt-3 text-xs text-white/60">
+              Current selection: <span className="text-white/85">{support.label}</span>
             </div>
+            <div className="mt-2 text-[11px] text-white/45">{ENDORSEMENT}</div>
 
             {/* META CARDS */}
             <div className="heroMetaGrid" aria-label="Hero highlights">
@@ -190,30 +226,21 @@ export default function HomeClient() {
             <div className="heroRightTop">
               <div>
                 <div className="heroRightKicker">Support channel</div>
-
                 <div className="heroRightRegion">
                   Region: <span className="heroRightRegionStrong">{support.label}</span>
                 </div>
-
-                {/* ✅ Region-aware headline/sub */}
                 <div className="mt-2 text-sm font-semibold text-white/90">{support.headline}</div>
                 <div className="mt-1 text-sm text-white/70">{support.sub}</div>
               </div>
 
-              <a className="btn btn-primary" href="#contact">
+              <Link className="btn btn-primary" href="#contact">
                 Request
-              </a>
+              </Link>
             </div>
 
             <div className="heroRightBody">
               <div className="heroRightImageFrame" aria-label="Brand preview">
-                <Image
-                  src="/brand/dmacht-wordmark.svg"
-                  alt="D-Macht wordmark"
-                  width={900}
-                  height={360}
-                  priority
-                />
+                <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={900} height={360} priority />
               </div>
 
               <div className="heroRightCopy">
@@ -246,6 +273,59 @@ export default function HomeClient() {
           </aside>
         </div>
       </section>
-    </main>
+
+      {/* BRAND BANNER */}
+      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Brands" id="brands">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Printer brands</div>
+          <div className="mt-2 text-xl font-semibold text-white/90">Markem-Imaje &amp; Domino focused</div>
+          <div className="mt-2 text-sm text-white/70">
+            Support for common reliability issues, consumables guidance, and predictable maintenance planning.
+          </div>
+          {/* your marquee/brand strip goes here */}
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Services" id="services">
+        <div className="rounded-3xl border border-white/10 bg-black/35 p-6 md:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Services</div>
+          <div className="mt-2 text-xl font-semibold text-white/90">Support that fits your uptime goals</div>
+          {/* services grid goes here */}
+        </div>
+      </section>
+
+      {/* MAINTENANCE PACKAGES */}
+      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Maintenance" id="maintenance">
+        {/* keep your MaintenancePage component here OR content block */}
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Maintenance</div>
+          <div className="mt-2 text-xl font-semibold text-white/90">Annual Maintenance Contracts (AMC)</div>
+          <div className="mt-2 text-sm text-white/70">Region-aware contact + quote request flow.</div>
+          <div className="mt-4">
+            <Link className="btn btn-primary" href="/maintenance">
+              View packages
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* WORKFLOW (Motherboard lives here) */}
+      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Workflow" id="workflow">
+        <MotherboardHotspots />
+      </section>
+
+      {/*Applications */}
+      <ApplicationsGrid />
+
+      {/* CONTACT */}
+      <section className="mx-auto max-w-6xl px-4 pt-10 pb-16" aria-label="Contact" id="contact">
+        <div className="rounded-3xl border border-white/10 bg-black/35 p-6 md:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Contact</div>
+          <div className="mt-2 text-xl font-semibold text-white/90">Request support</div>
+          {/* contact form / api/request-service hook goes here */}
+        </div>
+      </section>
+    </div>
   );
 }
