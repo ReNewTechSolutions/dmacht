@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type Region = "US" | "IN" | "unknown";
+export type Region = "IN" | "US" | "unknown";
 
 type RegionCtx = {
   region: Region;
@@ -11,6 +11,11 @@ type RegionCtx = {
 };
 
 const Ctx = createContext<RegionCtx | null>(null);
+
+function normalizeRegion(v: string | null): Region {
+  if (v === "IN" || v === "US") return v;
+  return "unknown";
+}
 
 export function RegionProvider({
   children,
@@ -24,17 +29,18 @@ export function RegionProvider({
 
   useEffect(() => {
     try {
-      const stored = window.localStorage.getItem("dmacht_region") as Region | null;
-      if (stored === "US" || stored === "IN") setRegionState(stored);
-      else setRegionState(defaultRegion);
+      const stored = normalizeRegion(window.localStorage.getItem("dmacht_region"));
+      if (stored !== "unknown") setRegionState(stored);
     } finally {
       setReady(true);
     }
-  }, [defaultRegion]);
+    // run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setRegion = (r: Region) => {
     setRegionState(r);
-    if (r === "US" || r === "IN") window.localStorage.setItem("dmacht_region", r);
+    if (r === "IN" || r === "US") window.localStorage.setItem("dmacht_region", r);
     else window.localStorage.removeItem("dmacht_region");
   };
 
@@ -47,4 +53,11 @@ export function useRegion() {
   const v = useContext(Ctx);
   if (!v) throw new Error("useRegion must be used within RegionProvider");
   return v;
+}
+
+export function regionLabel(region: Region, ready: boolean) {
+  if (!ready) return "Loading…";
+  if (region === "IN") return "India (live now)";
+  if (region === "US") return "US / Kansas City (booking soon)";
+  return "Select region";
 }

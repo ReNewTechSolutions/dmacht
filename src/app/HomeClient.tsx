@@ -2,8 +2,9 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import { useRegion, type Region } from "@/components/region";
+import { useRegion, type Region, regionLabel as getRegionLabel } from "@/components/region";
 
 type Meta = { title: string; sub: string };
 
@@ -31,7 +32,7 @@ function RegionSelect({
       )}
 
       <select
-        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
+        className="regionSelect"
         value={region}
         onChange={(e) => setRegion(e.target.value as Region)}
         aria-label="Select region"
@@ -74,27 +75,59 @@ function SpeedStrip() {
 export default function HomeClient() {
   const { region, setRegion, ready } = useRegion();
 
-  const regionLabel = useMemo(() => {
-    if (!ready) return "Loading…";
-    if (region === "IN") return "India (live now)";
-    if (region === "US") return "US / Kansas City (booking soon)";
-    return "Select region";
-  }, [region, ready]);
+  const label = useMemo(() => getRegionLabel(region, ready), [region, ready]);
 
-  const metaCards: Meta[] = useMemo(
-    () => [
+  const isUS = ready && region === "US";
+  const isIN = ready && region === "IN";
+  const isUnknown = ready && region === "unknown";
+
+  // ✅ One source of truth for support messaging + contact
+  const support = useMemo(() => {
+    const base = {
+      email: "service@dmacht.com",
+      phone: "816.957.3063",
+    };
+
+    if (isUS) {
+      return {
+        ...base,
+        cta: "Request",
+        headline: "US support is booking soon",
+        sub:
+          "We can start remote diagnostics immediately. We’ll confirm Kansas City scheduling as slots open.",
+      };
+    }
+
+    if (isIN) {
+      return {
+        ...base,
+        cta: "Request",
+        headline: "India support is live",
+        sub:
+          "Request triage + preventive planning. We’ll confirm cadence, scope, and recommended spares.",
+      };
+    }
+
+    return {
+      ...base,
+      cta: "Request",
+      headline: "Select a region to personalize support",
+      sub: "Region affects availability, cadence, and on-site scheduling expectations.",
+    };
+  }, [isUS, isIN]);
+
+  const metaCards: Meta[] = useMemo(() => {
+    return [
       { title: "Response", sub: "fast triage + next steps" },
       { title: "Format", sub: "remote-first support" },
       { title: "Brands", sub: "Markem + Domino focus" },
-      { title: "Region", sub: region === "unknown" ? "pick to personalize" : regionLabel },
-    ],
-    [region, regionLabel]
-  );
+      { title: "Region", sub: isUnknown ? "pick to personalize" : label },
+    ];
+  }, [label, isUnknown]);
 
   return (
     <main className="mx-auto max-w-6xl px-4">
-      {/* HERO */}
-      <section className="hero" aria-label="Hero" id="top">
+      <section className="hero" aria-label="Hero">
         <div className="heroWrap">
           {/* LEFT */}
           <div className="heroLeft">
@@ -112,9 +145,10 @@ export default function HomeClient() {
                 <span>Region-aware</span>
               </div>
 
-              <div className="chip">
+              {/* ✅ Only ONE region chip (no stacking) */}
+              <div className="chip chipRegion">
                 <span className="chipDot" aria-hidden />
-                <span>{regionLabel}</span>
+                <span>{label}</span>
               </div>
             </div>
 
@@ -125,12 +159,16 @@ export default function HomeClient() {
             </p>
 
             <div className="heroCtas">
-              <a className="btn btn-primary" href="#contact">
+              {/* ✅ Next/Link instead of <a href> */}
+              <Link className="btn btn-primary" href="/#contact">
                 Request support
-              </a>
-              <a className="btn btn-ghost" href="#how-it-works">
+              </Link>
+              <Link className="btn btn-ghost" href="/#workflow">
                 See workflow
-              </a>
+              </Link>
+              <Link className="btn btn-ghost" href="/maintenance">
+                Maintenance
+              </Link>
             </div>
 
             {/* REGION PICKER (can’t miss) */}
@@ -138,7 +176,6 @@ export default function HomeClient() {
               <RegionSelect region={region} setRegion={setRegion} ready={ready} />
             </div>
 
-            {/* META CARDS */}
             <div className="heroMetaGrid" aria-label="Hero highlights">
               {metaCards.map((m) => (
                 <div key={m.title} className="heroMetaCard">
@@ -148,9 +185,9 @@ export default function HomeClient() {
               ))}
             </div>
 
-            {/* SPLIT LOGOS (new left, legacy right) */}
             <div className="heroBrandRow" aria-label="Brand marks">
               <BrandLogo variant="hero" mode="wide" className="heroWordmark" />
+
               <div className="heroLegacyWrap" aria-label="Legacy mark">
                 <img
                   src="/brand/applications/dmacht-oldlogo.svg"
@@ -169,14 +206,18 @@ export default function HomeClient() {
             <div className="heroRightTop">
               <div>
                 <div className="heroRightKicker">Support channel</div>
+
+                {/* ✅ Region-aware title/sub copy */}
                 <div className="heroRightRegion">
-                  Region: <span className="heroRightRegionStrong">{regionLabel}</span>
+                  Region: <span className="heroRightRegionStrong">{label}</span>
                 </div>
+                <div className="heroRightHeadline">{support.headline}</div>
+                <div className="heroRightSub">{support.sub}</div>
               </div>
 
-              <a className="btn btn-primary" href="#contact">
-                Request
-              </a>
+              <Link className="btn btn-primary" href="/#contact">
+                {support.cta}
+              </Link>
             </div>
 
             <div className="heroRightBody">
@@ -191,53 +232,21 @@ export default function HomeClient() {
               <div className="heroContactGrid">
                 <div className="heroContactCard">
                   <div className="heroContactKicker">Email</div>
-                  <div className="heroContactValue">service@dmacht.com</div>
+                  <div className="heroContactValue">{support.email}</div>
                 </div>
 
                 <div className="heroContactCard">
                   <div className="heroContactKicker">Call/Text</div>
-                  <div className="heroContactValue">816.957.3063</div>
+                  <div className="heroContactValue">{support.phone}</div>
+                  {/* If you want region-specific numbers later, swap support.phone based on region above */}
                 </div>
               </div>
+
+              {/* ✅ Optional region-aware note */}
+              {isUS && <div className="heroNote">US note: booking soon — remote diagnostics available now.</div>}
+              {isUnknown && <div className="heroNote">Tip: choose a region to unlock the correct availability.</div>}
             </div>
           </aside>
-        </div>
-      </section>
-
-      {/* MAINTENANCE PACKAGES TEASER (HOME) */}
-      <section className="mt-10" aria-label="Maintenance packages" id="maintenance">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-7">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Paid service</div>
-          <h2 className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Our Maintenance Packages (AMC)</h2>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            Annual Maintenance Contracts for preventive maintenance, priority support, and predictable uptime planning.
-          </p>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
-              <div className="text-sm font-semibold text-white/90">Basic AMC</div>
-              <div className="mt-1 text-sm text-white/70">Essential preventive checks + priority triage.</div>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
-              <div className="text-sm font-semibold text-white/90">Standard AMC</div>
-              <div className="mt-1 text-sm text-white/70">Preventive maintenance + scheduled service + reporting.</div>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
-              <div className="text-sm font-semibold text-white/90">Comprehensive AMC</div>
-              <div className="mt-1 text-sm text-white/70">Full coverage + fastest response + add-on options.</div>
-            </div>
-          </div>
-
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <a className="btn btn-primary" href="#contact">
-              Request AMC quote
-            </a>
-            <a className="btn btn-ghost" href="/maintenance">
-              Compare packages
-            </a>
-          </div>
         </div>
       </section>
     </main>
