@@ -14,18 +14,16 @@ export default function BrandLogo({
 }: Props) {
   const isNav = variant === "nav";
 
+  // ✅ HERO was too big — cap width + use responsive clamp-like tailwind sizes
   const wideSize = isNav
-    ? "h-8 w-[160px] md:h-9 md:w-[190px]"
-    : "h-16 w-[320px] md:h-20 md:w-[420px]";
+    ? "h-8 w-[150px] md:h-9 md:w-[185px]"
+    : "h-10 w-[220px] sm:h-12 sm:w-[260px] md:h-14 md:w-[320px]";
 
   const markSize = isNav
     ? "h-10 w-10 md:h-11 md:w-11"
-    : "h-16 w-16 md:h-20 md:w-20";
+    : "h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16";
 
-  const src =
-    mode === "wide"
-      ? "/brand/dmacht-wordmark.svg"
-      : "/brand/dmacht-mark.svg";
+  const src = mode === "wide" ? "/brand/dmacht-wordmark.svg" : "/brand/dmacht-mark.svg";
 
   return (
     <span

@@ -1,307 +1,243 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
-import RequestForm from "@/components/RequestForm";
-import useRevealOnScroll from "@/components/useRevealOnScroll";
-import MotherboardHotspots from "@/components/motherboard-hotspots";
-import ApplicationsGrid from "@/components/ApplicationsGrid";
+import BrandLogo from "@/components/BrandLogo";
+import { useRegion, type Region } from "@/components/region";
 
-type Region = "IN" | "US";
+type Meta = { title: string; sub: string };
 
-const REGION_KEY = "dmacht_region";
-const REGION_EVENT = "dmacht:region";
+function RegionSelect({
+  region,
+  setRegion,
+  ready,
+}: {
+  region: Region;
+  setRegion: (r: Region) => void;
+  ready: boolean;
+}) {
+  const showNudge = ready && region === "unknown";
 
-const REGIONS: Record<
-  Region,
-  {
-    labelShort: string;
-    labelLong: string;
-    email: string;
-    phoneDisplay: string;
-    phoneTel: string;
-    manufactureLine: string;
-    inkCopy: string;
-    statusPill: string;
-  }
-> = {
-  IN: {
-    labelShort: "India",
-    labelLong: "India (live now)",
-    statusPill: "Live now",
-    email: "support@dmacht.com",
-    phoneDisplay: "+91 99608 16363",
-    phoneTel: "+919960816363",
-    manufactureLine: "All our products are manufactured in India.",
-    inkCopy:
-      "We offer a wide range of OEM compatible CIJ inks and fluids for the coding and marking sector. Our CIJ ranges cover all leading brands on the market. We only supply premium ink with very high quality standards to deliver the best performance possible. We can supply most CIJ (Continuous Ink Jet), DOD, and TIJ ink available on the market.",
-  },
-  US: {
-    labelShort: "Kansas City",
-    labelLong: "Kansas City (booking soon)",
-    statusPill: "Booking soon",
-    email: "service@dmacht.com",
-    phoneDisplay: "816.957.3063",
-    phoneTel: "+18169573063",
-    manufactureLine: "All our products are manufactured in the US.",
-    inkCopy:
-      "We supply premium coding fluids and OEM-compatible CIJ inks with performance-first quality standards—backed by practical field experience across common production environments.",
-  },
-};
+  return (
+    <div className="regionSelectRow">
+      {showNudge && (
+        <div className="regionNudgeWrap" aria-label="Select your region">
+          <div className="regionNudge">
+            <span className="regionNudgeDot" aria-hidden />
+            <span className="regionNudgeTextStrong">Select region</span>
+            <span className="regionNudgeTextSoft">to personalize service</span>
+          </div>
+        </div>
+      )}
 
-function getInitialRegion(): Region {
-  // Safe for SSR
-  if (typeof window === "undefined") return "IN";
+      <select
+        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
+        value={region}
+        onChange={(e) => setRegion(e.target.value as Region)}
+        aria-label="Select region"
+        disabled={!ready}
+      >
+        <option value="unknown">Select region…</option>
+        <option value="IN">India (live now)</option>
+        <option value="US">US / Kansas City (booking soon)</option>
+      </select>
+    </div>
+  );
+}
 
-  const url = new URL(window.location.href);
-  const qp = url.searchParams.get("region");
-  if (qp === "US" || qp === "IN") return qp;
+function SpeedStrip() {
+  const items = [
+    { dot: "teal", text: "Fast triage + clear next steps" },
+    { dot: "blue", text: "Remote-first diagnostics" },
+    { dot: "ember", text: "Preventive maintenance planning" },
+    { dot: "teal", text: "Markem-Imaje + Domino focus" },
+    { dot: "blue", text: "Parts + consumables support" },
+    { dot: "ember", text: "Response in hours, not days" },
+  ] as const;
 
-  const saved = window.localStorage.getItem(REGION_KEY);
-  if (saved === "US" || saved === "IN") return saved;
+  const loop = [...items, ...items];
 
-  return "IN";
+  return (
+    <div className="speedStrip" aria-label="Speed strip">
+      <div className="speedStripInner">
+        {loop.map((it, idx) => (
+          <div key={`${it.text}-${idx}`} className="speedPill">
+            <span className={`dot ${it.dot}`} aria-hidden />
+            <span>{it.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function HomeClient() {
-  useRevealOnScroll();
+  const { region, setRegion, ready } = useRegion();
 
-  // ✅ Lazy init removes the need to setState in an effect
-  const [region, setRegion] = useState<Region>(() => getInitialRegion());
+  const regionLabel = useMemo(() => {
+    if (!ready) return "Loading…";
+    if (region === "IN") return "India (live now)";
+    if (region === "US") return "US / Kansas City (booking soon)";
+    return "Select region";
+  }, [region, ready]);
 
-  useEffect(() => {
-    const onRegionEvent = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      if (detail === "IN" || detail === "US") setRegion(detail);
-    };
-
-    window.addEventListener(REGION_EVENT, onRegionEvent as EventListener);
-    return () => window.removeEventListener(REGION_EVENT, onRegionEvent as EventListener);
-  }, []);
-
-  const info = REGIONS[region];
-
-  const mailHref = useMemo(() => `mailto:${info.email}`, [info.email]);
-  const telHref = useMemo(() => `tel:${info.phoneTel}`, [info.phoneTel]);
-
-  function updateRegion(next: Region) {
-    setRegion(next);
-    try {
-      window.localStorage.setItem(REGION_KEY, next);
-      window.dispatchEvent(new CustomEvent(REGION_EVENT, { detail: next }));
-    } catch {}
-  }
+  const metaCards: Meta[] = useMemo(
+    () => [
+      { title: "Response", sub: "fast triage + next steps" },
+      { title: "Format", sub: "remote-first support" },
+      { title: "Brands", sub: "Markem + Domino focus" },
+      { title: "Region", sub: region === "unknown" ? "pick to personalize" : regionLabel },
+    ],
+    [region, regionLabel]
+  );
 
   return (
-    <main id="top" className="mx-auto max-w-6xl px-4 pb-24">
+    <main className="mx-auto max-w-6xl px-4">
       {/* HERO */}
-      <section className="mt-10 md:mt-14 reveal">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_.8fr] md:items-start">
+      <section className="hero" aria-label="Hero" id="top">
+        <div className="heroWrap">
           {/* LEFT */}
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-white/60" />
-                Remote-first • Markem-Imaje &amp; Domino • Region-aware
+          <div className="heroLeft">
+            <div className="heroTopChips">
+              <div className="chip">
+                <span className="chipDot" aria-hidden />
+                <span>Remote-first</span>
+                <span className="chipSep" aria-hidden>
+                  •
+                </span>
+                <span>Markem-Imaje &amp; Domino</span>
+                <span className="chipSep" aria-hidden>
+                  •
+                </span>
+                <span>Region-aware</span>
               </div>
 
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300/70" />
-                {info.labelLong}
-              </div>
-
-              <div className="md:hidden">
-                <select
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80 outline-none"
-                  value={region}
-                  onChange={(e) => updateRegion(e.target.value as Region)}
-                >
-                  <option value="IN">India (live now)</option>
-                  <option value="US">Kansas City (booking soon)</option>
-                </select>
+              <div className="chip">
+                <span className="chipDot" aria-hidden />
+                <span>{regionLabel}</span>
               </div>
             </div>
 
-            <h1 className="mt-5 text-5xl font-semibold leading-[1.02] tracking-tight md:text-6xl">
-              Keep your production line running.
-            </h1>
+            <h1 className="heroH1">Keep your production line running.</h1>
 
-            <p className="mt-4 max-w-2xl text-base text-white/70 md:text-lg">
-              Fast triage, clear next steps, and preventative maintenance planning—built around Markem-Imaje &amp; Domino.
+            <p className="heroP">
+              Fast triage, clear next steps, and preventive maintenance planning—built around Markem-Imaje &amp; Domino.
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="heroCtas">
               <a className="btn btn-primary" href="#contact">
                 Request support
               </a>
-              <a className="btn" href="#workflow">
+              <a className="btn btn-ghost" href="#how-it-works">
                 See workflow
               </a>
             </div>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { t: "Response", d: "fast triage + next steps" },
-                { t: "Format", d: "remote-first support" },
-                { t: "Brands", d: "Markem + Domino focus" },
-                { t: "Region", d: info.statusPill },
-              ].map((x) => (
-                <div key={x.t} className="rounded-2xl border border-white/10 bg-black/35 p-4">
-                  <div className="text-sm font-semibold">{x.t}</div>
-                  <div className="mt-1 text-sm text-white/60">{x.d}</div>
+            {/* REGION PICKER (can’t miss) */}
+            <div className="heroRegionRow">
+              <RegionSelect region={region} setRegion={setRegion} ready={ready} />
+            </div>
+
+            {/* META CARDS */}
+            <div className="heroMetaGrid" aria-label="Hero highlights">
+              {metaCards.map((m) => (
+                <div key={m.title} className="heroMetaCard">
+                  <div className="heroMetaTitle">{m.title}</div>
+                  <div className="heroMetaSub">{m.sub}</div>
                 </div>
               ))}
             </div>
+
+            {/* SPLIT LOGOS (new left, legacy right) */}
+            <div className="heroBrandRow" aria-label="Brand marks">
+              <BrandLogo variant="hero" mode="wide" className="heroWordmark" />
+              <div className="heroLegacyWrap" aria-label="Legacy mark">
+                <img
+                  src="/brand/applications/dmacht-oldlogo.svg"
+                  alt="D-Macht legacy mark"
+                  className="heroLegacyImg"
+                  draggable={false}
+                />
+              </div>
+            </div>
+
+            <SpeedStrip />
           </div>
 
           {/* RIGHT */}
-          <div className="reveal">
-            <div className="glass trace rounded-3xl p-6">
-              <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
-                    {info.labelLong}
-                  </div>
-
-                  <div className="hidden md:block">
-                    <select
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80 outline-none"
-                      value={region}
-                      onChange={(e) => updateRegion(e.target.value as Region)}
-                    >
-                      <option value="IN">India (live now)</option>
-                      <option value="US">Kansas City (booking soon)</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* ✅ Controlled size so it doesn't blow out layout */}
-                <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 px-4 py-4">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/brand/dmacht-wordmark.svg"
-                      alt="D-Macht"
-                      width={560}
-                      height={140}
-                      priority
-                      className="h-10 w-auto md:h-12 lg:h-14"
-                    />
-                  </div>
-
-                  {/* legacy logo (secondary) */}
-                  <div className="mt-3 flex items-center justify-center">
-                    <Image
-                      src="/brand/applications/dmacht-oldlogo.svg"
-                      alt="D-Macht legacy logo"
-                      width={180}
-                      height={60}
-                      className="h-6 w-auto opacity-80"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4 text-xs text-white/65">
-                  <span className="text-white/70">Email:</span>{" "}
-                  <a className="underline" href={mailHref}>
-                    {info.email}
-                  </a>{" "}
-                  <span className="text-white/40">•</span>{" "}
-                  <span className="text-white/70">Call/Text:</span>{" "}
-                  <a className="underline" href={telHref}>
-                    {info.phoneDisplay}
-                  </a>
-                </div>
-
-                <div className="mt-5 flex gap-3">
-                  <a className="btn btn-primary w-full" href="#contact">
-                    Request support
-                  </a>
+          <aside className="heroRightCard" aria-label="Support panel">
+            <div className="heroRightTop">
+              <div>
+                <div className="heroRightKicker">Support channel</div>
+                <div className="heroRightRegion">
+                  Region: <span className="heroRightRegionStrong">{regionLabel}</span>
                 </div>
               </div>
-            </div>
 
-            <div className="mt-5">
-              <MotherboardHotspots />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WORKFLOW */}
-      <section id="workflow" className="mt-12 md:mt-16 reveal">
-        <div className="glass trace rounded-3xl p-6 md:p-10">
-          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Workflow</h2>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            A simple, repeatable process that gets you answers quickly and reduces repeat failures.
-          </p>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {[
-              { t: "1) Triage", d: "Model + symptoms + context. We isolate likely causes and confirm next tests." },
-              { t: "2) Action plan", d: "Clear steps: adjustments, cleaning cycles, parts list, and verification checks." },
-              { t: "3) Prevent & schedule", d: "PM plan + checklists so the same failure doesn’t return next week." },
-            ].map((x) => (
-              <div key={x.t} className="rounded-3xl border border-white/10 bg-black/40 p-5">
-                <div className="text-sm font-semibold">{x.t}</div>
-                <div className="mt-2 text-sm text-white/70">{x.d}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* APPLICATIONS */}
-      <section id="applications" className="mt-10 md:mt-14 reveal">
-        <div className="glass trace rounded-3xl p-6 md:p-10">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Applications</h2>
-              <p className="mt-2 max-w-2xl text-sm text-white/70">
-                Visual examples of common coding surfaces and production environments.
-              </p>
-            </div>
-            <a href="#contact" className="btn btn-primary">
-              Request support
-            </a>
-          </div>
-
-          <div className="mt-6">
-            <ApplicationsGrid />
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="contact" className="mt-10 md:mt-14 reveal">
-        <div className="grid gap-6 md:grid-cols-[1.05fr_.95fr] md:items-start">
-          <div className="glass trace rounded-3xl p-6 md:p-10">
-            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Request support</h2>
-            <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Choose your region and tell us the model + symptoms. We’ll reply with clear next steps.
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                Active: {info.labelShort}
-              </span>
-              <button className="btn" onClick={() => updateRegion(region === "IN" ? "US" : "IN")}>
-                Switch to {region === "IN" ? "US/KC" : "India"}
-              </button>
-            </div>
-
-            <div className="mt-6 text-sm text-white/70">
-              Prefer email or phone?{" "}
-              <a className="underline" href={mailHref}>
-                {info.email}
-              </a>{" "}
-              <span className="text-white/40">•</span>{" "}
-              <a className="underline" href={telHref}>
-                {info.phoneDisplay}
+              <a className="btn btn-primary" href="#contact">
+                Request
               </a>
             </div>
+
+            <div className="heroRightBody">
+              <div className="heroRightImageFrame" aria-label="Brand preview">
+                <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht wordmark" width={900} height={360} priority />
+              </div>
+
+              <div className="heroRightCopy">
+                Clear next steps, documented fixes, and maintenance planning—so you can keep uptime high and surprises low.
+              </div>
+
+              <div className="heroContactGrid">
+                <div className="heroContactCard">
+                  <div className="heroContactKicker">Email</div>
+                  <div className="heroContactValue">service@dmacht.com</div>
+                </div>
+
+                <div className="heroContactCard">
+                  <div className="heroContactKicker">Call/Text</div>
+                  <div className="heroContactValue">816.957.3063</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {/* MAINTENANCE PACKAGES TEASER (HOME) */}
+      <section className="mt-10" aria-label="Maintenance packages" id="maintenance">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-7">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Paid service</div>
+          <h2 className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Our Maintenance Packages (AMC)</h2>
+          <p className="mt-2 max-w-2xl text-sm text-white/70">
+            Annual Maintenance Contracts for preventive maintenance, priority support, and predictable uptime planning.
+          </p>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <div className="text-sm font-semibold text-white/90">Basic AMC</div>
+              <div className="mt-1 text-sm text-white/70">Essential preventive checks + priority triage.</div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <div className="text-sm font-semibold text-white/90">Standard AMC</div>
+              <div className="mt-1 text-sm text-white/70">Preventive maintenance + scheduled service + reporting.</div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
+              <div className="text-sm font-semibold text-white/90">Comprehensive AMC</div>
+              <div className="mt-1 text-sm text-white/70">Full coverage + fastest response + add-on options.</div>
+            </div>
           </div>
 
-          <RequestForm defaultEmail={info.email} defaultPhone={info.phoneDisplay} />
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <a className="btn btn-primary" href="#contact">
+              Request AMC quote
+            </a>
+            <a className="btn btn-ghost" href="/maintenance">
+              Compare packages
+            </a>
+          </div>
         </div>
       </section>
     </main>

@@ -8,12 +8,14 @@ type Hotspot = {
   tooltip: string;
   title: string;
   desc: string;
-  x: number;
-  y: number;
+  x: number; // 0..100
+  y: number; // 0..100
 };
 
 const VB_W = 1000;
 const VB_H = 625;
+
+// single-line string avoids hydration issues
 const MB_GLOW_MATRIX = "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.85 0";
 
 function pctToX(p: number) {
@@ -54,31 +56,11 @@ function Icon({ name }: { name: Hotspot["icon"] }) {
     case "eye":
       return (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path
-            d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" strokeWidth="2" />
           <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="2" />
         </svg>
       );
   }
-}
-
-function useIsMobile(breakpoint = 900) {
-  // Avoid effect-driven “sync setState warning” pattern: compute initial in initializer
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth < breakpoint;
-  });
-
-  React.useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < breakpoint);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [breakpoint]);
-
-  return isMobile;
 }
 
 export default function MotherboardHotspots() {
@@ -124,17 +106,16 @@ export default function MotherboardHotspots() {
     []
   );
 
-  const isMobile = useIsMobile(900);
-
   const [active, setActive] = useState<string>(spots[0]?.id ?? "target");
-  const [pulse, setPulse] = useState(0);
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [snapIdx, setSnapIdx] = useState<0 | 1 | 2>(1);
+  // bump this to restart one-shot shimmer animation
+  const [traceTick, setTraceTick] = useState(0);
+  const [nodeTick, setNodeTick] = useState(0);
 
   const current = spots.find((s) => s.id === active) ?? spots[0];
 
   const hub = useMemo(() => ({ x: 520, y: 330 }), []);
+
   const paths = useMemo(() => {
     return spots.map((s) => {
       const x = pctToX(s.x);
@@ -144,39 +125,30 @@ export default function MotherboardHotspots() {
       const elbowX = midX + (x > hub.x ? 44 : -44);
       const elbowY = midY + (y > hub.y ? 26 : -26);
       const d = `M ${hub.x} ${hub.y} Q ${elbowX} ${elbowY} ${x} ${y}`;
-      return { id: s.id, d, x, y };
+      return { id: s.id, d };
     });
   }, [spots, hub]);
 
   const activePath = paths.find((p) => p.id === active) ?? null;
 
-  function activate(id: string, opts?: { openDrawer?: boolean }) {
+  function activate(id: string) {
     setActive(id);
-    setPulse((n) => n + 1);
-
-    if (isMobile && opts?.openDrawer) {
-      setSnapIdx(1);
-      setDrawerOpen(true);
-    }
-  }
-
-  function closeDrawer() {
-    setDrawerOpen(false);
+    setTraceTick((n) => n + 1);
+    setNodeTick((n) => n + 1);
   }
 
   return (
-    <section aria-label="Interactive workflow map" className="mb-hotspots">
+    <section aria-label="Interactive workflow map" className="mb-hotspots" id="how-it-works">
       <div className="mb-head">
         <div>
           <div className="mb-kicker">Workflow map</div>
-          <div className="mb-sub">
-            {isMobile ? "Tap nodes to open details. The board stays in view." : "Hover nodes to inspect. Minimal motion, clear signal."}
-          </div>
+          <div className="mb-sub">Tap nodes to inspect. A single trace shimmer confirms selection (no noisy loops).</div>
         </div>
-        <div className="mb-tip">{isMobile ? "Tip: tap nodes" : "Tip: hover nodes"}</div>
+        <div className="mb-tip">Tip: tap nodes</div>
       </div>
 
       <div className="mb-grid">
+        {/* BOARD */}
         <div className="mb-boardWrap">
           <div className="mb-board" role="application" aria-label="Workflow board view">
             <div className="mb-boardLayer" aria-hidden />
@@ -189,8 +161,8 @@ export default function MotherboardHotspots() {
                 </linearGradient>
 
                 <linearGradient id="mbTraceActive" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="rgba(110,210,255,0.50)" />
-                  <stop offset="1" stopColor="rgba(77,255,204,0.32)" />
+                  <stop offset="0" stopColor="rgba(110,210,255,0.55)" />
+                  <stop offset="1" stopColor="rgba(77,255,204,0.35)" />
                 </linearGradient>
 
                 <filter id="mbGlow" x="-40%" y="-40%" width="180%" height="180%">
@@ -207,7 +179,7 @@ export default function MotherboardHotspots() {
               <circle cx={hub.x} cy={hub.y} r="10" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.16)" />
               <circle cx={hub.x} cy={hub.y} r="4" fill="rgba(255,255,255,0.85)" opacity="0.9" />
 
-              {/* Connectors */}
+              {/* Base connectors */}
               {paths.map((p) => {
                 const isActive = p.id === active;
                 return (
@@ -221,16 +193,14 @@ export default function MotherboardHotspots() {
                 );
               })}
 
-              {/* Single clean signal dot (no spark dash spam) */}
+              {/* ONE-SHOT SHIMMER OVER ACTIVE TRACE */}
               {activePath && (
-                <g key={`sig-${active}-${pulse}`} className="mb-signal">
-                  <circle r="7" fill="rgba(110,210,255,0.12)">
-                    <animateMotion dur="0.95s" path={activePath.d} rotate="auto" />
-                  </circle>
-                  <circle r="2.8" fill="rgba(255,255,255,0.92)">
-                    <animateMotion dur="0.95s" path={activePath.d} rotate="auto" />
-                  </circle>
-                </g>
+                <path
+                  key={`flow-${active}-${traceTick}`}
+                  d={activePath.d}
+                  className="mb-flow"
+                  stroke="rgba(255,255,255,0.85)"
+                />
               )}
             </svg>
 
@@ -244,26 +214,22 @@ export default function MotherboardHotspots() {
                   type="button"
                   className={`mb-node ${isActiveNode ? "is-active" : ""}`}
                   style={{ left: `${s.x}%`, top: `${s.y}%` } as React.CSSProperties}
-                  onMouseEnter={() => {
-                    if (!isMobile) activate(s.id);
-                  }}
-                  onFocus={() => {
-                    if (!isMobile) activate(s.id);
-                  }}
-                  onClick={() => activate(s.id, { openDrawer: true })}
+                  onClick={() => activate(s.id)}
                   aria-label={s.title}
                   aria-pressed={isActiveNode}
                 >
+                  {isActiveNode && <span key={`ring-${nodeTick}`} className="mb-nodePulse" aria-hidden />}
+
                   <span className="mb-nodeHalo" aria-hidden />
                   <span className="mb-nodeCore" aria-hidden />
                   <span className="mb-nodeChip" aria-hidden />
+
                   <span className="mb-nodeIcon" aria-hidden>
                     <Icon name={s.icon} />
                   </span>
 
                   <span className="sr-only">{s.tooltip}</span>
 
-                  {/* Tooltip stays desktop-only visually */}
                   <span className="mb-tooltip" role="tooltip" aria-hidden>
                     <span className="mb-tooltipInner">{s.tooltip}</span>
                   </span>
@@ -273,79 +239,26 @@ export default function MotherboardHotspots() {
           </div>
         </div>
 
-        {/* Desktop panel only */}
-        {!isMobile && (
-          <aside className="mb-panel" aria-label="Active node details">
-            <div className="mb-panelTop">
-              <div className="mb-panelKicker">Active step</div>
-              <div className="mb-panelTitle">{current?.title}</div>
-              <div className="mb-panelDesc">{current?.desc}</div>
-            </div>
-
-            <div className="mb-panelCard">
-              <div className="mb-panelCardKicker">What we need from you</div>
-              <ul className="mb-panelList">
-                <li>ICP definition + exclusions</li>
-                <li>Current stack (CRM, email, enrichment)</li>
-                <li>Constraints (domains, compliance, limits)</li>
-                <li>Success metric (replies, meetings, pipeline)</li>
-              </ul>
-              <div className="mb-panelHint">Fastest fit-check = your current workflow + the exact fields you track.</div>
-            </div>
-          </aside>
-        )}
-      </div>
-
-      {/* Mobile snap-sheet drawer */}
-      {isMobile && drawerOpen && current && (
-        <div className="mb-drawerRoot">
-          <button type="button" className="mb-drawerBackdrop" onClick={closeDrawer} aria-label="Close details" />
-
-          <div className={`mb-drawerSheet snap-${snapIdx}`} role="dialog" aria-modal="true" aria-label="Workflow step details">
-            <div className="mb-drawerHandle" />
-
-            <div className="mb-drawerHeader">
-              <div>
-                <div className="mb-drawerKicker">Active step</div>
-                <div className="mb-drawerTitle">{current.title}</div>
-              </div>
-
-              <div className="mb-drawerBtns">
-                <button className="mb-snapBtn" onClick={() => setSnapIdx(0)}>
-                  Small
-                </button>
-                <button className="mb-snapBtn" onClick={() => setSnapIdx(1)}>
-                  Mid
-                </button>
-                <button className="mb-snapBtn" onClick={() => setSnapIdx(2)}>
-                  Full
-                </button>
-                <button className="mb-closeBtn" onClick={closeDrawer}>
-                  Close
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-drawerBody">
-              <div className="mb-drawerDesc">{current.desc}</div>
-
-              <div className="mb-drawerCard">
-                <div className="mb-drawerCardKicker">What we need from you</div>
-                <ul className="mb-drawerList">
-                  <li>• ICP definition + exclusions</li>
-                  <li>• Current stack (CRM, email, enrichment)</li>
-                  <li>• Constraints (domains, compliance, limits)</li>
-                  <li>• Success metric (replies, meetings, pipeline)</li>
-                </ul>
-              </div>
-
-              <a href="#contact" className="btn btn-primary w-full mt-4">
-                Request support
-              </a>
-            </div>
+        {/* DETAIL PANEL (kept) */}
+        <aside className="mb-panel" aria-label="Active node details">
+          <div className="mb-panelTop">
+            <div className="mb-panelKicker">Active step</div>
+            <div className="mb-panelTitle">{current?.title}</div>
+            <div className="mb-panelDesc">{current?.desc}</div>
           </div>
-        </div>
-      )}
+
+          <div className="mb-panelCard">
+            <div className="mb-panelCardKicker">What we need from you</div>
+            <ul className="mb-panelList">
+              <li>ICP definition + exclusions</li>
+              <li>Current stack (CRM, email, enrichment)</li>
+              <li>Constraints (domains, compliance, limits)</li>
+              <li>Success metric (replies, meetings, pipeline)</li>
+            </ul>
+            <div className="mb-panelHint">Fastest fit-check = your current workflow + the exact fields you track.</div>
+          </div>
+        </aside>
+      </div>
     </section>
   );
 }
