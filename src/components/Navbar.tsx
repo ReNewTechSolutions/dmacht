@@ -147,20 +147,6 @@ export default function HomeClient() {
                 </div>
               ))}
             </div>
-
-            {/* SPLIT LOGOS (new left, legacy right) */}
-            <div className="heroBrandRow" aria-label="Brand marks">
-              <BrandLogo variant="hero" mode="wide" className="heroWordmark" />
-
-              <div className="heroLegacyWrap" aria-label="Legacy mark">
-                <img
-                  src="/brand/applications/dmacht-oldlogo.svg"
-                  alt="D-Macht legacy mark"
-                  className="heroLegacyImg"
-                  draggable={false}
-                />
-              </div>
-            </div>
             
             <SpeedStrip />
           </div>

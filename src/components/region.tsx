@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 export type Region = "IN" | "US" | "unknown";
 
@@ -8,13 +8,17 @@ type RegionCtx = {
   region: Region;
   setRegion: (r: Region) => void;
   ready: boolean;
+  isIN: boolean;
+  isUS: boolean;
+  isUnknown: boolean;
 };
+
+const STORAGE_KEY = "dmacht_region";
 
 const Ctx = createContext<RegionCtx | null>(null);
 
-function normalizeRegion(v: string | null): Region {
-  if (v === "IN" || v === "US") return v;
-  return "unknown";
+function normalizeRegion(v: string | null | undefined): Region {
+  return v === "IN" || v === "US" ? v : "unknown";
 }
 
 export function RegionProvider({
@@ -24,27 +28,46 @@ export function RegionProvider({
   children: React.ReactNode;
   defaultRegion?: Region;
 }) {
+  // Important: start with defaultRegion so SSR/CSR match, then hydrate from localStorage
   const [region, setRegionState] = useState<Region>(defaultRegion);
   const [ready, setReady] = useState(false);
 
+  // hydrate once
   useEffect(() => {
     try {
-      const stored = normalizeRegion(window.localStorage.getItem("dmacht_region"));
-      if (stored !== "unknown") setRegionState(stored);
+      const stored = normalizeRegion(window.localStorage.getItem(STORAGE_KEY));
+      setRegionState(stored !== "unknown" ? stored : defaultRegion);
     } finally {
       setReady(true);
     }
-    // run once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setRegion = (r: Region) => {
-    setRegionState(r);
-    if (r === "IN" || r === "US") window.localStorage.setItem("dmacht_region", r);
-    else window.localStorage.removeItem("dmacht_region");
-  };
+  // keep multiple tabs in sync
+  useEffect(() => {
+    function onStorage(e: StorageEvent) {
+      if (e.key !== STORAGE_KEY) return;
+      setRegionState(normalizeRegion(e.newValue));
+    }
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
-  const value = useMemo(() => ({ region, setRegion, ready }), [region, ready]);
+  const setRegion = useCallback((r: Region) => {
+    setRegionState(r);
+
+    // write-through to localStorage
+    if (r === "IN" || r === "US") window.localStorage.setItem(STORAGE_KEY, r);
+    else window.localStorage.removeItem(STORAGE_KEY);
+  }, []);
+
+  const value = useMemo(() => {
+    const isIN = ready && region === "IN";
+    const isUS = ready && region === "US";
+    const isUnknown = ready && region === "unknown";
+
+    return { region, setRegion, ready, isIN, isUS, isUnknown };
+  }, [region, ready, setRegion]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
@@ -61,3 +84,8 @@ export function regionLabel(region: Region, ready: boolean) {
   if (region === "US") return "US / Kansas City (booking soon)";
   return "Select region";
 }
+
+export const OPTIONS: { id: Region; title: string; sub: string }[] = [
+  { id: "IN", title: "India", sub: "Field service + remote diagnostics" },
+  { id: "US", title: "United States", sub: "US field service (booking soon) + remote diagnostics" },
+];

@@ -291,6 +291,119 @@ a:hover{opacity: .98;}
   object-fit: contain;
 }
 
+/* --- Region Segmented Control (hero) --- */
+.regionSegWrap{
+  width: 100%;
+  max-width: 520px;
+}
+
+.regionSegLabel{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.70);
+}
+
+.regionSegDot{
+  width:8px;height:8px;border-radius:999px;
+  background:rgba(20,184,166,.95);
+  box-shadow:0 0 0 6px rgba(20,184,166,.12), 0 0 18px rgba(20,184,166,.25);
+}
+
+.regionSegHint{
+  margin-left:8px;
+  font-size:12px;
+  text-transform:none;
+  letter-spacing:0;
+  color:rgba(255,255,255,.55);
+}
+
+.regionSeg{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  padding:10px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  backdrop-filter: blur(16px);
+}
+
+.regionSegBtn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  border-radius:14px;
+  padding:12px 12px;
+  text-align:left;
+  color:rgba(255,255,255,.88);
+  font-size:13px;
+  line-height:1.2;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.regionSegBtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.regionSegBtn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.regionSegSub{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  color:rgba(255,255,255,.55);
+}
+
+.regionSegBtn.is-active{
+  border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.06);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 18px 55px rgba(0,0,0,.45);
+}
+
+.regionSegBtn.is-active.is-in{
+  box-shadow:
+    0 0 0 1px rgba(20,184,166,.22) inset,
+    0 0 28px rgba(20,184,166,.18),
+    0 18px 55px rgba(0,0,0,.45);
+}
+
+.regionSegBtn.is-active.is-us{
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,.22) inset,
+    0 0 28px rgba(59,130,246,.18),
+    0 18px 55px rgba(0,0,0,.45);
+}
+
+/* hide the fallback select on desktop, show on small screens */
+.regionSegSelect{
+  display:none;
+  margin-top:10px;
+  width:100%;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  padding:10px 12px;
+  color:rgba(255,255,255,.85);
+}
+
+@media (max-width: 520px){
+  .regionSeg{ display:none; }
+  .regionSegSelect{ display:block; }
+}
+
 /* ---------------------------------------------------------
    Region nudge (glowing "Select region")
 --------------------------------------------------------- */

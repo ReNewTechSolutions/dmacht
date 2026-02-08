@@ -3,6 +3,11 @@
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRegion, type Region } from "@/components/region";
+import { ENDORSEMENT, REGION_SUPPORT } from "@/lib/support";
+
+/* =======================================================================================
+   MAINTENANCE PAGE (region-aware email/phone + mailto destination)
+======================================================================================= */
 
 type PlanId = "basic" | "standard" | "comprehensive";
 type Accent = "teal" | "blue" | "ember";
@@ -17,7 +22,6 @@ type Plan = {
 };
 
 type Cadence = "Monthly" | "Quarterly" | "Bi-Annual" | "Annual" | "Not sure";
-
 const CADENCE_OPTIONS: Cadence[] = ["Monthly", "Quarterly", "Bi-Annual", "Annual", "Not sure"];
 
 function RegionSelectInline({
@@ -79,6 +83,7 @@ function Dot({ tone }: { tone: Accent }) {
 }
 
 function buildMailto(params: {
+  toEmail: string;
   plan: string;
   regionLabel: string;
   company: string;
@@ -87,9 +92,7 @@ function buildMailto(params: {
   cadence: string;
   notes: string;
 }) {
-  const to = "service@dmacht.com";
   const subject = `AMC Quote Request — ${params.plan} — ${params.regionLabel}`;
-
   const body = [
     `Hello D-Macht Team,`,
     ``,
@@ -109,18 +112,22 @@ function buildMailto(params: {
     `Thanks,`,
   ].join("\n");
 
-  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${encodeURIComponent(params.toEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+    body
+  )}`;
 }
 
 export default function MaintenancePage() {
   const { region, setRegion, ready } = useRegion();
 
-  const regionLabel = useMemo(() => {
-    if (!ready) return "Loading…";
-    if (region === "IN") return "India (live now)";
-    if (region === "US") return "US / Kansas City (booking soon)";
-    return "Select region";
-  }, [region, ready]);
+  const support = useMemo(() => {
+    if (!ready) return REGION_SUPPORT.unknown;
+    if (region === "IN") return REGION_SUPPORT.IN;
+    if (region === "US") return REGION_SUPPORT.US;
+    return REGION_SUPPORT.unknown;
+  }, [ready, region]);
+
+  const regionLabel = support.label;
 
   const isUS = ready && region === "US";
   const isIN = ready && region === "IN";
@@ -195,6 +202,7 @@ export default function MaintenancePage() {
   const mailtoHref = useMemo(
     () =>
       buildMailto({
+        toEmail: support.email,
         plan: planChoice,
         regionLabel,
         company,
@@ -203,7 +211,7 @@ export default function MaintenancePage() {
         cadence,
         notes,
       }),
-    [planChoice, regionLabel, company, site, printers, cadence, notes]
+    [support.email, planChoice, regionLabel, company, site, printers, cadence, notes]
   );
 
   const regionCtaTitle = useMemo(() => {
@@ -217,8 +225,10 @@ export default function MaintenancePage() {
   const regionCtaSub = useMemo(() => {
     if (!ready) return "";
     if (isUnknown) return "You’ll get the right availability and scope based on your region.";
-    if (isUS) return "We’ll confirm timing, scope, and what’s available for US/Kansas City — remote diagnostics can start now.";
-    if (isIN) return "We’ll confirm printer models, cadence, and coverage — plus preventive scheduling and reporting.";
+    if (isUS)
+      return "We’ll confirm timing, scope, and what’s available for US/Kansas City — remote diagnostics can start now.";
+    if (isIN)
+      return "We’ll confirm printer models, cadence, and coverage — plus preventive scheduling and reporting.";
     return "";
   }, [ready, isUnknown, isUS, isIN]);
 
@@ -261,6 +271,8 @@ export default function MaintenancePage() {
                   Current selection: <span className="text-white/75">{regionLabel}</span>
                 </div>
               </div>
+
+              <div className="mt-4 text-xs text-white/45">{ENDORSEMENT}</div>
             </div>
 
             {/* REGION CTA */}
@@ -317,7 +329,9 @@ export default function MaintenancePage() {
                 <Link
                   className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 hover:text-white/85"
                   href="#quote"
-                  onClick={() => setPlanChoice(p.id === "basic" ? "Basic" : p.id === "standard" ? "Standard" : "Comprehensive")}
+                  onClick={() =>
+                    setPlanChoice(p.id === "basic" ? "Basic" : p.id === "standard" ? "Standard" : "Comprehensive")
+                  }
                 >
                   Quote
                 </Link>
@@ -340,8 +354,8 @@ export default function MaintenancePage() {
                   {p.id === "basic"
                     ? "Smaller sites, predictable output, monthly/quarterly checks."
                     : p.id === "standard"
-                      ? "Multi-shift lines, recurring print quality issues, scheduled downtime windows."
-                      : "High-volume lines, strict SLA expectations, repeat-failure prevention."}
+                    ? "Multi-shift lines, recurring print quality issues, scheduled downtime windows."
+                    : "High-volume lines, strict SLA expectations, repeat-failure prevention."}
                 </div>
               </div>
             </div>
@@ -356,7 +370,7 @@ export default function MaintenancePage() {
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Compare</div>
               <h2 className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">What’s included</h2>
-              <p className="mt-2 text-sm text-white/70">A clear breakdown so customers understand value and coverage instantly.</p>
+              <p className="mt-2 text-sm text-white/70">A clear breakdown so customers understand value instantly.</p>
             </div>
             <Link className="btn btn-primary md:self-center" href="#quote">
               Get pricing
@@ -484,21 +498,17 @@ export default function MaintenancePage() {
               </div>
 
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                {/* mailto should remain <a> */}
                 <a className="btn btn-primary w-full" href={mailtoHref}>
                   Email quote request
                 </a>
-
                 <Link className="btn btn-ghost w-full" href="/#contact">
                   Use contact form
                 </Link>
               </div>
 
-              {isUS && (
-                <div className="mt-3 text-xs text-white/60">
-                  US note: booking soon. We can start remote diagnostics immediately and schedule on-site availability as slots open.
-                </div>
-              )}
+              {isUS && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.US.note}</div>}
+              {isIN && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.IN.note}</div>}
+              {isUnknown && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.unknown.note}</div>}
             </div>
 
             {/* RIGHT: EXPECTATIONS */}
@@ -525,13 +535,19 @@ export default function MaintenancePage() {
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Email</div>
-                    <div className="mt-1 text-sm text-white/80">service@dmacht.com</div>
+                    <a className="mt-1 block text-sm text-white/80" href={`mailto:${support.email}`}>
+                      {support.email}
+                    </a>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Call/Text</div>
-                    <div className="mt-1 text-sm text-white/80">816.957.3063</div>
+                    <a className="mt-1 block text-sm text-white/80" href={`tel:${support.phoneE164}`}>
+                      {support.phoneDisplay}
+                    </a>
                   </div>
                 </div>
+
+                <div className="mt-3 text-[11px] text-white/45">{ENDORSEMENT}</div>
               </div>
 
               <div className="mt-4 text-xs text-white/55">
@@ -549,7 +565,9 @@ export default function MaintenancePage() {
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Next</div>
               <div className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Want to see applications?</div>
-              <div className="mt-2 text-sm text-white/70">Browse supported use-cases and industries, then request support.</div>
+              <div className="mt-2 text-sm text-white/70">
+                Browse supported use-cases and industries, then request support.
+              </div>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
