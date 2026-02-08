@@ -1,31 +1,32 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import { useRegion, type Region, regionLabel as getRegionLabel } from "@/components/region";
+import { useRegion, type Region } from "@/components/region";
 
-/**
- * ✅ One endorsement line, always (per your confirmation)
- */
-const ENDORSEMENT = "DMacht — a ReNewTech Solutions service line.";
+type Meta = { title: string; sub: string };
 
-/**
- * ✅ Region-aware contact + copy (new info)
- * IN: +919960816363 / support@dmacht.com
- * US: +18169573063 / service@dmacht.com
- */
+const ENDORSEMENT = "D-Macht — a ReNewTech Solutions service line.";
+
 const REGION_SUPPORT = {
+  unknown: {
+    label: "Select region",
+    email: "support@dmacht.com",
+    phoneDisplay: "Select region",
+    phoneE164: "",
+    headline: "Select a region to personalize support",
+    sub: "Region affects availability, cadence, and on-site scheduling expectations.",
+    note: "Tip: choose India or US to show the correct contact details.",
+  },
   IN: {
     label: "India (live now)",
     email: "support@dmacht.com",
     phoneDisplay: "+91 99608 16363",
     phoneE164: "+919960816363",
     headline: "India support is live",
-    sub: "Request triage + preventive planning. We’ll confirm cadence, scope, and recommended spares.",
-    ctaText: "Request",
-    note: "",
+    sub: "Fast triage + preventive planning. We’ll confirm cadence, scope, and recommended spares.",
+    note: "India: field service + remote diagnostics available now.",
   },
   US: {
     label: "US / Kansas City (booking soon)",
@@ -33,25 +34,12 @@ const REGION_SUPPORT = {
     phoneDisplay: "+1 (816) 957-3063",
     phoneE164: "+18169573063",
     headline: "US support is booking soon",
-    sub: "We can start remote diagnostics immediately. We’ll confirm Kansas City scheduling as slots open.",
-    ctaText: "Request",
-    note: "US note: booking soon — remote diagnostics available now.",
-  },
-  unknown: {
-    label: "Select region",
-    email: "service@dmacht.com",
-    phoneDisplay: "+1 (816) 957-3063",
-    phoneE164: "+18169573063",
-    headline: "Select a region to personalize support",
-    sub: "Region affects availability, cadence, and on-site scheduling expectations.",
-    ctaText: "Request",
-    note: "Tip: choose a region to unlock the correct availability.",
+    sub: "Remote diagnostics now. We’ll confirm Kansas City scheduling as slots open.",
+    note: "US: booking soon — remote diagnostics available now.",
   },
 } as const;
 
-type Meta = { title: string; sub: string };
-
-function RegionSegmented({
+function RegionSelect({
   region,
   setRegion,
   ready,
@@ -60,47 +48,26 @@ function RegionSegmented({
   setRegion: (r: Region) => void;
   ready: boolean;
 }) {
-  const isUnknown = ready && region === "unknown";
-  const isIN = region === "IN";
-  const isUS = region === "US";
+  const showNudge = ready && region === "unknown";
 
   return (
-    <div className={`regionSegWrap ${isUnknown ? "is-attn" : ""}`} aria-label="Select region">
-      <div className="regionSegLabel">
-        <span className="regionSegDot" aria-hidden />
-        <span>{isUnknown ? "Select your region" : "Region"}</span>
-        {isUnknown && <span className="regionSegHint">Required to personalize support</span>}
-      </div>
+    <div className="regionSelectRow">
+      {showNudge && (
+        <div className="regionNudgeWrap" aria-label="Select your region">
+          <div className="regionNudge">
+            <span className="regionNudgeDot" aria-hidden />
+            <span className="regionNudgeTextStrong">Select region</span>
+            <span className="regionNudgeTextSoft">to personalize service</span>
+          </div>
+        </div>
+      )}
 
-      <div className="regionSeg" role="tablist" aria-label="Region options">
-        <button
-          type="button"
-          className={`regionSegBtn ${isIN ? "is-active is-in" : ""}`}
-          onClick={() => setRegion("IN")}
-          disabled={!ready}
-          aria-pressed={isIN}
-        >
-          India <span className="regionSegSub">live now</span>
-        </button>
-
-        <button
-          type="button"
-          className={`regionSegBtn ${isUS ? "is-active is-us" : ""}`}
-          onClick={() => setRegion("US")}
-          disabled={!ready}
-          aria-pressed={isUS}
-        >
-          US / Kansas City <span className="regionSegSub">booking soon</span>
-        </button>
-      </div>
-
-      {/* Fallback select for accessibility */}
       <select
-        className="regionSegSelect"
+        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
         value={region}
         onChange={(e) => setRegion(e.target.value as Region)}
-        disabled={!ready}
         aria-label="Select region"
+        disabled={!ready}
       >
         <option value="unknown">Select region…</option>
         <option value="IN">India (live now)</option>
@@ -139,14 +106,6 @@ function SpeedStrip() {
 export default function HomeClient() {
   const { region, setRegion, ready } = useRegion();
 
-  // ✅ One label for the chip (no stacking)
-  const label = useMemo(() => getRegionLabel(region, ready), [region, ready]);
-
-  const isUS = ready && region === "US";
-  const isIN = ready && region === "IN";
-  const isUnknown = ready && region === "unknown";
-
-  // ✅ Region-aware support object (new contact info)
   const support = useMemo(() => {
     if (!ready) return REGION_SUPPORT.unknown;
     if (region === "IN") return REGION_SUPPORT.IN;
@@ -159,9 +118,9 @@ export default function HomeClient() {
       { title: "Response", sub: "fast triage + next steps" },
       { title: "Format", sub: "remote-first support" },
       { title: "Brands", sub: "Markem + Domino focus" },
-      { title: "Region", sub: isUnknown ? "pick to personalize" : label },
+      { title: "Region", sub: region === "unknown" ? "pick to personalize" : support.label },
     ];
-  }, [label, isUnknown]);
+  }, [region, support.label]);
 
   return (
     <main className="mx-auto max-w-6xl px-4">
@@ -183,10 +142,7 @@ export default function HomeClient() {
                 <span>Region-aware</span>
               </div>
 
-              <div className="chip chipRegion">
-                <span className="chipDot" aria-hidden />
-                <span>{label}</span>
-              </div>
+              {/* ✅ Removed the extra region chip to avoid “stacked” feel */}
             </div>
 
             <h1 className="heroH1">Keep your production line running.</h1>
@@ -196,21 +152,27 @@ export default function HomeClient() {
             </p>
 
             <div className="heroCtas">
-              <Link className="btn btn-primary" href="/#contact">
+              <a className="btn btn-primary" href="#contact">
                 Request support
-              </Link>
-              <Link className="btn btn-ghost" href="/#workflow">
+              </a>
+              <a className="btn btn-ghost" href="#workflow">
                 See workflow
-              </Link>
-              <Link className="btn btn-ghost" href="/maintenance">
+              </a>
+              <a className="text-sm text-white/70 hover:text-white/90" href="/maintenance">
                 Maintenance
-              </Link>
+              </a>
             </div>
 
+            {/* REGION PICKER */}
             <div className="heroRegionRow">
-              <RegionSegmented region={region} setRegion={setRegion} ready={ready} />
+              <RegionSelect region={region} setRegion={setRegion} ready={ready} />
+              <div className="mt-2 text-xs text-white/55">
+                Current selection: <span className="text-white/80">{support.label}</span>
+              </div>
+              <div className="mt-2 text-[11px] text-white/45">{ENDORSEMENT}</div>
             </div>
 
+            {/* META CARDS */}
             <div className="heroMetaGrid" aria-label="Hero highlights">
               {metaCards.map((m) => (
                 <div key={m.title} className="heroMetaCard">
@@ -219,14 +181,6 @@ export default function HomeClient() {
                 </div>
               ))}
             </div>
-
-            {/* ✅ Remove extra logos: keep ONLY the BrandLogo component (no legacy logo here) */}
-            <div className="heroBrandRow" aria-label="Brand marks">
-              <BrandLogo variant="hero" mode="wide" className="heroWordmark" />
-            </div>
-
-            {/* ✅ Endorsement line (one place) */}
-            <div className="heroEndorsement">{ENDORSEMENT}</div>
 
             <SpeedStrip />
           </div>
@@ -241,20 +195,21 @@ export default function HomeClient() {
                   Region: <span className="heroRightRegionStrong">{support.label}</span>
                 </div>
 
-                <div className="heroRightHeadline">{support.headline}</div>
-                <div className="heroRightSub">{support.sub}</div>
+                {/* ✅ Region-aware headline/sub */}
+                <div className="mt-2 text-sm font-semibold text-white/90">{support.headline}</div>
+                <div className="mt-1 text-sm text-white/70">{support.sub}</div>
               </div>
 
-              <Link className="btn btn-primary" href="/#contact">
-                {support.ctaText}
-              </Link>
+              <a className="btn btn-primary" href="#contact">
+                Request
+              </a>
             </div>
 
             <div className="heroRightBody">
               <div className="heroRightImageFrame" aria-label="Brand preview">
                 <Image
                   src="/brand/dmacht-wordmark.svg"
-                  alt="DMacht wordmark"
+                  alt="D-Macht wordmark"
                   width={900}
                   height={360}
                   priority
@@ -275,13 +230,18 @@ export default function HomeClient() {
 
                 <div className="heroContactCard">
                   <div className="heroContactKicker">Call/Text</div>
-                  <a className="heroContactValue" href={`tel:${support.phoneE164}`}>
-                    {support.phoneDisplay}
-                  </a>
+                  {support.phoneE164 ? (
+                    <a className="heroContactValue" href={`tel:${support.phoneE164}`}>
+                      {support.phoneDisplay}
+                    </a>
+                  ) : (
+                    <div className="heroContactValue">{support.phoneDisplay}</div>
+                  )}
                 </div>
               </div>
 
-              {(isUS || isUnknown) && <div className="heroNote">{support.note}</div>}
+              <div className="mt-3 text-xs text-white/55">{support.note}</div>
+              <div className="mt-2 text-[11px] text-white/45">{ENDORSEMENT}</div>
             </div>
           </aside>
         </div>

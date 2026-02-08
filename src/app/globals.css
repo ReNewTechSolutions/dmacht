@@ -6,46 +6,48 @@
 ========================================================= */
 
 :root{
-  color-scheme: dark;
-
-  --bg0:#000;
-  --bg1:#02040a;
-  --bg2:#050914;
-
-  /* Brand accents */
-  --blue: 59 130 246;
   --teal: 20 184 166;
-  --ember: 255 140 64;
+  --blue: 59 130 246;
+  --ember: 245 158 11;
 
-  --white:255 255 255;
-  --black:0 0 0;
-
-  --ease: cubic-bezier(.2,.8,.2,1);
-
-  --shadow-soft:
-    0 22px 80px rgba(0,0,0,.60),
-    0 0 0 1px rgba(255,255,255,.06);
-
-  --shadow-glow:
-    0 22px 80px rgba(0,0,0,.62),
-    0 0 40px rgba(110,210,255,.12);
+  --surface: 255 255 255;
+  --stroke: 255 255 255;
 }
 
-html,body{height:100%;}
-*{box-sizing:border-box;}
-
-body{
-  background: var(--bg0);
-  color: rgb(var(--white));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+/* Primary button = teal glow */
+.btn-primary{
+  background: linear-gradient(135deg, rgb(var(--teal) / .95), rgb(var(--blue) / .85));
+  color: #061014;
+  border: 1px solid rgb(var(--surface) / .14);
+  box-shadow:
+    0 10px 30px rgb(var(--teal) / .18),
+    0 0 0 1px rgb(var(--teal) / .20) inset;
+}
+.btn-primary:hover{
+  box-shadow:
+    0 14px 34px rgb(var(--teal) / .22),
+    0 0 0 1px rgb(var(--teal) / .28) inset;
+  transform: translateY(-1px);
 }
 
-img,svg,video,canvas{
-  max-width:100%;
-  height:auto;
-  display:block;
+/* Ghost button = visible outline + subtle glow */
+.btn-ghost{
+  background: rgb(var(--surface) / .04);
+  border: 1px solid rgb(var(--surface) / .16);
+  color: rgb(255 255 255 / .85);
+  box-shadow: 0 0 0 1px rgb(var(--surface) / .06) inset;
+}
+.btn-ghost:hover{
+  border-color: rgb(var(--surface) / .26);
+  background: rgb(var(--surface) / .06);
+}
+
+/* Optional: amber CTA */
+.btn-amber{
+  background: linear-gradient(135deg, rgb(var(--ember) / .95), rgb(var(--amber, 245 158 11) / .65));
+  color: #0d0a00;
+  border: 1px solid rgb(var(--surface) / .14);
+  box-shadow: 0 12px 30px rgb(var(--ember) / .16);
 }
 
 /* ---------------------------------------------------------
@@ -461,6 +463,17 @@ a:hover{opacity: .98;}
 .regionSelect:focus{
   border-color: rgba(var(--blue), .35);
   box-shadow: 0 0 0 1px rgba(var(--blue), .20), 0 0 30px rgba(var(--blue), .12);
+}
+
+.regionSelectRow select{
+  border-color: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.92);
+  box-shadow: 0 0 0 1px rgba(20,184,166,.15), 0 10px 25px rgba(20,184,166,.08);
+}
+.regionSelectRow select:focus{
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(20,184,166,.35), 0 10px 25px rgba(20,184,166,.10);
 }
 
 /* ---------------------------------------------------------

@@ -1,45 +1,37 @@
 // src/lib/support.ts
 import type { Region } from "@/components/region";
 
-export const ENDORSEMENT = "DMacht — a ReNewTech Solutions service line.";
+export const ENDORSEMENT = "D-Macht — a ReNewTech Solutions service line.";
 
-export type SupportInfo = {
-  key: Region;
-  label: string;
-  email: string;
-  phoneE164: string;      // for tel:
-  phoneDisplay: string;   // for UI
-  note?: string;
-  booking?: "live" | "soon";
-};
-
-export const REGION_SUPPORT: Record<Region, SupportInfo> = {
+export const REGION_SUPPORT = {
   unknown: {
-    key: "unknown",
+    id: "unknown",
     label: "Select region",
-    email: "service@dmacht.com",
-    phoneE164: "+18169573063",
-    phoneDisplay: "+1 (816) 957-3063",
-    note: "Select a region to see the correct contact + availability.",
-  },
-
-  IN: {
-    key: "IN",
-    label: "India (live now)",
+    phoneDisplay: "—",
+    phoneE164: "",
     email: "support@dmacht.com",
-    phoneE164: "+919960816363",
+    headline: "Choose a region to personalize support",
+    sub: "Region affects availability, cadence, and on-site scheduling expectations.",
+    note: "Tip: choose a region to unlock the correct availability + contact details."
+  },
+  IN: {
+    id: "IN",
+    label: "India (live now)",
     phoneDisplay: "+91 99608 16363",
-    booking: "live",
-    note: "India support is live — triage + preventive planning available.",
+    phoneE164: "+919960816363",
+    email: "support@dmacht.com",
+    headline: "India support is live",
+    sub: "Fast triage + preventive planning. We’ll confirm cadence, scope, and spares strategy.",
+    note: "India: field service + remote diagnostics available now."
   },
-
   US: {
-    key: "US",
+    id: "US",
     label: "US / Kansas City (booking soon)",
-    email: "service@dmacht.com",
-    phoneE164: "+18169573063",
     phoneDisplay: "+1 (816) 957-3063",
-    booking: "soon",
-    note: "US note: booking soon — remote diagnostics available now; on-site scheduling opens as slots become available.",
+    phoneE164: "+18169573063",
+    email: "service@dmacht.com",
+    headline: "US support is booking soon",
+    sub: "Remote diagnostics now. We’ll confirm Kansas City scheduling as slots open.",
+    note: "US: booking soon — remote diagnostics available now."
   },
-};
+} as const;
