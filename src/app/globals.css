@@ -297,119 +297,297 @@ img,svg,video,canvas{
   color:rgba(255,255,255,.55);
 }
 
-/* =======================================================================================
-   REGION BAR
-======================================================================================= */
+/* =========================
+   NAVBAR
+========================= */
+.navWrap{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(0,0,0,.70);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
 
-.regionBar{
-  max-width:1200px;
-  margin:0 auto;
-  padding:14px 16px 0;
+.navInner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.navBrand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navWordmark{ height:auto; width:auto; }
+
+.navLegacy{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+}
+
+.navLinks{
+  display: none;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 900px){
+  .navLinks{ display: flex; }
+}
+
+.navLink{
+  font-size: 13px;
+  color: rgba(255,255,255,.78);
+  text-decoration: none;
+  padding: 10px 10px;
+  border-radius: 999px;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+
+.navLink:hover{
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.95);
+  transform: translateY(-1px);
+}
+
+.navRight{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navCta{
+  display: none;
+}
+
+@media (min-width: 900px){
+  .navCta{ display: inline-flex; }
+}
+
+.navBurger{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.navBurger span{
+  display:block;
+  width: 18px;
+  height: 2px;
+  background: rgba(255,255,255,.80);
+  border-radius: 999px;
+}
+
+.navSub{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+}
+
+/* =========================
+   REGION BAR
+========================= */
+.regionBarShell{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 16px 0;
 }
 
 .regionBarInner{
   display:flex;
-  gap:14px;
-  align-items:center;
-  justify-content:space-between;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
-  border-radius:18px;
-  padding:14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  border-radius: 18px;
+  padding: 14px;
 }
 
-.regionBarLeft{min-width:220px;}
+.regionBarLeft{
+  min-width: 320px;
+}
 
 .regionBarKicker{
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.6);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.60);
 }
 
-.regionBarText{
-  margin-top:4px;
-  font-size:13px;
-  color:rgba(255,255,255,.75);
+.regionBarTitle{
+  margin-top: 4px;
+  font-size: 14px;
+  color: rgba(255,255,255,.80);
+}
+
+.regionBarTitleStrong{
+  color: rgba(255,255,255,.95);
+}
+
+.regionBarSub{
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.45;
 }
 
 .regionBarRight{
   display:flex;
-  gap:10px;
-  align-items:center;
+  align-items: center;
+  gap: 14px;
 }
 
+/* segmented */
 .regionSeg{
   display:flex;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.35);
-  padding:4px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  padding: 4px;
 }
 
 .regionSegBtn{
-  border:0;
-  background:transparent;
-  color:rgba(255,255,255,.78);
-  font-size:12px;
-  padding:10px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:transform .15s ease, background .2s ease, color .2s ease, border .2s ease;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,.78);
+  font-size: 12px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, color .2s ease, border .2s ease;
+  white-space: nowrap;
 }
 
-.regionSegBtn:hover{color:rgba(255,255,255,.95); transform:translateY(-1px);}
-.regionSegSub{margin-left:6px; font-size:11px; color:rgba(255,255,255,.5);}
+.regionSegBtn:hover{
+  color: rgba(255,255,255,.95);
+  transform: translateY(-1px);
+}
+
+.regionSegSub{
+  margin-left: 6px;
+  font-size: 11px;
+  color: rgba(255,255,255,.50);
+}
 
 .regionSegBtn.is-active.is-in{
-  background:rgba(var(--teal), .22);
-  outline:1px solid rgba(var(--teal), .45);
-  color:rgba(255,255,255,.98);
+  background: rgba(20,184,166,.22);
+  border-color: rgba(20,184,166,.45);
+  color: rgba(255,255,255,.98);
 }
 
 .regionSegBtn.is-active.is-us{
-  background:rgba(var(--blue), .22);
-  outline:1px solid rgba(var(--blue), .45);
-  color:rgba(255,255,255,.98);
+  background: rgba(59,130,246,.22);
+  border-color: rgba(59,130,246,.45);
+  color: rgba(255,255,255,.98);
 }
 
 .regionSelect{
   display:none;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.35);
-  color:rgba(255,255,255,.82);
-  padding:10px 12px;
-  font-size:12px;
-  outline:none;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  color: rgba(255,255,255,.82);
+  padding: 12px 12px;
+  font-size: 12px;
+  outline: none;
 }
 
-.regionBarFoot{
+/* mini contact pills (this fixes "Emailsupport@..." issue) */
+.regionBarMiniContact{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:10px 6px 0;
+  gap: 10px;
+  align-items: stretch;
 }
 
-.regionBarPill{
-  display:inline-flex;
-  align-items:center;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.03);
-  padding:6px 10px;
-  font-size:12px;
-  color:rgba(255,255,255,.70);
+.regionMiniPill{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 190px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.28);
+  text-decoration: none;
 }
 
-.regionBarEndorse{font-size:12px; color:rgba(255,255,255,.45);}
+.regionMiniPill.is-disabled{
+  opacity: .65;
+}
 
-@media (max-width:720px){
-  .regionBarInner{flex-direction:column; align-items:stretch;}
-  .regionBarLeft{min-width:0;}
-  .regionSeg{width:100%; justify-content:space-between;}
-  .regionSelect{display:block; width:100%;}
+.regionMiniK{
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+}
+
+.regionMiniV{
+  font-size: 13px;
+  color: rgba(255,255,255,.85);
+  line-height: 1.2;
+}
+
+/* Mobile */
+@media (max-width: 980px){
+  .regionBarInner{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .regionBarLeft{
+    min-width: 0;
+  }
+
+  .regionBarRight{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .regionBarMiniContact{
+    width: 100%;
+  }
+
+  .regionMiniPill{
+    min-width: 0;
+    width: 100%;
+  }
+
+  .regionSeg{
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .regionSelect{
+    display:block;
+  }
 }
 
 /* =======================================================================================
