@@ -17,7 +17,6 @@
     "resend": "^6.9.1"
   },
   "devDependencies": {
-    "@next/swc-darwin-arm64": "^16.1.6",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20",
     "@types/react": "^19",
