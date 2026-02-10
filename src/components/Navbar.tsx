@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-const ENDORSEMENT = "D-Macht — a ReNewTech Solutions service line.";
+import { NAV } from "@/lib/nav";
+import { ENDORSEMENT } from "@/lib/support";
 
 const nav = [
   { label: "Services", href: "#services" },

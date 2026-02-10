@@ -2,8 +2,9 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRegion, type Region } from "@/components/region";
-import { ENDORSEMENT, REGION_SUPPORT } from "@/lib/support";
+
+import { ENDORSEMENT } from "@/lib/support";
+import { useRegion } from "@/components/region";
 
 /* =======================================================================================
    MAINTENANCE PAGE (region-aware email/phone + mailto destination)
@@ -23,44 +24,6 @@ type Plan = {
 
 type Cadence = "Monthly" | "Quarterly" | "Bi-Annual" | "Annual" | "Not sure";
 const CADENCE_OPTIONS: Cadence[] = ["Monthly", "Quarterly", "Bi-Annual", "Annual", "Not sure"];
-
-function RegionSelectInline({
-  region,
-  setRegion,
-  ready,
-}: {
-  region: Region;
-  setRegion: (r: Region) => void;
-  ready: boolean;
-}) {
-  const showNudge = ready && region === "unknown";
-
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      {showNudge && (
-        <div className="regionNudgeWrap" aria-label="Select your region">
-          <div className="regionNudge">
-            <span className="regionNudgeDot" aria-hidden />
-            <span className="regionNudgeTextStrong">Select region</span>
-            <span className="regionNudgeTextSoft">to personalize service</span>
-          </div>
-        </div>
-      )}
-
-      <select
-        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
-        value={region}
-        onChange={(e) => setRegion(e.target.value as Region)}
-        aria-label="Select region"
-        disabled={!ready}
-      >
-        <option value="unknown">Select region…</option>
-        <option value="IN">India (live now)</option>
-        <option value="US">US / Kansas City (booking soon)</option>
-      </select>
-    </div>
-  );
-}
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -117,21 +80,42 @@ function buildMailto(params: {
   )}`;
 }
 
+function RegionSelectInline() {
+  const { region, setRegion, ready, support, isUnknown } = useRegion();
+
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      {ready && isUnknown && (
+        <div className="regionNudgeWrap" aria-label="Select your region">
+          <div className="regionNudge">
+            <span className="regionNudgeDot" aria-hidden />
+            <span className="regionNudgeTextStrong">Select region</span>
+            <span className="regionNudgeTextSoft">to personalize service</span>
+          </div>
+        </div>
+      )}
+
+      <select
+        className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/80 outline-none"
+        value={region}
+        onChange={(e) => setRegion(e.target.value as typeof region)}
+        aria-label="Select region"
+        disabled={!ready}
+      >
+        <option value="unknown">Select region…</option>
+        <option value="IN">India (live now)</option>
+        <option value="US">US / Kansas City (booking soon)</option>
+      </select>
+
+      <div className="text-xs text-white/55">
+        Current: <span className="text-white/75">{support.label}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function MaintenancePage() {
-  const { region, setRegion, ready } = useRegion();
-
-  const support = useMemo(() => {
-    if (!ready) return REGION_SUPPORT.unknown;
-    if (region === "IN") return REGION_SUPPORT.IN;
-    if (region === "US") return REGION_SUPPORT.US;
-    return REGION_SUPPORT.unknown;
-  }, [ready, region]);
-
-  const regionLabel = support.label;
-
-  const isUS = ready && region === "US";
-  const isIN = ready && region === "IN";
-  const isUnknown = ready && region === "unknown";
+  const { ready, support, isUS, isIN, isUnknown } = useRegion();
 
   const plans: Plan[] = useMemo(
     () => [
@@ -204,14 +188,14 @@ export default function MaintenancePage() {
       buildMailto({
         toEmail: support.email,
         plan: planChoice,
-        regionLabel,
+        regionLabel: support.label,
         company,
         site,
         printers,
         cadence,
         notes,
       }),
-    [support.email, planChoice, regionLabel, company, site, printers, cadence, notes]
+    [support.email, support.label, planChoice, company, site, printers, cadence, notes]
   );
 
   const regionCtaTitle = useMemo(() => {
@@ -227,8 +211,7 @@ export default function MaintenancePage() {
     if (isUnknown) return "You’ll get the right availability and scope based on your region.";
     if (isUS)
       return "We’ll confirm timing, scope, and what’s available for US/Kansas City — remote diagnostics can start now.";
-    if (isIN)
-      return "We’ll confirm printer models, cadence, and coverage — plus preventive scheduling and reporting.";
+    if (isIN) return "We’ll confirm printer models, cadence, and coverage — plus preventive scheduling and reporting.";
     return "";
   }, [ready, isUnknown, isUS, isIN]);
 
@@ -260,16 +243,14 @@ export default function MaintenancePage() {
                 <Link className="btn btn-ghost" href="/#contact">
                   Talk to support
                 </Link>
-                <Link className="btn btn-ghost" href="/#industries">
+                <Link className="btn btn-ghost" href="/#applications">
                   See applications
                 </Link>
               </div>
 
               <div className="mt-5">
-                <RegionSelectInline region={region} setRegion={setRegion} ready={ready} />
-                <div className="mt-2 text-xs text-white/55">
-                  Current selection: <span className="text-white/75">{regionLabel}</span>
-                </div>
+                <RegionSelectInline />
+                <div className="mt-2 text-xs text-white/55">{support.note}</div>
               </div>
 
               <div className="mt-4 text-xs text-white/45">{ENDORSEMENT}</div>
@@ -347,17 +328,6 @@ export default function MaintenancePage() {
                   </li>
                 ))}
               </ul>
-
-              <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Ideal for</div>
-                <div className="mt-1 text-xs text-white/65">
-                  {p.id === "basic"
-                    ? "Smaller sites, predictable output, monthly/quarterly checks."
-                    : p.id === "standard"
-                    ? "Multi-shift lines, recurring print quality issues, scheduled downtime windows."
-                    : "High-volume lines, strict SLA expectations, repeat-failure prevention."}
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -438,12 +408,12 @@ export default function MaintenancePage() {
               </p>
             </div>
             <div className="text-xs text-white/55">
-              Region: <span className="text-white/75">{regionLabel}</span>
+              Region: <span className="text-white/75">{support.label}</span>
             </div>
           </div>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {/* LEFT: FORM */}
+            {/* LEFT */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Plan</div>
 
@@ -506,12 +476,10 @@ export default function MaintenancePage() {
                 </Link>
               </div>
 
-              {isUS && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.US.note}</div>}
-              {isIN && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.IN.note}</div>}
-              {isUnknown && <div className="mt-3 text-xs text-white/60">{REGION_SUPPORT.unknown.note}</div>}
+              <div className="mt-3 text-xs text-white/60">{support.note}</div>
             </div>
 
-            {/* RIGHT: EXPECTATIONS */}
+            {/* RIGHT */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">What to expect</div>
 
@@ -539,11 +507,16 @@ export default function MaintenancePage() {
                       {support.email}
                     </a>
                   </div>
+
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Call/Text</div>
-                    <a className="mt-1 block text-sm text-white/80" href={`tel:${support.phoneE164}`}>
-                      {support.phoneDisplay}
-                    </a>
+                    {support.phoneE164 ? (
+                      <a className="mt-1 block text-sm text-white/80" href={`tel:${support.phoneE164}`}>
+                        {support.phoneDisplay}
+                      </a>
+                    ) : (
+                      <div className="mt-1 block text-sm text-white/60">{support.phoneDisplay}</div>
+                    )}
                   </div>
                 </div>
 
@@ -565,16 +538,14 @@ export default function MaintenancePage() {
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Next</div>
               <div className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Want to see applications?</div>
-              <div className="mt-2 text-sm text-white/70">
-                Browse supported use-cases and industries, then request support.
-              </div>
+              <div className="mt-2 text-sm text-white/70">Browse supported use-cases and industries, then request support.</div>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link className="btn btn-primary" href="/#contact">
                 Request support
               </Link>
-              <Link className="btn btn-ghost" href="/#industries">
+              <Link className="btn btn-ghost" href="/#applications">
                 See applications
               </Link>
               <Link className="btn btn-ghost" href="/#contact">
@@ -582,6 +553,19 @@ export default function MaintenancePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* small region footnote if you want */}
+      <section className="mb-16">
+        <div className="mx-auto max-w-6xl px-4 text-xs text-white/45">
+          {ready ? (
+            <>
+              Region: <span className="text-white/70">{support.label}</span>
+            </>
+          ) : (
+            "Loading region…"
+          )}
         </div>
       </section>
     </main>

@@ -1,8 +1,7 @@
 "use client";
 
+import { ENDORSEMENT } from "@/lib/support";
 import Link from "next/link";
-
-const ENDORSEMENT = "D-Macht — a ReNewTech Solutions service line.";
 
 export default function Hero() {
   return (
