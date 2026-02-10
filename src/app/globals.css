@@ -485,3 +485,418 @@ img,svg,video,canvas{
   background: rgba(20,184,166,.20);
   border-color: rgba(20,184,166,.28);
 }
+
+/* =========================
+   HERO
+========================= */
+
+.heroSection {
+  position: relative;
+  min-height: 88vh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroBgImage {
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.95;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.75) 60%,
+      rgba(0, 0, 0, 0.95)
+    );
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.25rem;
+}
+
+.heroContent {
+  max-width: 640px;
+}
+
+.heroKicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.heroSubtitle {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.heroActions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .heroSection {
+    min-height: 80vh;
+  }
+
+  .heroInner {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  .heroActions {
+    flex-direction: column;
+  }
+}
+
+/* =========================
+   REGION BAR
+========================= */
+.regionBar{
+  max-width:1200px;
+  margin:0 auto;
+  padding:14px 16px 0;
+}
+.regionBarInner{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  border-radius:18px;
+  padding:14px;
+}
+.regionBarLeft{min-width:220px;}
+.regionBarKicker{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+}
+.regionBarText{
+  margin-top:4px;
+  font-size:13px;
+  color:rgba(255,255,255,.75);
+}
+.regionBarRight{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.regionSeg{
+  display:flex;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  padding:4px;
+}
+.regionSegBtn{
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.78);
+  font-size:12px;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:transform .15s ease, background .2s ease, color .2s ease, border .2s ease;
+}
+.regionSegBtn:hover{color:rgba(255,255,255,.95); transform:translateY(-1px);}
+.regionSegSub{margin-left:6px; font-size:11px; color:rgba(255,255,255,.5);}
+.regionSegBtn.is-active.is-in{
+  background:rgba(20,184,166,.22);
+  border:1px solid rgba(20,184,166,.45);
+  color:rgba(255,255,255,.98);
+}
+.regionSegBtn.is-active.is-us{
+  background:rgba(59,130,246,.22);
+  border:1px solid rgba(59,130,246,.45);
+  color:rgba(255,255,255,.98);
+}
+.regionSelect{
+  display:none;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  color:rgba(255,255,255,.82);
+  padding:10px 12px;
+  font-size:12px;
+  outline:none;
+}
+.regionBarFoot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 6px 0;
+}
+.regionBarPill{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  padding:6px 10px;
+  font-size:12px;
+  color:rgba(255,255,255,.70);
+}
+.regionBarEndorse{font-size:12px; color:rgba(255,255,255,.45);}
+
+/* Mobile */
+@media (max-width:720px){
+  .regionBarInner{flex-direction:column; align-items:stretch;}
+  .regionBarLeft{min-width:0;}
+  .regionSeg{width:100%; justify-content:space-between;}
+  .regionSelect{display:block; width:100%;}
+}
+
+/* =========================
+   PCB WORKFLOW
+========================= */
+.pcbWrap{
+  max-width:1200px;
+  margin:0 auto;
+  padding:42px 16px 0;
+}
+.pcbHead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+.pcbKicker{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+}
+.pcbTitle{
+  margin-top:8px;
+  font-size:22px;
+  font-weight:600;
+  color:rgba(255,255,255,.92);
+}
+.pcbSub{
+  margin-top:8px;
+  font-size:13px;
+  color:rgba(255,255,255,.70);
+  max-width:720px;
+  line-height:1.6;
+}
+.pcbHint{
+  font-size:12px;
+  color:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  padding:8px 10px;
+  border-radius:999px;
+}
+
+.pcbBoard{
+  position:relative;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  overflow:hidden;
+  min-height:320px;
+}
+.pcbBg{
+  position:absolute;
+  inset:0;
+  background-image:url("/brand/dmacht-PCBboard.svg");
+  background-size:cover;
+  background-position:center;
+  opacity:.9;
+  filter:saturate(1.05) contrast(1.05);
+  pointer-events:none;
+}
+.pcbSvg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.pcbTraceBase{
+  fill:none;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  opacity:.85;
+}
+
+.pcbTraceImpulse{
+  fill:none;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-dasharray:10 16;
+  opacity:1;
+  animation: pcbPulse 1.15s linear infinite;
+}
+
+/* electric pulse moves along the selected path */
+@keyframes pcbPulse{
+  0%   { stroke-dashoffset: 120; opacity:.95; }
+  100% { stroke-dashoffset: 0;   opacity:.95; }
+}
+
+.pcbNode{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  color:rgba(255,255,255,.90);
+  backdrop-filter: blur(8px);
+  transition:transform .18s ease, border .2s ease, background .2s ease;
+}
+.pcbNode:hover{transform:translate(-50%,-50%) translateY(-2px);}
+.pcbNode.is-active{border-color:rgba(255,255,255,.22); background:rgba(255,255,255,.06);}
+
+.pcbNodeHalo{
+  position:absolute;
+  inset:-10px;
+  border-radius:999px;
+  opacity:.0;
+  transition:opacity .25s ease;
+  pointer-events:none;
+  filter:blur(18px);
+}
+.pcbNode.is-active .pcbNodeHalo{opacity:1;}
+
+.pcbNodeCore{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.85);
+  box-shadow:0 0 16px rgba(255,255,255,.25);
+}
+
+.pcbNodeLabel{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  line-height:1.1;
+  font-size:13px;
+  font-weight:600;
+}
+.pcbNodeMini{
+  margin-top:2px;
+  font-size:11px;
+  font-weight:500;
+  color:rgba(255,255,255,.60);
+}
+
+/* Node tones */
+.pcbNode.tone-teal.is-active .pcbNodeHalo{background:radial-gradient(60% 60% at 50% 50%, rgba(20,184,166,.30), transparent 70%);}
+.pcbNode.tone-blue.is-active .pcbNodeHalo{background:radial-gradient(60% 60% at 50% 50%, rgba(59,130,246,.30), transparent 70%);}
+.pcbNode.tone-ember.is-active .pcbNodeHalo{background:radial-gradient(60% 60% at 50% 50%, rgba(245,158,11,.26), transparent 70%);}
+
+/* Modal */
+.pcbModalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.62);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:60;
+}
+.pcbModal{
+  width:min(680px, 100%);
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(10,12,18,.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+  padding:16px;
+}
+.pcbModalTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.pcbModalKicker{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+}
+.pcbModalTitle{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:700;
+  color:rgba(255,255,255,.92);
+}
+.pcbModalSub{
+  margin-top:4px;
+  font-size:12px;
+  color:rgba(255,255,255,.65);
+}
+.pcbModalClose{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.82);
+  border-radius:12px;
+  padding:10px;
+  cursor:pointer;
+}
+.pcbModalBody{
+  margin-top:12px;
+  font-size:13px;
+  line-height:1.65;
+  color:rgba(255,255,255,.75);
+}
+.pcbModalActions{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+@media (max-width:720px){
+  .pcbHead{flex-direction:column; align-items:flex-start;}
+  .pcbBoard{min-height:360px;}
+  .pcbNode{padding:10px 12px;}
+}

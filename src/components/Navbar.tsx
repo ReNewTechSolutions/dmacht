@@ -8,7 +8,8 @@ const ENDORSEMENT = "D-Macht — a ReNewTech Solutions service line.";
 
 const nav = [
   { label: "Services", href: "#services" },
-  { label: "Applications", href: "#brands" },
+  { label: "Brands", href: "#brands" },
+  { label: "Applications", href: "#applications" },
   { label: "Maintenance", href: "/maintenance" },
   { label: "Workflow", href: "#workflow" },
   { label: "Contact", href: "#contact" },
@@ -29,36 +30,61 @@ export default function Navbar() {
   useCloseOnEscape(() => setOpen(false));
 
   return (
-    <header className="navWrap">
+    <header className="navWrap" data-open={open ? "true" : "false"}>
       <div className="navInner">
-        <Link href="/" className="navBrand" aria-label="D-Macht home" onClick={() => setOpen(false)}>
-          {/* Small logo (not massive) */}
-          <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={150} height={40} priority />
+        {/* Brand */}
+        <Link
+          href="/"
+          className="navBrand"
+          aria-label="D-Macht home"
+          onClick={() => setOpen(false)}
+        >
+          <Image
+            src="/brand/dmacht-wordmark.svg"
+            alt="D-Macht"
+            width={140}
+            height={34}
+            priority
+            className="navWordmark"
+          />
+
+          {/* Legacy mark (small, optional) */}
+          <span className="navLegacy" aria-label="D-Macht legacy mark">
+            <Image
+              src="/brand/applications/dmacht-oldlogo.svg"
+              alt=""
+              width={34}
+              height={34}
+              className="navLegacyImg"
+            />
+          </span>
         </Link>
 
-        <nav className="navLinks" aria-label="Primary">
+        {/* Desktop links */}
+        <nav className="navLinks" aria-label="Primary navigation">
           {nav.map((n) =>
             n.href.startsWith("#") ? (
-              <a key={n.href} className="navLink" href={n.href}>
+              <a key={n.href} className="navLink" href={n.href} onClick={() => setOpen(false)}>
                 {n.label}
               </a>
             ) : (
-              <Link key={n.href} className="navLink" href={n.href}>
+              <Link key={n.href} className="navLink" href={n.href} onClick={() => setOpen(false)}>
                 {n.label}
               </Link>
             )
           )}
         </nav>
 
+        {/* Right */}
         <div className="navRight">
-          <a className="btn btn-primary navCta" href="#contact">
+          <a className="btn btn-primary navCta" href="#contact" onClick={() => setOpen(false)}>
             Request support
           </a>
 
           <button
             type="button"
             className="navBurger"
-            aria-label="Open menu"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
@@ -68,16 +94,27 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Subline (optional, small) */}
-      <div className="navSub">{ENDORSEMENT}</div>
+      {/* Tiny subline (keep very subtle) */}
+      <div className="navSub">
+        <span>{ENDORSEMENT}</span>
+      </div>
 
       {/* Mobile drawer */}
       {open && (
-        <div className="navDrawer" role="dialog" aria-label="Menu">
+        <div className="navDrawer" role="dialog" aria-modal="true" aria-label="Menu">
           <div className="navDrawerPanel">
             <div className="navDrawerTop">
-              <span className="navDrawerTitle">Menu</span>
-              <button type="button" className="navDrawerClose" onClick={() => setOpen(false)} aria-label="Close menu">
+              <div className="navDrawerBrand">
+                <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={140} height={34} />
+                <span className="navDrawerSub">{ENDORSEMENT}</span>
+              </div>
+
+              <button
+                type="button"
+                className="navDrawerClose"
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+              >
                 ×
               </button>
             </div>
@@ -99,8 +136,6 @@ export default function Navbar() {
             <a className="btn btn-primary w-full" href="#contact" onClick={() => setOpen(false)}>
               Request support
             </a>
-
-            <div className="navDrawerFoot">{ENDORSEMENT}</div>
           </div>
 
           <button className="navDrawerBackdrop" aria-label="Close menu" onClick={() => setOpen(false)} />
