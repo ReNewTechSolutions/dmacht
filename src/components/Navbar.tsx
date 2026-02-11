@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { NAV } from "@/lib/nav";
+
 import { ENDORSEMENT } from "@/lib/support";
 
 const nav = [
@@ -13,7 +13,7 @@ const nav = [
   { label: "Maintenance", href: "/maintenance" },
   { label: "Workflow", href: "#workflow" },
   { label: "Contact", href: "#contact" },
-];
+] as const;
 
 function useCloseOnEscape(close: () => void) {
   useEffect(() => {
@@ -25,54 +25,81 @@ function useCloseOnEscape(close: () => void) {
   }, [close]);
 }
 
+function NavItem({
+  href,
+  label,
+  onClick,
+  className = "navLink",
+}: {
+  href: string;
+  label: string;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return href.startsWith("#") ? (
+    <a className={className} href={href} onClick={onClick}>
+      {label}
+    </a>
+  ) : (
+    <Link className={className} href={href} onClick={onClick}>
+      {label}
+    </Link>
+  );
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  useCloseOnEscape(() => setOpen(false));
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  useCloseOnEscape(() => {
+    setOpen(false);
+    setMoreOpen(false);
+  });
+
+  // Keep the desktop bar compact by moving lower-priority items into "More"
+  const primary = useMemo(() => nav.slice(0, 4), []); // Services, Brands, Applications, Maintenance
+  const secondary = useMemo(() => nav.slice(4), []); // Workflow, Contact
 
   return (
     <header className="navWrap" data-open={open ? "true" : "false"}>
       <div className="navInner">
         {/* Brand */}
-        <Link
-          href="/"
-          className="navBrand"
-          aria-label="D-Macht home"
-          onClick={() => setOpen(false)}
-        >
-          <Image
-            src="/brand/dmacht-wordmark.svg"
-            alt="D-Macht"
-            width={140}
-            height={34}
-            priority
-            className="navWordmark"
-          />
-
-          {/* Legacy mark (small, optional) */}
-          <span className="navLegacy" aria-label="D-Macht legacy mark">
-            <Image
-              src="/brand/applications/dmacht-oldlogo.svg"
-              alt=""
-              width={34}
-              height={34}
-              className="navLegacyImg"
-            />
-          </span>
+        <Link href="/" className="navBrand" aria-label="D-Macht home" onClick={() => setOpen(false)}>
+          <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={140} height={34} priority className="navWordmark" />
         </Link>
 
-        {/* Desktop links */}
+        {/* Desktop */}
         <nav className="navLinks" aria-label="Primary navigation">
-          {nav.map((n) =>
-            n.href.startsWith("#") ? (
-              <a key={n.href} className="navLink" href={n.href} onClick={() => setOpen(false)}>
-                {n.label}
-              </a>
-            ) : (
-              <Link key={n.href} className="navLink" href={n.href} onClick={() => setOpen(false)}>
-                {n.label}
-              </Link>
-            )
-          )}
+          {primary.map((n) => (
+            <NavItem key={n.href} href={n.href} label={n.label} onClick={() => setMoreOpen(false)} />
+          ))}
+
+          {/* More dropdown (desktop only) */}
+          <div className="navMore">
+            <button
+              type="button"
+              className="navMoreBtn"
+              aria-haspopup="menu"
+              aria-expanded={moreOpen}
+              onClick={() => setMoreOpen((v) => !v)}
+            >
+              More <span className="navCaret" aria-hidden>▾</span>
+            </button>
+
+            {moreOpen && (
+              <div className="navMoreMenu" role="menu" aria-label="More">
+                {secondary.map((n) => (
+                  <NavItem
+                    key={n.href}
+                    href={n.href}
+                    label={n.label}
+                    className="navMoreItem"
+                    onClick={() => setMoreOpen(false)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Right */}
@@ -81,6 +108,7 @@ export default function Navbar() {
             Request support
           </a>
 
+          {/* Mobile burger */}
           <button
             type="button"
             className="navBurger"
@@ -94,53 +122,43 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Tiny subline (keep very subtle) */}
       <div className="navSub">
         <span>{ENDORSEMENT}</span>
       </div>
 
-      {/* Mobile drawer */}
-      {open && (
-        <div className="navDrawer" role="dialog" aria-modal="true" aria-label="Menu">
-          <div className="navDrawerPanel">
-            <div className="navDrawerTop">
-              <div className="navDrawerBrand">
-                <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={140} height={34} />
-                <span className="navDrawerSub">{ENDORSEMENT}</span>
-              </div>
-
-              <button
-                type="button"
-                className="navDrawerClose"
-                onClick={() => setOpen(false)}
-                aria-label="Close menu"
-              >
-                ×
-              </button>
+      {/* Mobile drawer (half screen) */}
+      <div className={`navDrawer ${open ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Menu">
+        <div className="navDrawerPanel">
+          <div className="navDrawerTop">
+            <div className="navDrawerBrand">
+              <Image src="/brand/dmacht-wordmark.svg" alt="D-Macht" width={140} height={34} />
+              <span className="navDrawerSub">{ENDORSEMENT}</span>
             </div>
 
-            <div className="navDrawerLinks">
-              {nav.map((n) =>
-                n.href.startsWith("#") ? (
-                  <a key={n.href} className="navDrawerLink" href={n.href} onClick={() => setOpen(false)}>
-                    {n.label}
-                  </a>
-                ) : (
-                  <Link key={n.href} className="navDrawerLink" href={n.href} onClick={() => setOpen(false)}>
-                    {n.label}
-                  </Link>
-                )
-              )}
-            </div>
-
-            <a className="btn btn-primary w-full" href="#contact" onClick={() => setOpen(false)}>
-              Request support
-            </a>
+            <button type="button" className="navDrawerClose" onClick={() => setOpen(false)} aria-label="Close menu">
+              ×
+            </button>
           </div>
 
-          <button className="navDrawerBackdrop" aria-label="Close menu" onClick={() => setOpen(false)} />
+          <div className="navDrawerLinks">
+            {nav.map((n) => (
+              <NavItem
+                key={n.href}
+                href={n.href}
+                label={n.label}
+                className="navDrawerLink"
+                onClick={() => setOpen(false)}
+              />
+            ))}
+          </div>
+
+          <a className="btn btn-primary w-full" href="#contact" onClick={() => setOpen(false)}>
+            Request support
+          </a>
         </div>
-      )}
+
+        <button className="navDrawerBackdrop" aria-label="Close menu" onClick={() => setOpen(false)} />
+      </div>
     </header>
   );
 }

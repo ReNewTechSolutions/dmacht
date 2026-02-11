@@ -298,13 +298,13 @@ img,svg,video,canvas{
 }
 
 /* =========================
-   NAVBAR
+   NAVBAR (compact + mobile drawer)
 ========================= */
 .navWrap{
   position: sticky;
   top: 0;
-  z-index: 60;
-  background: rgba(0,0,0,.70);
+  z-index: 70;
+  background: rgba(0,0,0,.72);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
@@ -312,101 +312,230 @@ img,svg,video,canvas{
 .navInner{
   max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 14px;
 }
 
 .navBrand{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width: 160px;
 }
 
-.navWordmark{ height:auto; width:auto; }
-
-.navLegacy{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.03);
-}
+.navWordmark{ display:block; height:auto; }
 
 .navLinks{
-  display: none;
+  flex: 1;
+  display: flex;
   align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
+  gap: 10px;
+  justify-content: center;
 
-@media (min-width: 900px){
-  .navLinks{ display: flex; }
+  /* prevents "blocky wrap" */
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .navLink{
-  font-size: 13px;
-  color: rgba(255,255,255,.78);
-  text-decoration: none;
-  padding: 10px 10px;
-  border-radius: 999px;
-  transition: background .15s ease, color .15s ease, transform .15s ease;
-}
-
-.navLink:hover{
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.95);
-  transform: translateY(-1px);
-}
-
-.navRight{
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.navCta{
-  display: none;
-}
-
-@media (min-width: 900px){
-  .navCta{ display: inline-flex; }
-}
-
-.navBurger{
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.04);
-  display: inline-flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.78);
+  font-size: 12px;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+}
+.navLink:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.92);
 }
 
-.navBurger span{
-  display:block;
-  width: 18px;
-  height: 2px;
-  background: rgba(255,255,255,.80);
-  border-radius: 999px;
+.navMore{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
+.navMoreBtn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.78);
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+}
+.navMoreBtn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.92);
+}
+.navCaret{ opacity:.7; font-size: 11px; }
+
+.navMoreMenu{
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 190px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  padding: 8px;
+}
+.navMoreItem{
+  display:flex;
+  padding: 10px 10px;
+  border-radius: 12px;
+  color: rgba(255,255,255,.82);
+  font-size: 13px;
+}
+.navMoreItem:hover{ background: rgba(255,255,255,.06); }
+
+.navRight{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  justify-content:flex-end;
+}
+
+.navCta{ white-space: nowrap; }
+
+.navBurger{
+  display:none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  cursor:pointer;
+  position: relative;
+}
+.navBurger span{
+  position:absolute;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: rgba(255,255,255,.88);
+  border-radius: 999px;
+  transition: transform .2s ease, top .2s ease, opacity .2s ease;
+}
+.navBurger span:nth-child(1){ top: 16px; }
+.navBurger span:nth-child(2){ top: 26px; }
 
 .navSub{
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px 10px;
-  font-size: 12px;
-  color: rgba(255,255,255,.45);
+  font-size: 11px;
+  color: rgba(255,255,255,.42);
+}
+
+/* Mobile drawer base */
+.navDrawer{
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+.navDrawer.is-open{ pointer-events: auto; }
+
+.navDrawerBackdrop{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.55);
+  opacity: 0;
+  transition: opacity .22s ease;
+  border:0;
+}
+
+.navDrawerPanel{
+  position:absolute;
+  top:0;
+  right:0;
+
+  /* half-screen */
+  width: min(50vw, 380px);
+  height: 100%;
+  padding: 16px;
+  border-left: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.82);
+  backdrop-filter: blur(16px);
+  transform: translateX(110%);
+  transition: transform .24s ease;
+  box-shadow: -30px 0 100px rgba(0,0,0,.55);
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
+
+.navDrawer.is-open .navDrawerPanel{ transform: translateX(0); }
+.navDrawer.is-open .navDrawerBackdrop{ opacity: 1; }
+
+.navDrawerTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+.navDrawerBrand{ display:flex; flex-direction:column; gap:6px; }
+.navDrawerSub{ font-size: 11px; color: rgba(255,255,255,.55); }
+
+.navDrawerClose{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.9);
+  cursor:pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.navDrawerLinks{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  padding-top: 6px;
+  flex: 1;
+}
+.navDrawerLink{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.86);
+  font-size: 14px;
+}
+.navDrawerLink:hover{ background: rgba(255,255,255,.06); }
+
+/* Breakpoint: collapse nav links earlier so they never wrap into blocks */
+@media (max-width: 980px){
+  .navLinks{ display:none; }
+  .navBurger{ display:inline-flex; align-items:center; justify-content:center; }
+  .navInner{ justify-content:space-between; }
+}
+
+/* Very small screens: drawer becomes ~80vw (still feels like half panel) */
+@media (max-width: 520px){
+  .navDrawerPanel{ width: min(82vw, 420px); }
 }
 
 /* =========================
