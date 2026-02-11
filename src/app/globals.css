@@ -1087,3 +1087,21 @@ img,svg,video,canvas{
     align-items: flex-start;
   }
 }
+
+.pcbNodeStrip{
+  position:absolute;
+  inset:0;
+  background-image:url("/brand/dmacht-nodestrip.png");
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  opacity:.55;            /* tweak 0.35–0.7 */
+  mix-blend-mode:screen;  /* makes it feel “light” on dark */
+  pointer-events:none;
+  z-index:1;
+  filter:saturate(1.05) contrast(1.05);
+}
+
+/* ensure svg + nodes sit above it */
+.pcbSvg{ position:absolute; inset:0; z-index:2; }
+.pcbNode{ z-index:3; }

@@ -109,7 +109,6 @@ export default function PCBWorkflow() {
     setOpen(false);
   }
 
-  // Type-safe CSS var (instead of `any`)
   const impulseStyle = useMemo(() => {
     return { ["--pulseKey" as string]: `${active}` } as React.CSSProperties;
   }, [active]);
@@ -120,7 +119,7 @@ export default function PCBWorkflow() {
         <div>
           <div className="pcbKicker">Workflow</div>
           <div className="pcbTitle">Tap a node to see the process</div>
-          <div className="pcbSub">Clean on mobile. One modal explains the selected step.</div>
+          {/* removed: "Clean on mobile..." */}
         </div>
         <div className="pcbHint">Tip: tap nodes</div>
       </div>
@@ -128,6 +127,9 @@ export default function PCBWorkflow() {
       <div className="pcbBoard">
         {/* PCB background image */}
         <div className="pcbBg" aria-hidden />
+
+        {/* NEW: node strip background layer */}
+        <div className="pcbNodeStrip" aria-hidden />
 
         <svg className="pcbSvg" viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="none" aria-hidden>
           <defs>
@@ -156,14 +158,12 @@ export default function PCBWorkflow() {
             </filter>
           </defs>
 
-          {/* Base traces */}
           {paths.map((p) => (
             <path key={`base-${p.id}`} d={p.d} className="pcbTraceBase" stroke="url(#pcbTrace)" />
           ))}
 
-          {/* ONLY active trace gets electric impulse */}
           <path
-            key={`impulse-${active}`} // key changes when active changes to restart animation
+            key={`impulse-${active}`}
             d={activePath.d}
             className="pcbTraceImpulse"
             stroke="url(#pcbImpulse)"
@@ -171,12 +171,10 @@ export default function PCBWorkflow() {
             style={impulseStyle}
           />
 
-          {/* Hub */}
           <circle cx={hub.x} cy={hub.y} r="12" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.18)" />
           <circle cx={hub.x} cy={hub.y} r="4" fill="rgba(255,255,255,0.85)" opacity="0.9" />
         </svg>
 
-        {/* Nodes */}
         {nodes.map((n) => {
           const isActive = n.id === active;
           return (
@@ -200,7 +198,6 @@ export default function PCBWorkflow() {
         })}
       </div>
 
-      {/* Modal */}
       {open && (
         <div className="pcbModalOverlay" role="dialog" aria-modal="true" aria-label="Workflow details" onClick={closeModal}>
           <div className="pcbModal" onClick={(e) => e.stopPropagation()}>
