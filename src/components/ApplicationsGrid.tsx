@@ -2,13 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
+
+type CategoryKey = "primary" | "secondary" | "tertiary";
 
 type CatalogItem = {
   id: string;
   slug: string;
-  category_key: string;
+  category_key: CategoryKey;
   sort_order: number;
   title: string;
   subtitle: string | null;
@@ -25,17 +27,29 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""
 );
 
+function safeHref(href: string | null | undefined) {
+  if (!href) return "#contact";
+  return href.startsWith("/") || href.startsWith("#") || href.startsWith("http") ? href : "#contact";
+}
+
 function Card({ item }: { item: CatalogItem }) {
-  const href = item.cta_href || "#contact";
-  const label = item.cta_label || "View services";
+  const href = safeHref(item.cta_href);
+  const label = item.cta_label || "View details";
 
   return (
-    <div className="appCard">
+    <article className="appCard">
       <div className="appTop">
         <div className="appImageRing">
           <div className="appImageRingInner">
             {item.image_path ? (
-              <Image src={item.image_path} alt={item.title} fill className="appImg" />
+              <Image
+                src={item.image_path}
+                alt={item.title}
+                fill
+                className="appImg"
+                sizes="64px"
+                priority={false}
+              />
             ) : (
               <div className="appImgFallback" aria-hidden />
             )}
@@ -59,6 +73,15 @@ function Card({ item }: { item: CatalogItem }) {
           {label}
         </a>
       </div>
+    </article>
+  );
+}
+
+function EmptyState({ title, sub }: { title: string; sub: string }) {
+  return (
+    <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white/70">
+      <div className="text-white/90 font-semibold">{title}</div>
+      <div className="mt-1 text-white/65">{sub}</div>
     </div>
   );
 }
@@ -72,6 +95,7 @@ export default function ApplicationsGrid() {
 
     async function load() {
       setLoading(true);
+
       const { data, error } = await supabase
         .from("service_catalog_items")
         .select(
@@ -95,37 +119,90 @@ export default function ApplicationsGrid() {
 
   const primary = useMemo(() => items.filter((x) => x.category_key === "primary"), [items]);
   const secondary = useMemo(() => items.filter((x) => x.category_key === "secondary"), [items]);
+  const tertiary = useMemo(() => items.filter((x) => x.category_key === "tertiary"), [items]);
 
   return (
     <section className="mx-auto max-w-6xl px-4 pt-10" id="applications" aria-label="Applications">
       <div className="sectionHead">
         <div className="sectionKicker">Applications</div>
-        <h2 className="sectionTitle">Service catalog</h2>
+        <h2 className="sectionTitle">What we support</h2>
         <p className="sectionSub">
-          Clean, modular offerings — optimized for <span className="text-white/90">repair-first</span> conversion, with a
-          natural bridge into <Link className="text-white/90 underline decoration-white/20" href="/maintenance">maintenance packages</Link>.
+          Our current focus is <span className="text-white/90">motherboard</span> and{" "}
+          <span className="text-white/90">power supply repair</span> for{" "}
+          <span className="text-white/90">Markem-Imaje, Domino, and VideoJet</span>. We also support diagnostics,
+          line-side help, inks/fluids, and parts.
         </p>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a className="btn btn-primary" href="#contact">
+            Request support
+          </a>
+          <Link className="btn btn-ghost" href="/maintenance">
+            View maintenance packages
+          </Link>
+        </div>
       </div>
 
       <div className="appGridWrap">
-        {/* Scroll-trigger PCB glow lines */}
+        {/* Subtle PCB glow behind the grid */}
         <div className="appPcbGlow" aria-hidden />
 
         {loading ? (
-          <div className="text-sm text-white/60 mt-6">Loading catalog…</div>
+          <div className="text-sm text-white/60 mt-6">Loading services…</div>
         ) : (
           <>
-            <div className="appGrid">
-              {primary.map((it) => (
-                <Card key={it.id} item={it} />
-              ))}
-            </div>
+            {/* PRIMARY: repair focus */}
+            {primary.length ? (
+              <div className="appGrid">
+                {primary.map((it) => (
+                  <Card key={it.id} item={it} />
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No primary services found"
+                sub='Mark key items as category_key="primary" in Supabase to show them here.'
+              />
+            )}
 
+            {/* SECONDARY: catalog */}
             {secondary.length ? (
               <div className="appSecondary">
-                <div className="appSecondaryHead">Additional offerings</div>
+                <div className="appsDivider">
+                  <span />
+                  <div className="appsDividerText">More services</div>
+                  <span />
+                </div>
+
                 <div className="appGrid appGridSecondary">
                   {secondary.map((it) => (
+                    <Card key={it.id} item={it} />
+                  ))}
+                </div>
+
+                <div className="appsFoot">
+                  <div className="appsFootText">
+                    Need ongoing coverage?{" "}
+                    <Link className="text-white/90 underline decoration-white/20" href="/maintenance">
+                      Maintenance packages
+                    </Link>{" "}
+                    are available for recurring support.
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {/* TERTIARY: separate row (Refurb + Mobile) */}
+            {tertiary.length ? (
+              <div className="appSecondary">
+                <div className="appsDivider">
+                  <span />
+                  <div className="appsDividerText">Other work</div>
+                  <span />
+                </div>
+
+                <div className="appGrid appGridSecondary">
+                  {tertiary.map((it) => (
                     <Card key={it.id} item={it} />
                   ))}
                 </div>
