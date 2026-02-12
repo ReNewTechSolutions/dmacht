@@ -2,7 +2,7 @@ import AdminServicesClient from "./ui";
 import { supabaseServer } from "@/lib/supabase/server";
 
 export default async function AdminServicesPage() {
-  const supabase = supabaseServer();
+  const supabase = await supabaseServer();
 
   const { data: items } = await supabase
     .from("service_catalog_items")
