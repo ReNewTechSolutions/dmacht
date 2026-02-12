@@ -1,8 +1,7 @@
-export const NAV = [
+export const NAV_ITEMS = [
     { label: "Services", href: "#services" },
-    { label: "Brands", href: "#brands" },
+    { label: "Workflow", href: "#workflow" },
     { label: "Applications", href: "#applications" },
     { label: "Maintenance", href: "/maintenance" },
-    { label: "Workflow", href: "#workflow" },
     { label: "Contact", href: "#contact" },
   ] as const;

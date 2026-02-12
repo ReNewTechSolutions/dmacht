@@ -1,117 +1,114 @@
 "use client";
 
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useMemo, useRef, useState } from "react";
 
-type Application = {
-  id: string;
+type AppItem = {
   title: string;
   sub: string;
-  image: string;
-  micro: string; // hover micro-detail
-  href: string;  // optional anchor or route
+  img: string;
+  href: string;
+  pill?: string;
 };
 
-function useInView<T extends HTMLElement>(rootMargin = "-10% 0px -15% 0px") {
-  const ref = useRef<T | null>(null);
+function useInViewOnce() {
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
+    const el = document.getElementById("applications");
     if (!el) return;
 
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) setInView(true);
       },
-      { root: null, rootMargin, threshold: 0.12 }
+      { threshold: 0.18 }
     );
 
     io.observe(el);
     return () => io.disconnect();
-  }, [rootMargin]);
+  }, []);
 
-  return { ref, inView };
+  return inView;
 }
 
 export default function ApplicationsGrid() {
-  const { ref, inView } = useInView<HTMLElement>();
+  const inView = useInViewOnce();
 
-  // Conversion-optimized order:
-  // 1) Troubleshooting (urgent pain)
-  // 2) Packaging & Coding (primary use)
-  // 3) Production Lines (scale)
-  // 4) Inspection & QA (quality/compliance)
-  // 5) Custom Inks & Fluids (recurring/parts)
-  // 6) Industrial Parts & Spares (recurring/parts)
-  // 7) Electronics & Control Systems (deep repair)
-  // 8) PCB & Board-Level Repair (specialist)
-  const applications: Application[] = useMemo(
+  const primary: AppItem[] = useMemo(
     () => [
       {
-        id: "troubleshooting",
-        title: "Troubleshooting & Recovery",
-        sub: "Rapid fault isolation and resolution",
-        micro: "Error codes • print quality • startup faults",
-        image: "/brand/applications/dmacht-troubleshooting.png",
-        href: "#services",
+        title: "Troubleshooting / Diagnostics",
+        sub: "Remote-first triage + next steps",
+        img: "/brand/applications/dmacht-troubleshooting.png",
+        href: "#contact",
+        pill: "fast triage",
       },
       {
-        id: "packaging",
-        title: "Packaging & Coding",
-        sub: "Primary CIJ production environments",
-        micro: "Batch/lot/date codes • variable data • uptime",
-        image: "/brand/applications/dmacht-packagingandcoding.png",
-        href: "#services",
+        title: "Motherboard Repair",
+        sub: "Board-level diagnosis + repair",
+        img: "/brand/applications/dmacht-PCB.png",
+        href: "#contact",
+        pill: "core focus",
       },
       {
-        id: "production",
-        title: "Production Lines",
-        sub: "High-throughput manufacturing support",
-        micro: "Multi-shift lines • planned downtime windows",
-        image: "/brand/applications/dmacht-productionLine.png",
-        href: "#workflow",
+        title: "Power Supply Repair",
+        sub: "5V / 3.3V / 1.2V rail issues + replacement",
+        img: "/brand/applications/dmacht-productionLine.png",
+        href: "#contact",
+        pill: "core focus",
       },
       {
-        id: "inspection",
-        title: "Inspection & QA",
-        sub: "Print quality, verification, compliance",
-        micro: "Readability • contrast • verification support",
-        image: "/brand/applications/dmacht-inspection.png",
-        href: "#workflow",
-      },
-      {
-        id: "inks",
-        title: "Custom Inks & Fluids",
-        sub: "Ink, solvent, and consumables expertise",
-        micro: "Dry time • adhesion • substrate matching",
-        image: "/brand/applications/dmacht-ink.png",
-        href: "/maintenance#quote",
-      },
-      {
-        id: "parts",
-        title: "Industrial Parts & Spares",
-        sub: "Pumps, printheads, sensors, tubing",
-        micro: "Spares planning • wear items • replacements",
-        image: "/brand/applications/dmacht-industrialparts.png",
+        title: "Inspection / Preventive",
+        sub: "Catch issues before downtime",
+        img: "/brand/applications/dmacht-inspection.png",
         href: "/maintenance",
+        pill: "PM-ready",
       },
       {
-        id: "electronics",
-        title: "Electronics & Control Systems",
-        sub: "Boards, power, and signal diagnostics",
-        micro: "Power rails • sensors • comms & control",
-        image: "/brand/applications/dmacht-electronics.png",
-        href: "#workflow",
+        title: "Production Line Support",
+        sub: "Reliability + uptime planning",
+        img: "/brand/applications/dmacht-productionLine.png",
+        href: "#contact",
       },
       {
-        id: "pcb",
-        title: "PCB & Board-Level Repair",
-        sub: "Precision troubleshooting & repair",
-        micro: "Board inspection • component-level checks",
-        image: "/brand/applications/dmacht-PCB.png",
-        href: "#workflow",
+        title: "Packaging & Coding",
+        sub: "Line integration + print consistency",
+        img: "/brand/applications/dmacht-packagingandcoding.png",
+        href: "#contact",
+      },
+      {
+        title: "Inks & Fluids",
+        sub: "OEM-compatible fluids (guided selection)",
+        img: "/brand/applications/dmacht-ink.png",
+        href: "#contact",
+      },
+      {
+        title: "Industrial Parts",
+        sub: "Parts sourcing guidance + replacements",
+        img: "/brand/applications/dmacht-industrialparts.png",
+        href: "#contact",
+      },
+    ],
+    []
+  );
+
+  const secondary: AppItem[] = useMemo(
+    () => [
+      {
+        title: "Refurbished Electronics",
+        sub: "Tested, restored, and resold hardware",
+        img: "/brand/applications/dmacht-electronics.png",
+        href: "#contact",
+        pill: "new",
+      },
+      {
+        title: "Mobile Repair",
+        sub: "Device repair + service intake",
+        img: "/brand/applications/dmacht-electronics.png",
+        href: "#contact",
+        pill: "new",
       },
     ],
     []
@@ -119,88 +116,92 @@ export default function ApplicationsGrid() {
 
   return (
     <section
-      ref={ref}
-      className={`applicationsSection ${inView ? "is-inview" : ""}`}
-      id="applications"
+      className={`mx-auto max-w-6xl px-4 pt-10 ${inView ? "is-inview" : ""}`}
       aria-label="Applications"
+      id="applications"
     >
-      {/* PCB glow rails behind everything */}
-      <div className="appsGlow" aria-hidden>
-        <div className="appsGlowRail rail-1" />
-        <div className="appsGlowRail rail-2" />
-        <div className="appsGlowRail rail-3" />
-      </div>
-
-      <div className="applicationsInner">
-        <div className="applicationsHeader">
-          <div className="applicationsKicker">Applications</div>
-          <h2 className="applicationsTitle">A Service Catalog for Industrial Coding Environments</h2>
-          <p className="applicationsSub">
-            Browse service domains. Choose what matches your line — then request support or compare AMC coverage.
+      <div className="appsHead">
+        <div>
+          <div className="appsKicker">Applications</div>
+          <h2 className="appsTitle">Service catalog (what we cover)</h2>
+          <p className="appsSub">
+            Clear, repair-forward services — optimized for Markem-Imaje, Domino, and VideoJet.
           </p>
-
-          {/* Contextual tie-in to Maintenance */}
-          <div className="appsCtas">
-            <Link className="btn btn-primary" href="/maintenance">
-              View maintenance packages
-            </Link>
-            <Link className="btn btn-ghost" href="/maintenance#quote">
-              Request an AMC quote
-            </Link>
-          </div>
         </div>
 
-        <div className="applicationsGrid">
-          {applications.map((app, i) => (
-            <Link
-              key={app.id}
-              href={app.href}
-              className="applicationCard"
-              style={{ animationDelay: `${i * 55}ms` }}
-              aria-label={`${app.title} - View services`}
-            >
-              <div className="applicationImageWrap">
-                <Image src={app.image} alt={app.title} fill className="applicationImage" />
-                <div className="applicationRing" aria-hidden />
-              </div>
+        <div className="appsHeadCta">
+          <Link className="btn btn-ghost" href="/maintenance">
+            Maintenance packages →
+          </Link>
+        </div>
+      </div>
 
-              <div className="applicationMeta">
-                <div className="applicationTitleRow">
-                  <div className="applicationTitle">{app.title}</div>
-                  <span className="applicationArrow" aria-hidden>
-                    →
-                  </span>
+      <div className="appsShell">
+        {/* scroll glow background */}
+        <div className="appsGlow" aria-hidden>
+          <Image
+            src="/brand/dmacht-nodestrip.png"
+            alt=""
+            fill
+            className="appsGlowImg"
+            priority={false}
+          />
+        </div>
+
+        <div className="appsGrid">
+          {primary.map((a) => (
+            <a key={a.title} className="appCard" href={a.href}>
+              <div className="appTop">
+                <div className="appCircle">
+                  <Image src={a.img} alt="" fill className="appImg" />
                 </div>
 
-                <div className="applicationSub">{app.sub}</div>
-
-                {/* hover micro-details */}
-                <div className="applicationMicro">
-                  <span className="microLabel">View services</span>
-                  <span className="microDivider" aria-hidden />
-                  <span className="microText">{app.micro}</span>
-                </div>
+                {a.pill ? <span className="appPill">{a.pill}</span> : <span className="appPill is-ghost">service</span>}
               </div>
-            </Link>
+
+              <div className="appTitleRow">
+                <div className="appTitle">{a.title}</div>
+                <div className="appHover">View services →</div>
+              </div>
+
+              <div className="appSub">{a.sub}</div>
+            </a>
           ))}
         </div>
 
-        {/* Bottom bridge CTA (extra conversion bump) */}
-        <div className="appsBridge">
-          <div className="appsBridgeLeft">
-            <div className="appsBridgeTitle">Need predictable uptime?</div>
-            <div className="appsBridgeSub">
-              AMC packages reduce emergency downtime with scheduled preventive checks + faster triage.
-            </div>
+        <div className="appsDivider">
+          <span />
+          <div className="appsDividerText">Additional services</div>
+          <span />
+        </div>
+
+        <div className="appsGrid appsGridSecondary">
+          {secondary.map((a) => (
+            <a key={a.title} className="appCard appCardSecondary" href={a.href}>
+              <div className="appTop">
+                <div className="appCircle">
+                  <Image src={a.img} alt="" fill className="appImg" />
+                </div>
+                {a.pill ? <span className="appPill">{a.pill}</span> : null}
+              </div>
+
+              <div className="appTitleRow">
+                <div className="appTitle">{a.title}</div>
+                <div className="appHover">View services →</div>
+              </div>
+
+              <div className="appSub">{a.sub}</div>
+            </a>
+          ))}
+        </div>
+
+        <div className="appsFoot">
+          <div className="appsFootText">
+            Want predictable uptime? AMC coverage ties directly into inspections + preventive scheduling.
           </div>
-          <div className="appsBridgeRight">
-            <Link className="btn btn-primary" href="/maintenance">
-              Compare AMC packages
-            </Link>
-            <Link className="btn btn-ghost" href="/maintenance#quote">
-              Get a quote
-            </Link>
-          </div>
+          <Link className="btn btn-primary" href="/maintenance">
+            Explore AMC packages
+          </Link>
         </div>
       </div>
     </section>

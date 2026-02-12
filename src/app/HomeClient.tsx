@@ -1,119 +1,209 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-import Hero from "@/components/Hero";
-import RegionBar from "@/components/RegionBar";
-import BrandStrip from "@/components/BrandStrip";
-import PCBWorkflow from "@/components/PCBWorkflow";
-import ApplicationsGrid from "@/components/ApplicationsGrid";
+type AppItem = {
+  title: string;
+  sub: string;
+  img: string;
+  href: string;
+  pill?: string;
+};
 
-import { ENDORSEMENT } from "@/lib/support";
-import { useRegion } from "@/components/region";
+function useInViewOnce() {
+  const [inView, setInView] = useState(false);
 
-type Meta = { title: string; sub: string };
+  useEffect(() => {
+    const el = document.getElementById("applications");
+    if (!el) return;
 
-export default function HomeClient() {
-  const { region, ready, support } = useRegion();
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold: 0.18 }
+    );
 
-  const metaCards: Meta[] = useMemo(
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return inView;
+}
+
+export default function ApplicationsGrid() {
+  const inView = useInViewOnce();
+
+  const primary: AppItem[] = useMemo(
     () => [
-      { title: "Response", sub: "fast triage + next steps" },
-      { title: "Format", sub: "remote-first diagnostics" },
-      { title: "Brands", sub: "Markem-Imaje + Domino focus" },
-      { title: "Region", sub: ready && region !== "unknown" ? support.label : "pick to personalize" },
+      {
+        title: "Troubleshooting / Diagnostics",
+        sub: "Remote-first triage + next steps",
+        img: "/brand/applications/dmacht-troubleshooting.png",
+        href: "#contact",
+        pill: "fast triage",
+      },
+      {
+        title: "Motherboard Repair",
+        sub: "Board-level diagnosis + repair",
+        img: "/brand/applications/dmacht-PCB.png",
+        href: "#contact",
+        pill: "core focus",
+      },
+      {
+        title: "Power Supply Repair",
+        sub: "5V / 3.3V / 1.2V rail issues + replacement",
+        img: "/brand/applications/dmacht-productionLine.png",
+        href: "#contact",
+        pill: "core focus",
+      },
+      {
+        title: "Inspection / Preventive",
+        sub: "Catch issues before downtime",
+        img: "/brand/applications/dmacht-inspection.png",
+        href: "/maintenance",
+        pill: "PM-ready",
+      },
+      {
+        title: "Production Line Support",
+        sub: "Reliability + uptime planning",
+        img: "/brand/applications/dmacht-productionLine.png",
+        href: "#contact",
+      },
+      {
+        title: "Packaging & Coding",
+        sub: "Line integration + print consistency",
+        img: "/brand/applications/dmacht-packagingandcoding.png",
+        href: "#contact",
+      },
+      {
+        title: "Inks & Fluids",
+        sub: "OEM-compatible fluids (guided selection)",
+        img: "/brand/applications/dmacht-ink.png",
+        href: "#contact",
+      },
+      {
+        title: "Industrial Parts",
+        sub: "Parts sourcing guidance + replacements",
+        img: "/brand/applications/dmacht-industrialparts.png",
+        href: "#contact",
+      },
     ],
-    [ready, region, support.label]
+    []
+  );
+
+  const secondary: AppItem[] = useMemo(
+    () => [
+      {
+        title: "Refurbished Electronics",
+        sub: "Tested, restored, and resold hardware",
+        img: "/brand/applications/dmacht-electronics.png",
+        href: "#contact",
+        pill: "new",
+      },
+      {
+        title: "Mobile Repair",
+        sub: "Device repair + service intake",
+        img: "/brand/applications/dmacht-electronics.png",
+        href: "#contact",
+        pill: "new",
+      },
+    ],
+    []
   );
 
   return (
-    <main className="homeRoot" aria-label="D-Macht home">
-      <RegionBar />
-      <Hero />
+    <section
+      className={`mx-auto max-w-6xl px-4 pt-10 ${inView ? "is-inview" : ""}`}
+      aria-label="Applications"
+      id="applications"
+    >
+      <div className="appsHead">
+        <div>
+          <div className="appsKicker">Applications</div>
+          <h2 className="appsTitle">Service catalog (what we cover)</h2>
+          <p className="appsSub">
+            Clear, repair-forward services — optimized for Markem-Imaje, Domino, and VideoJet.
+          </p>
+        </div>
 
-      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Highlights">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {metaCards.map((m) => (
-            <div key={m.title} className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{m.title}</div>
-              <div className="mt-2 text-sm font-semibold text-white/90">{m.sub}</div>
-            </div>
+        <div className="appsHeadCta">
+          <Link className="btn btn-ghost" href="/maintenance">
+            Maintenance packages →
+          </Link>
+        </div>
+      </div>
+
+      <div className="appsShell">
+        {/* scroll glow background */}
+        <div className="appsGlow" aria-hidden>
+          <Image
+            src="/brand/dmacht-nodestrip.png"
+            alt=""
+            fill
+            className="appsGlowImg"
+            priority={false}
+          />
+        </div>
+
+        <div className="appsGrid">
+          {primary.map((a) => (
+            <a key={a.title} className="appCard" href={a.href}>
+              <div className="appTop">
+                <div className="appCircle">
+                  <Image src={a.img} alt="" fill className="appImg" />
+                </div>
+
+                {a.pill ? <span className="appPill">{a.pill}</span> : <span className="appPill is-ghost">service</span>}
+              </div>
+
+              <div className="appTitleRow">
+                <div className="appTitle">{a.title}</div>
+                <div className="appHover">View services →</div>
+              </div>
+
+              <div className="appSub">{a.sub}</div>
+            </a>
           ))}
         </div>
 
-        <div className="mt-4 text-[11px] text-white/45">{ENDORSEMENT}</div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Services" id="services">
-        <div className="rounded-3xl border border-white/10 bg-black/35 p-6 md:p-8">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Services</div>
-          <h2 className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Support that fits your uptime goals</h2>
-          <p className="mt-2 text-sm text-white/70">
-            Remote diagnostics, troubleshooting, preventive planning, and (region-dependent) on-site field service.
-          </p>
-
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <Link className="btn btn-primary" href="#contact">
-              Request support
-            </Link>
-            <Link className="btn btn-ghost" href="#workflow">
-              See workflow
-            </Link>
-            <Link className="btn btn-ghost" href="/maintenance">
-              Maintenance packages
-            </Link>
-          </div>
+        <div className="appsDivider">
+          <span />
+          <div className="appsDividerText">Additional services</div>
+          <span />
         </div>
-      </section>
 
-      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Brands" id="brands">
-        <BrandStrip />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pt-10" aria-label="Workflow" id="workflow">
-        <PCBWorkflow />
-      </section>
-
-      <section aria-label="Applications" id="applications">
-        <ApplicationsGrid />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pt-10 pb-16" aria-label="Contact" id="contact">
-        <div className="rounded-3xl border border-white/10 bg-black/35 p-6 md:p-8">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Contact</div>
-          <h2 className="mt-2 text-xl font-semibold text-white/90 md:text-2xl">Request support</h2>
-          <p className="mt-2 text-sm text-white/70">
-            Email us the model(s), issue symptoms, error codes, and any photos/video.
-          </p>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Email</div>
-              <a className="mt-2 block text-sm text-white/85" href={`mailto:${support.email}`}>
-                {support.email}
-              </a>
-              <div className="mt-2 text-xs text-white/55">{support.note}</div>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">Call / Text</div>
-              {support.phoneE164 ? (
-                <a className="mt-2 block text-sm text-white/85" href={`tel:${support.phoneE164}`}>
-                  {support.phoneDisplay}
-                </a>
-              ) : (
-                <div className="mt-2 text-sm text-white/60">{support.phoneDisplay}</div>
-              )}
-              <div className="mt-2 text-xs text-white/55">
-                Region: <span className="text-white/75">{support.label}</span>
+        <div className="appsGrid appsGridSecondary">
+          {secondary.map((a) => (
+            <a key={a.title} className="appCard appCardSecondary" href={a.href}>
+              <div className="appTop">
+                <div className="appCircle">
+                  <Image src={a.img} alt="" fill className="appImg" />
+                </div>
+                {a.pill ? <span className="appPill">{a.pill}</span> : null}
               </div>
-            </div>
-          </div>
 
-          <div className="mt-4 text-[11px] text-white/45">{ENDORSEMENT}</div>
+              <div className="appTitleRow">
+                <div className="appTitle">{a.title}</div>
+                <div className="appHover">View services →</div>
+              </div>
+
+              <div className="appSub">{a.sub}</div>
+            </a>
+          ))}
         </div>
-      </section>
-    </main>
+
+        <div className="appsFoot">
+          <div className="appsFootText">
+            Want predictable uptime? AMC coverage ties directly into inspections + preventive scheduling.
+          </div>
+          <Link className="btn btn-primary" href="/maintenance">
+            Explore AMC packages
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
