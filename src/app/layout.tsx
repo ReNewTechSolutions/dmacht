@@ -8,12 +8,14 @@ export const metadata: Metadata = {
     template: "%s | D-Macht",
   },
   description:
-    "D-Macht provides industrial coding and marking support for CIJ, TIJ, and DOD printer environments, including repair, maintenance, PCB support, parts, inks, fluids, and refurbished printer sourcing.",
+    "D-Macht provides industrial coding and marking support for CIJ, TIJ, DOD, laser, and TTO printer environments, including repair, maintenance, PCB support, parts, inks, fluids, and refurbished printer sourcing.",
   keywords: [
     "industrial printer repair",
     "CIJ printer support",
     "TIJ printer support",
     "DOD printer support",
+    "laser printer support",
+    "TTO printer support",
     "industrial inkjet maintenance",
     "coding and marking support",
     "printer consumables",
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "D-Macht | Industrial Printer Repair, Maintenance, Parts & Consumables",
     description:
-      "Industrial coding and marking support for CIJ, TIJ, and DOD printer environments — repair, maintenance, parts, inks, fluids, and refurbished printer sourcing.",
+      "Industrial coding and marking support for CIJ, TIJ, DOD, laser, and TTO printer environments — repair, maintenance, parts, inks, fluids, and refurbished printer sourcing.",
     url: "https://www.dmacht.com",
     siteName: "D-Macht",
     images: [

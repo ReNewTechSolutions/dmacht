@@ -23,21 +23,14 @@ export default function Hero() {
           </div>
         </div>
 
-        <aside className="operationsCard" aria-label="Service intake summary">
+        <aside className="operationsCard heroMachineCard" aria-label="Service intake summary">
           <div className="statusRow">
             <span className="statusDot" />
             Service intake online
           </div>
 
-          <div className="operationsImageFrame" aria-hidden>
-            <Image
-              src="/brand/hero-machine.png"
-              alt=""
-              fill
-              sizes="(max-width: 1000px) 90vw, 520px"
-              priority
-              className="operationsImage"
-            />
+          <div className="heroMachineVisual" aria-hidden>
+            <div className="heroMachineShade" />
           </div>
 
           <div className="operationsContent">

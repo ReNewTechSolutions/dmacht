@@ -5,9 +5,9 @@ const metrics = [
     detail: "Repair, maintenance, consumables, and equipment sourcing.",
   },
   {
-    value: "CIJ / TIJ / DOD",
+    value: "CIJ / TIJ / DOD / Laser / TTO",
     label: "Printer environments",
-    detail: "Industrial coding and marking systems supported through one intake flow.",
+    detail: "Industrial coding, marking, laser, and thermal transfer systems supported through one intake flow.",
   },
   {
     value: "Remote-first",
