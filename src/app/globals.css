@@ -1,24 +1,17 @@
-
-
 @import "tailwindcss";
 
 :root {
   --paper: #f4f5f2;
-  --paper-2: #eceee8;
   --panel: #ffffff;
-  --panel-2: #f8f9f6;
   --ink: #111418;
   --graphite: #252b31;
   --steel: #68737d;
   --line: #d7dad3;
-  --line-strong: #bfc4bb;
   --blue: #1155cc;
   --blue-dark: #0b347a;
   --teal: #008c8c;
   --amber: #e0a100;
   --amber-soft: #fff4ce;
-  --danger: #b42318;
-  --radius: 22px;
   --shadow: 0 24px 70px rgba(20, 28, 36, 0.1);
 }
 
@@ -30,8 +23,10 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
+body,
+.dmachtBody {
   margin: 0;
+  min-height: 100dvh;
   background:
     linear-gradient(90deg, rgba(17, 85, 204, 0.035) 1px, transparent 1px),
     linear-gradient(180deg, rgba(17, 85, 204, 0.035) 1px, transparent 1px),
@@ -55,14 +50,14 @@ select {
   font: inherit;
 }
 
+img {
+  max-width: 100%;
+}
+
 button,
 a,
 summary {
   -webkit-tap-highlight-color: transparent;
-}
-
-::selection {
-  background: rgba(17, 85, 204, 0.18);
 }
 
 .siteShell {
@@ -71,10 +66,13 @@ summary {
   min-height: 100dvh;
 }
 
+/* =======================================================================================
+   NAVBAR
+======================================================================================= */
 .topNav {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 50;
   margin: 0 auto;
   width: min(100%, 1220px);
   display: flex;
@@ -82,7 +80,7 @@ summary {
   justify-content: space-between;
   gap: 18px;
   padding: 16px 20px;
-  background: rgba(244, 245, 242, 0.88);
+  background: rgba(244, 245, 242, 0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(17, 20, 24, 0.08);
 }
@@ -94,19 +92,23 @@ summary {
   min-width: 220px;
 }
 
-.brandIcon {
+.brandLogoFrame {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: var(--graphite);
-  color: white;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.08);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.brandLogoFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
 }
 
 .brandMark strong {
@@ -181,6 +183,9 @@ summary {
   transform: translateY(-1px);
 }
 
+/* =======================================================================================
+   SHARED SECTION SYSTEM
+======================================================================================= */
 .heroSection,
 .metricsSection,
 .regionSection,
@@ -188,216 +193,9 @@ summary {
 .processSection,
 .tipsSection,
 .requestSection,
-.faqSection,
-.footerCta {
+.faqSection {
   width: min(100% - 32px, 1200px);
   margin: 0 auto;
-}
-
-.heroSection {
-  padding: 34px 0 0;
-}
-
-.heroGrid {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  gap: 24px;
-  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
-  align-items: stretch;
-  min-height: 570px;
-  border-radius: 34px;
-  border: 1px solid var(--line);
-  background:
-    radial-gradient(circle at 12% 12%, rgba(17, 85, 204, 0.12), transparent 38%),
-    linear-gradient(135deg, #ffffff 0%, #f6f7f3 52%, #e9ece5 100%);
-  box-shadow: var(--shadow);
-}
-
-.heroGrid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(17, 20, 24, 0.055) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(17, 20, 24, 0.045) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(90deg, black, transparent 72%);
-  opacity: 0.55;
-}
-
-.heroGrid::after {
-  content: "";
-  position: absolute;
-  right: -90px;
-  bottom: -120px;
-  width: 430px;
-  height: 430px;
-  border-radius: 999px;
-  border: 46px solid rgba(17, 20, 24, 0.045);
-  pointer-events: none;
-}
-
-.heroCopy,
-.operationsCard {
-  position: relative;
-  z-index: 1;
-}
-
-.heroCopy {
-  padding: clamp(34px, 5vw, 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.68);
-  color: var(--blue-dark);
-  padding: 7px 10px;
-  font-size: 11px;
-  line-height: 1;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.heroCopy h1 {
-  margin: 18px 0 0;
-  max-width: 780px;
-  color: var(--ink);
-  font-size: clamp(48px, 7vw, 88px);
-  line-height: 0.93;
-  letter-spacing: -0.075em;
-  font-weight: 900;
-}
-
-.heroCopy p {
-  margin: 24px 0 0;
-  max-width: 690px;
-  color: #46505a;
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.62;
-}
-
-.heroActions {
-  margin-top: 30px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.operationsCard {
-  margin: 28px 28px 28px 0;
-  align-self: stretch;
-  border-radius: 28px;
-  border: 1px solid rgba(17, 20, 24, 0.12);
-  background: var(--graphite);
-  color: white;
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 420px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 70px rgba(17, 20, 24, 0.18);
-}
-
-.operationsCard::before {
-  content: "";
-  position: absolute;
-  inset: 22px 22px auto;
-  height: 160px;
-  border-radius: 22px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(224, 161, 0, 0.18), rgba(0, 140, 140, 0.12));
-  background-size: 26px 26px, 26px 26px, auto;
-}
-
-.statusRow {
-  position: absolute;
-  top: 38px;
-  left: 38px;
-  right: 38px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, 0.74);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.statusDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  background: #2bd67b;
-  box-shadow: 0 0 0 6px rgba(43, 214, 123, 0.12);
-}
-
-.operationsCard h2 {
-  margin: 0;
-  max-width: 440px;
-  font-size: clamp(28px, 3.2vw, 44px);
-  line-height: 1;
-  letter-spacing: -0.055em;
-  font-weight: 880;
-}
-
-.operationsCard p {
-  margin: 16px 0 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.ticketGrid {
-  margin-top: 20px;
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.ticketGrid div {
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.065);
-  padding: 13px;
-}
-
-.ticketGrid span,
-.cardTop span,
-.serviceCard span,
-.processCard span,
-.metricCard span {
-  display: block;
-  color: var(--steel);
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.ticketGrid span {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.ticketGrid strong {
-  display: block;
-  margin-top: 7px;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 13px;
-  line-height: 1.35;
 }
 
 .metricsSection,
@@ -406,8 +204,7 @@ summary {
 .processSection,
 .tipsSection,
 .requestSection,
-.faqSection,
-.footerCta {
+.faqSection {
   padding-top: 58px;
 }
 
@@ -418,6 +215,22 @@ summary {
 
 .sectionIntro.compact {
   margin-bottom: 16px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--blue-dark);
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .sectionIntro h2,
@@ -442,7 +255,6 @@ summary {
 .metricGrid,
 .regionGrid,
 .serviceGrid,
-.processGrid,
 .faqGrid {
   display: grid;
   gap: 14px;
@@ -461,10 +273,6 @@ summary {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.processGrid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 .metricCard,
 .regionCard,
 .serviceCard,
@@ -472,9 +280,14 @@ summary {
 .faqItem,
 .tipsPanel,
 .requestSection,
-.footerCta {
+.footerCta,
+.repairLabFeature,
+.regionHelperPanel,
+.processHelperPanel,
+.tipsHelperPanel,
+.faqHelperPanel {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.78);
   box-shadow: 0 16px 40px rgba(20, 28, 36, 0.06);
 }
 
@@ -482,11 +295,242 @@ summary {
 .regionCard,
 .serviceCard,
 .processCard,
-.faqItem {
+.faqItem,
+.regionHelperPanel,
+.processHelperPanel,
+.tipsHelperPanel,
+.faqHelperPanel {
   border-radius: 24px;
   padding: 18px;
 }
 
+/* =======================================================================================
+   HERO — clean split layout with controlled image usage
+======================================================================================= */
+.heroSection {
+  padding: 34px 0 0;
+}
+
+.heroGrid {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+  gap: 22px;
+  align-items: stretch;
+  min-height: 620px;
+  border-radius: 34px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(17, 85, 204, 0.13), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f7f8f4 58%, #e9ece5 100%);
+  box-shadow: var(--shadow);
+}
+
+.heroGrid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(17, 20, 24, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 20, 24, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(90deg, black 0%, black 46%, transparent 82%);
+  opacity: 0.28;
+}
+
+.heroGrid::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  bottom: -120px;
+  width: 430px;
+  height: 430px;
+  border-radius: 999px;
+  border: 46px solid rgba(17, 20, 24, 0.045);
+  pointer-events: none;
+}
+
+.heroCopy,
+.operationsCard {
+  position: relative;
+  z-index: 1;
+}
+
+.heroCopy {
+  z-index: 3;
+  padding: clamp(38px, 5vw, 68px) clamp(26px, 4vw, 58px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroCopy h1 {
+  margin: 18px 0 0;
+  max-width: 760px;
+  color: var(--ink);
+  font-size: clamp(44px, 6vw, 82px);
+  line-height: 0.95;
+  letter-spacing: -0.072em;
+  font-weight: 900;
+}
+
+.heroCopy p {
+  margin: 24px 0 0;
+  max-width: 650px;
+  color: #46505a;
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.62;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(17, 20, 24, 0.08);
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.heroActions {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.operationsCard {
+  margin: 28px 28px 28px 0;
+  min-height: 520px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(17, 20, 24, 0.12);
+  background: var(--graphite);
+  color: white;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 70px rgba(17, 20, 24, 0.18);
+}
+
+.operationsCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom, rgba(37, 43, 49, 0.02), rgba(37, 43, 49, 0.14) 42%, rgba(37, 43, 49, 0.92) 73%, rgba(37, 43, 49, 0.98)),
+    linear-gradient(90deg, rgba(37, 43, 49, 0.38), transparent 70%);
+  pointer-events: none;
+}
+
+.operationsImageFrame {
+  position: relative;
+  z-index: 0;
+  min-height: 350px;
+}
+
+.operationsImage {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+.statusRow {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  max-width: calc(100% - 44px);
+  border-radius: 999px;
+  background: rgba(17, 20, 24, 0.64);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 9px 11px;
+  backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.statusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #2bd67b;
+  box-shadow: 0 0 0 6px rgba(43, 214, 123, 0.12);
+}
+
+.operationsContent {
+  position: relative;
+  z-index: 3;
+  padding: 24px;
+  background: linear-gradient(to bottom, rgba(37, 43, 49, 0.86), rgba(37, 43, 49, 0.98));
+}
+
+.operationsContent h2,
+.operationsCard h2 {
+  margin: 0;
+  max-width: 440px;
+  color: white;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-weight: 880;
+}
+
+.operationsContent p,
+.operationsCard p {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ticketGrid {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ticketGrid div {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 13px;
+}
+
+.ticketGrid span,
+.cardTop span,
+.serviceCard span,
+.processCard span,
+.metricCard span {
+  display: block;
+  color: var(--steel);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.ticketGrid span {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.ticketGrid strong {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* =======================================================================================
+   METRICS
+======================================================================================= */
 .metricCard {
   min-height: 190px;
   display: flex;
@@ -516,11 +560,79 @@ summary {
   line-height: 1.6;
 }
 
+/* =======================================================================================
+   REGION SELECTOR
+======================================================================================= */
+.regionHeaderGrid,
+.processHeaderGrid,
+.tipsHeaderGrid,
+.faqHeaderGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.regionHeaderGrid .sectionIntro,
+.processHeaderGrid .sectionIntro,
+.tipsHeaderGrid .sectionIntro,
+.faqHeaderGrid .sectionIntro {
+  margin-bottom: 0;
+}
+
+.regionHelperPanel span,
+.regionRouteBox span,
+.regionVisualTop span,
+.processHelperPanel span,
+.processOutput small,
+.tipsHelperPanel span,
+.tipCapture small,
+.faqHelperPanel span,
+.requestRoutingPanel span,
+.requestForm label span {
+  display: block;
+  color: var(--steel);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.regionHelperPanel strong,
+.processHelperPanel strong,
+.tipsHelperPanel strong,
+.faqHelperPanel strong {
+  display: block;
+  margin-top: 9px;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+}
+
+.regionHelperPanel p,
+.processHelperPanel p,
+.tipsHelperPanel p,
+.faqHelperPanel p {
+  margin: 10px 0 0;
+  color: #5b6670;
+  font-size: 13px;
+  line-height: 1.58;
+}
+
 .regionCard,
 .serviceCard,
 .processCard {
   position: relative;
   overflow: hidden;
+}
+
+.regionCard {
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
 }
 
 .regionCard::before,
@@ -540,23 +652,15 @@ summary {
   background: linear-gradient(90deg, var(--amber), var(--teal), transparent);
 }
 
+.regionVisualTop,
 .cardTop {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
 }
 
-.cardTop b {
-  border-radius: 999px;
-  background: var(--amber-soft);
-  color: #6f4c00;
-  padding: 6px 9px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
+.regionVisualTop h3,
 .regionCard h3,
 .serviceCard h3,
 .processCard h3 {
@@ -568,11 +672,54 @@ summary {
   font-weight: 880;
 }
 
+.regionVisualTop b,
+.cardTop b {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(17, 85, 204, 0.09);
+  color: var(--blue-dark);
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.regionCard.active .regionVisualTop b,
+.cardTop b {
+  background: var(--amber-soft);
+  color: #6f4c00;
+}
+
+.regionRouteBox,
+.serviceBestFor,
+.processOutput,
+.tipCapture {
+  margin-top: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.66);
+  padding: 12px;
+}
+
+.regionRouteBox strong,
+.serviceBestFor strong,
+.processOutput strong,
+.tipCapture strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
 .chipRow {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin-top: 16px;
+  margin-top: auto;
+  padding-top: 18px;
 }
 
 .chipRow span {
@@ -585,12 +732,133 @@ summary {
   font-weight: 750;
 }
 
+.regionSelectButton {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--graphite);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.regionCard.active .regionSelectButton {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+/* =======================================================================================
+   SERVICES + REPAIR LAB
+======================================================================================= */
+.serviceCard {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
 .serviceCard span,
 .processCard span {
   color: var(--blue-dark);
 }
 
-.processCard span {
+.serviceBestFor {
+  margin-top: auto;
+}
+
+.serviceBestFor small {
+  display: block;
+  color: var(--steel);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.repairLabFeature {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 18px;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 24px;
+}
+
+.repairLabImageFrame {
+  position: relative;
+  min-height: 330px;
+  background: var(--graphite);
+}
+
+.repairLabImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.repairLabCopy {
+  padding: clamp(22px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.repairLabCopy h3 {
+  margin: 16px 0 0;
+  color: var(--ink);
+  font-size: clamp(30px, 3.4vw, 48px);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  font-weight: 900;
+}
+
+.repairLabCopy p {
+  margin: 15px 0 0;
+  color: #56616b;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.repairLabCopy .button {
+  margin-top: 20px;
+}
+
+/* =======================================================================================
+   PROCESS
+======================================================================================= */
+.processTimeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  position: relative;
+}
+
+.processTimeline::before {
+  content: "";
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--teal), var(--amber));
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.processTimeline .processCard {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.processCard > span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -601,17 +869,25 @@ summary {
   color: white;
 }
 
+.processOutput {
+  margin-top: auto;
+}
+
+/* =======================================================================================
+   TROUBLESHOOTING
+======================================================================================= */
 .tipsPanel {
   border-radius: 28px;
   padding: 12px;
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 .tipItem {
   display: grid;
-  grid-template-columns: 12px 1fr;
-  gap: 13px;
+  grid-template-columns: 48px 1fr;
+  gap: 14px;
   align-items: start;
   border-radius: 18px;
   background: var(--panel);
@@ -619,22 +895,38 @@ summary {
   padding: 14px;
 }
 
-.tipItem span {
-  width: 10px;
-  height: 10px;
-  margin-top: 5px;
-  border-radius: 999px;
-  background: var(--amber);
-  box-shadow: 0 0 0 5px rgba(224, 161, 0, 0.12);
+.tipNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--graphite);
+  color: white;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.tipItem h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  font-weight: 900;
 }
 
 .tipItem p {
-  margin: 0;
+  margin: 8px 0 0;
   color: #404a53;
   font-size: 14px;
   line-height: 1.55;
 }
 
+/* =======================================================================================
+   SERVICE REQUEST
+======================================================================================= */
 .requestSection {
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1.18fr);
@@ -660,9 +952,44 @@ summary {
   color: rgba(255, 255, 255, 0.72);
 }
 
+.requestRoutingPanel {
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 16px;
+}
+
+.requestRoutingPanel span,
+.requestForm label span {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.requestRoutingPanel strong {
+  display: block;
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  line-height: 1.32;
+  font-weight: 850;
+}
+
+.requestRoutingPanel p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .requestForm {
   display: grid;
   gap: 12px;
+}
+
+.requestForm label,
+.requestForm .fullField {
+  display: grid;
+  gap: 7px;
 }
 
 .formRow {
@@ -679,7 +1006,7 @@ summary {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
-  padding: 14px 14px;
+  padding: 14px;
   outline: none;
 }
 
@@ -707,15 +1034,26 @@ summary {
   cursor: pointer;
 }
 
+.requestFinePrint {
+  margin: 2px 0 0;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* =======================================================================================
+   FAQ + FOOTER
+======================================================================================= */
 .faqItem {
   padding: 0;
   overflow: hidden;
 }
 
 .faqItem summary {
+  position: relative;
   cursor: pointer;
   list-style: none;
-  padding: 17px 18px;
+  padding: 17px 56px 17px 18px;
   color: var(--ink);
   font-size: 15px;
   line-height: 1.35;
@@ -727,13 +1065,44 @@ summary {
   display: none;
 }
 
+.faqItem summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--graphite);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.faqItem[open] summary::after {
+  content: "−";
+}
+
 .faqItem p {
   padding: 0 18px 18px;
 }
 
+.siteFooter {
+  width: min(100% - 32px, 1200px);
+  margin: 58px auto 38px;
+}
+
+.siteFooter .footerCta {
+  width: 100%;
+  margin: 0;
+}
+
 .footerCta {
-  margin-top: 58px;
-  margin-bottom: 38px;
   border-radius: 32px;
   padding: clamp(22px, 3vw, 34px);
   display: flex;
@@ -747,6 +1116,57 @@ summary {
   font-size: clamp(28px, 3.2vw, 46px);
 }
 
+.footerCta p {
+  margin: 14px 0 0;
+  max-width: 720px;
+  color: #56616b;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.footerBottom {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.64);
+  border-radius: 22px;
+  padding: 16px 18px;
+}
+
+.footerBrandBlock strong {
+  display: block;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.footerBrandBlock span,
+.footerMeta span {
+  display: block;
+  color: var(--steel);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.footerBrandBlock span {
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.footerMeta {
+  text-align: right;
+}
+
+/* =======================================================================================
+   RESPONSIVE
+======================================================================================= */
 @media (max-width: 1000px) {
   .heroGrid,
   .requestSection {
@@ -755,16 +1175,37 @@ summary {
 
   .operationsCard {
     margin: 0 24px 24px;
-    min-height: 380px;
   }
 
   .metricGrid,
-  .processGrid {
+  .processTimeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .serviceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .repairLabFeature {
+    grid-template-columns: 1fr;
+  }
+
+  .processTimeline::before {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .regionHeaderGrid,
+  .processHeaderGrid,
+  .tipsHeaderGrid,
+  .faqHeaderGrid {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .tipsPanel {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -795,7 +1236,7 @@ summary {
   .tipsSection,
   .requestSection,
   .faqSection,
-  .footerCta {
+  .siteFooter {
     width: min(100% - 22px, 1200px);
   }
 
@@ -809,11 +1250,15 @@ summary {
   }
 
   .heroCopy {
-    padding: 28px 20px;
+    padding: 30px 20px;
   }
 
   .heroCopy h1 {
-    font-size: clamp(42px, 14vw, 64px);
+    font-size: clamp(42px, 13vw, 62px);
+  }
+
+  .heroCopy p {
+    padding: 12px 13px;
   }
 
   .heroActions,
@@ -828,22 +1273,23 @@ summary {
 
   .operationsCard {
     margin: 0 14px 14px;
-    padding: 20px;
-    min-height: 370px;
+    min-height: auto;
     border-radius: 22px;
   }
 
-  .statusRow {
-    left: 30px;
-    right: 30px;
-    top: 30px;
+  .operationsImageFrame {
+    min-height: 280px;
+  }
+
+  .operationsContent {
+    padding: 20px;
   }
 
   .ticketGrid,
   .metricGrid,
   .regionGrid,
   .serviceGrid,
-  .processGrid,
+  .processTimeline,
   .faqGrid,
   .formRow {
     grid-template-columns: 1fr;
@@ -855,13 +1301,31 @@ summary {
   .processSection,
   .tipsSection,
   .requestSection,
-  .faqSection,
-  .footerCta {
+  .faqSection {
     padding-top: 38px;
+  }
+
+  .regionCard,
+  .serviceCard,
+  .processTimeline .processCard {
+    min-height: auto;
   }
 
   .requestSection {
     padding: 20px;
     border-radius: 26px;
+  }
+
+  .repairLabImageFrame {
+    min-height: 250px;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footerMeta {
+    text-align: left;
   }
 }
