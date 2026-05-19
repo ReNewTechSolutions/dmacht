@@ -1,3 +1,16 @@
+import Link from "next/link";
+
+const footerLinks = [
+  { label: "Maintenance / AMC", href: "/maintenance" },
+  { label: "Printer types", href: "/printer-types" },
+  { label: "Parts + fluids", href: "/parts-fluids-consumables" },
+  { label: "PCB repair", href: "/pcb-repair" },
+  { label: "Industries served", href: "/industries" },
+  { label: "US launch", href: "/us-launch-kansas-city" },
+];
+
+const supportTags = ["Repair", "Maintenance", "Parts", "Consumables", "PCB", "Refurbished printers"];
+
 export default function Footer() {
   return (
     <footer className="siteFooter" aria-label="D-Macht footer">
@@ -9,9 +22,24 @@ export default function Footer() {
             Submit one clear service request for printer repair, maintenance, parts, consumables, PCB support, or sourcing coordination.
           </p>
         </div>
-        <a className="button primary" href="#request">
+        <Link className="button primary" href="/#request">
           Request service
-        </a>
+        </Link>
+      </div>
+
+      <div className="footerLinkPanel" aria-label="Footer navigation">
+        <div className="footerLinkIntro">
+          <span className="eyebrow">Explore support</span>
+          <h3>Find the right path before sending a request.</h3>
+        </div>
+
+        <nav className="footerLinks" aria-label="Footer page links">
+          {footerLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
 
       <div className="footerBottom">
@@ -21,7 +49,11 @@ export default function Footer() {
         </div>
 
         <div className="footerMeta">
-          <span>Repair • Maintenance • Parts • Consumables • Refurbished printers</span>
+          <div className="footerTagRow" aria-label="Support categories">
+            {supportTags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
           <span>© {new Date().getFullYear()} D-Macht. A ReNewTech Solutions service line.</span>
         </div>
       </div>

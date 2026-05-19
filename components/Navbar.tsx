@@ -1,12 +1,17 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const navItems = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Tips", href: "#tips" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Home", href: "/" },
+  { label: "Maintenance", href: "/maintenance" },
+  { label: "Printer types", href: "/printer-types" },
+  { label: "Parts + fluids", href: "/parts-fluids-consumables" },
+  { label: "PCB repair", href: "/pcb-repair" },
+  { label: "Industries", href: "/industries" },
+  { label: "US launch", href: "/us-launch-kansas-city" },
 ];
 
 export default function Navbar() {
@@ -19,54 +24,65 @@ export default function Navbar() {
   return (
     <header className="topNavWrap">
       <div className="topNav">
-        <a className="brandMark" href="#top" aria-label="D-Macht home" onClick={closeMenu}>
+        <Link className="brandMark" href="/" aria-label="D-Macht home" onClick={closeMenu}>
           <span className="brandLogoWide" aria-label="D-Macht logo">
-            <img src="/brand/dmacht-logo.png" alt="D-Macht logo" />
+            <Image
+              src="/brand/dmacht-logo.png"
+              alt="D-Macht logo"
+              width={420}
+              height={160}
+              priority
+            />
           </span>
 
           <span className="brandTextBlock">
             <strong>D-Macht</strong>
             <small>Industrial support desk</small>
           </span>
-        </a>
+        </Link>
 
         <nav className="navLinks" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} onClick={closeMenu}>
+            <Link key={item.href} href={item.href} onClick={closeMenu}>
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="navActions">
-          <a className="navCta" href="#request" onClick={closeMenu}>
+          <Link className="navCta" href="/#request" onClick={closeMenu}>
             Request service
-          </a>
+          </Link>
 
           <button
             type="button"
             className="navMenuButton"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             onClick={() => setOpen((value) => !value)}
           >
-            <span />
-            <span />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <div className={`mobileNavPanel ${open ? "is-open" : ""}`} aria-hidden={!open}>
+      <nav
+        id="mobile-navigation"
+        className={`mobileNavPanel ${open ? "is-open" : ""}`}
+        aria-label="Mobile navigation"
+      >
         {navItems.map((item) => (
-          <a key={item.href} href={item.href} onClick={closeMenu}>
+          <Link key={item.href} href={item.href} onClick={closeMenu}>
             {item.label}
-          </a>
+          </Link>
         ))}
 
-        <a className="mobileNavCta" href="#request" onClick={closeMenu}>
+        <Link className="mobileNavCta" href="/#request" onClick={closeMenu}>
           Request service
-        </a>
-      </div>
+        </Link>
+      </nav>
     </header>
   );
 }

@@ -30,6 +30,14 @@ export default function Hero() {
           </div>
 
           <div className="heroMachineVisual" aria-hidden>
+            <Image
+              src="/brand/og-image.png"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 900px) 100vw, 520px"
+              className="heroOgImage"
+            />
             <div className="heroMachineShade" />
           </div>
 
