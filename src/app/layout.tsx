@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Navbar from "../../components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -62,7 +63,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="dmachtBody">{children}</body>
+      <body className="dmachtBody">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
