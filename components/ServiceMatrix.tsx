@@ -1,66 +1,116 @@
 import Image from "next/image";
 
-const services = [
+const diagnosticRoutes = [
   {
-    title: "Printer repair",
-    tag: "Breakdown support",
-    desc: "Faults, error codes, print quality issues, sensor problems, and production interruptions.",
-    bestFor: "Line-down issues, repeat faults, visible print defects",
+    issue: "Printer stopped / line down",
+    route: "Breakdown support",
+    send: "Model, error code, photos/video, and whether production is stopped.",
+    next: "Triage repair path, parts need, or on-site service route.",
   },
   {
-    title: "Preventive maintenance",
-    tag: "AMC planning",
-    desc: "Planned service, inspection checklists, operator guidance, and recurring maintenance support.",
-    bestFor: "Plants that want fewer surprise failures",
+    issue: "Print is faded, missing, or messy",
+    route: "Print quality review",
+    send: "Print sample photo, ink/fluid details, nozzle status, and recent changes.",
+    next: "Check fluid, nozzle, sensor, configuration, and maintenance causes.",
   },
   {
-    title: "PCB repair",
-    tag: "Repair lab",
-    desc: "Board-related symptoms, chip-level repair review, visible damage checks, and repair routing.",
-    bestFor: "Power, board, display, or control symptoms",
+    issue: "Need ink, make-up fluid, or filters",
+    route: "Consumables supply",
+    send: "Printer brand/model, current product label, quantity, and location.",
+    next: "Match compatible consumables and plan reorder support.",
   },
   {
-    title: "Ink, fluids & consumables",
-    tag: "Supply support",
-    desc: "Ink, make-up fluid, consumable matching, printer compatibility, and reorder planning.",
-    bestFor: "Ink matching, make-up fluid, filters, and routine supply needs",
+    issue: "Board, power, display, or control issue",
+    route: "PCB repair review",
+    send: "Board photos, symptoms, visible damage, model, and fault behavior.",
+    next: "Review repair path before replacing expensive assemblies.",
   },
   {
-    title: "Spare parts",
-    tag: "Parts request",
-    desc: "Part identification, replacement planning, model matching, and sourcing coordination.",
-    bestFor: "Known part numbers, photos, or machine model requests",
+    issue: "Need a part or replacement module",
+    route: "Spare parts request",
+    send: "Part number if known, machine model, photos, and urgency.",
+    next: "Identify part, confirm fit, and coordinate sourcing.",
   },
   {
-    title: "Refurbished printers",
-    tag: "Equipment sourcing",
-    desc: "Refurbished unit inquiries, backup printer planning, replacement options, and availability checks.",
-    bestFor: "Replacement planning, backup units, and budget-conscious upgrades",
+    issue: "Need a backup or refurbished printer",
+    route: "Equipment sourcing",
+    send: "Current printer type, budget, production use, and required timeline.",
+    next: "Review refurbished, replacement, or backup equipment options.",
   },
+];
+
+const supportTypes = [
+  "Industrial printer repair",
+  "Preventive maintenance / AMC",
+  "PCB and board-level repair review",
+  "Ink, fluids, filters, and consumables",
+  "Spare parts identification and sourcing",
+  "Refurbished printer and backup unit planning",
 ];
 
 export default function ServiceMatrix() {
   return (
     <section className="servicesSection" id="services">
-      <div className="sectionIntro">
-        <span className="eyebrow">Service matrix</span>
-        <h2>What do you need help with?</h2>
-        <p>
-          Choose the closest service need. D-Macht can route the details from there, even if the issue is not fully diagnosed yet.
-        </p>
+      <div className="serviceRouterHeader">
+        <div className="sectionIntro">
+          <span className="eyebrow">Service router</span>
+          <h2>Start with what is happening on the line.</h2>
+          <p>
+            You do not need to know the exact technical failure before contacting D-Macht. Choose the closest issue, send the right details, and the request can be routed toward repair, parts, consumables, maintenance, PCB review, or sourcing.
+          </p>
+        </div>
+
+        <aside className="serviceRouterNote">
+          <span>Built for operators</span>
+          <strong>No diagnosis required.</strong>
+          <p>Plain-language issue routing helps maintenance teams and business owners send better service requests faster.</p>
+        </aside>
       </div>
 
-      <div className="serviceGrid">
-        {services.map((service) => (
-          <article className="serviceCard" key={service.title}>
-            <span>{service.tag}</span>
-            <h3>{service.title}</h3>
-            <p>{service.desc}</p>
-            <div className="serviceBestFor">
-              <small>Best for</small>
-              <strong>{service.bestFor}</strong>
-            </div>
-          </article>
+      <div className="diagnosticPanel" aria-label="Diagnostic service routing table">
+        <div className="diagnosticPanelTop">
+          <div>
+            <span>Industrial routing table</span>
+            <h3>What should I send?</h3>
+          </div>
+          <a href="#request" className="button secondary">
+            Start request
+          </a>
+        </div>
+
+        <div className="diagnosticTable">
+          <div className="diagnosticRow diagnosticHead" aria-hidden>
+            <span>Issue</span>
+            <span>Route</span>
+            <span>Details to send</span>
+            <span>Next step</span>
+          </div>
+
+          {diagnosticRoutes.map((item) => (
+            <article className="diagnosticRow" key={item.issue}>
+              <div className="diagnosticIssue">
+                <strong>{item.issue}</strong>
+              </div>
+              <div>
+                <span className="diagnosticMobileLabel">Route</span>
+                <b>{item.route}</b>
+              </div>
+              <div>
+                <span className="diagnosticMobileLabel">Details to send</span>
+                <p>{item.send}</p>
+              </div>
+              <div>
+                <span className="diagnosticMobileLabel">Next step</span>
+                <p>{item.next}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="supportStrip" aria-label="Available support categories">
+        {supportTypes.map((type) => (
+          <span key={type}>{type}</span>
         ))}
       </div>
 

@@ -9,8 +9,11 @@ export default function Navbar() {
   return (
     <header className="topNav">
       <a className="brandMark" href="#top" aria-label="D-Macht home">
-        <span className="brandLogoWide" aria-hidden>
-          <img src="/brand/dmacht-logo.svg" alt="" />
+        <span className="brandLogoWide">
+          <img src="/brand/dmacht-logo.png" alt="D-Macht logo" />
+          <span className="brandLogoFallback" aria-hidden>
+            D-MACHT
+          </span>
         </span>
         <span className="brandTextBlock">
           <strong>D-Macht</strong>
