@@ -22,6 +22,11 @@ export default function Hero() {
         </div>
 
         <aside className="operationsCard" aria-label="Service intake summary">
+          <div className="statusRow">
+            <span className="statusDot" />
+            Service intake online
+          </div>
+
           <div className="operationsImageFrame" aria-hidden>
             <Image
               src="/brand/hero-machine.png"
@@ -33,24 +38,21 @@ export default function Hero() {
             />
           </div>
 
-          <div className="statusRow">
-            <span className="statusDot" />
-            Service intake online
-          </div>
+          <div className="operationsContent">
+            <h2>Start with machine details.</h2>
+            <p>
+              The fastest request includes brand, model, error code, photos/video, location, and whether production is stopped.
+            </p>
 
-          <h2>Start with machine details.</h2>
-          <p>
-            The fastest request includes brand, model, error code, photos/video, location, and whether production is stopped.
-          </p>
-
-          <div className="ticketGrid">
-            <div>
-              <span>Best for</span>
-              <strong>Repair, parts, fluids, maintenance</strong>
-            </div>
-            <div>
-              <span>Route</span>
-              <strong>India or US/global</strong>
+            <div className="ticketGrid">
+              <div>
+                <span>Best for</span>
+                <strong>Repair, parts, fluids, maintenance</strong>
+              </div>
+              <div>
+                <span>Route</span>
+                <strong>India or US/global</strong>
+              </div>
             </div>
           </div>
         </aside>

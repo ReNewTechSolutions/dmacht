@@ -1,5 +1,3 @@
-
-
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -34,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "D-Macht",
     images: [
       {
-        url: "/brand/dmacht-ogimage.png",
+        url: "/brand/og-image.png",
         width: 1200,
         height: 630,
         alt: "D-Macht — industrial printer support for production uptime",
@@ -48,7 +46,7 @@ export const metadata: Metadata = {
     title: "D-Macht | Industrial Printer Support",
     description:
       "Repair, maintenance, parts, inks, fluids, and refurbished printer sourcing for industrial coding and marking systems.",
-    images: ["/brand/dmacht-ogimage.png"],
+    images: ["/brand/og-image.png"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -61,8 +59,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="dmachtBody">{children}</body>
     </html>
   );
 }

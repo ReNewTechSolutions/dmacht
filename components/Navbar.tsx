@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="topNav">
       <a className="brandMark" href="#top" aria-label="D-Macht home">
         <span className="brandLogoFrame">
-          <Image src="/brand/dmacht-logo.png" alt="D-Macht" width={42} height={42} priority />
+          <Image src="/brand/dmacht-logo.svg" alt="D-Macht" width={42} height={42} priority />
         </span>
         <span>
           <strong>D-Macht</strong>
