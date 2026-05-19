@@ -3079,3 +3079,769 @@ body > .topNavWrap .mobileNavPanel {
     align-items: stretch;
   }
 }
+/* =======================================================================================
+   ROUTED PAGE SAFETY OVERRIDES — force styling on newly-routed support pages
+   Keep this at the very bottom so it wins over earlier duplicate blocks.
+======================================================================================= */
+main.maintenancePage,
+main.printerTypesPage,
+main.consumablesPage,
+main.pcbRepairPage,
+main.industriesPage,
+main.usLaunchPage {
+  width: min(100%, 1440px) !important;
+  min-height: 100dvh !important;
+  margin: 0 auto !important;
+  padding-bottom: 72px !important;
+}
+
+main.maintenancePage section,
+main.printerTypesPage section,
+main.consumablesPage section,
+main.pcbRepairPage section,
+main.industriesPage section,
+main.usLaunchPage section {
+  box-sizing: border-box !important;
+}
+
+.maintenanceHero,
+.printerTypesHero,
+.consumablesHero,
+.pcbRepairHero,
+.industriesHero,
+.usLaunchHero,
+.maintenanceSection,
+.printerTypesSection,
+.consumablesSection,
+.pcbRepairSection,
+.industriesSection,
+.usLaunchSection {
+  width: min(100% - 32px, 1200px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.maintenanceHero,
+.printerTypesHero,
+.consumablesHero,
+.pcbRepairHero,
+.industriesHero,
+.usLaunchHero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 390px !important;
+  gap: 18px !important;
+  align-items: stretch !important;
+  padding-top: clamp(74px, 6vw, 104px) !important;
+}
+
+.maintenanceSection,
+.printerTypesSection,
+.consumablesSection,
+.pcbRepairSection,
+.industriesSection,
+.usLaunchSection {
+  padding-top: 58px !important;
+}
+
+.maintenanceHeroCopy,
+.printerTypesHeroCopy,
+.consumablesHeroCopy,
+.pcbRepairHeroCopy,
+.industriesHeroCopy,
+.usLaunchHeroCopy,
+.maintenanceSignalPanel,
+.printerTypesSignal,
+.consumablesSignal,
+.pcbRepairSignal,
+.industriesSignal,
+.usLaunchSignal,
+.maintenancePackageCard,
+.maintenanceChecklistPanel,
+.maintenanceFitPanel,
+.maintenanceRequest,
+.printerTypeCard,
+.printerComparePanel,
+.printerIntakePanel,
+.consumableCard,
+.consumableIntakePanel,
+.consumableNotesPanel,
+.pcbSignalCard,
+.pcbChecklistPanel,
+.pcbAreasPanel,
+.pcbFlowCard,
+.pcbRepairRequest,
+.industryCard,
+.industryPainPanel,
+.industryRequestPanel,
+.usPriorityCard,
+.usReadinessPanel,
+.usFitPanel,
+.usLaunchFlowCard,
+.usLaunchRequest {
+  border: 1px solid var(--line) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  box-shadow: 0 16px 40px rgba(20, 28, 36, 0.06) !important;
+}
+
+.maintenanceHeroCopy,
+.printerTypesHeroCopy,
+.consumablesHeroCopy,
+.pcbRepairHeroCopy,
+.industriesHeroCopy,
+.usLaunchHeroCopy {
+  border-radius: 34px !important;
+  padding: clamp(28px, 4vw, 58px) !important;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(17, 85, 204, 0.12), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(247, 248, 244, 0.9)) !important;
+}
+
+.maintenanceHeroCopy h1,
+.printerTypesHeroCopy h1,
+.consumablesHeroCopy h1,
+.pcbRepairHeroCopy h1,
+.industriesHeroCopy h1,
+.usLaunchHeroCopy h1 {
+  margin: 18px 0 0 !important;
+  max-width: 880px !important;
+  color: var(--ink) !important;
+  font-size: clamp(42px, 6vw, 78px) !important;
+  line-height: 0.96 !important;
+  letter-spacing: -0.072em !important;
+  font-weight: 900 !important;
+}
+
+.maintenanceHeroCopy p,
+.printerTypesHeroCopy p,
+.consumablesHeroCopy p,
+.pcbRepairHeroCopy p,
+.industriesHeroCopy p,
+.usLaunchHeroCopy p,
+.maintenanceRequest p,
+.pcbRepairRequest p,
+.usLaunchRequest p,
+.printerTypesSection .sectionIntro p,
+.consumablesSection .sectionIntro p,
+.pcbRepairSection .sectionIntro p,
+.industriesSection .sectionIntro p,
+.usLaunchSection .sectionIntro p {
+  margin: 22px 0 0 !important;
+  max-width: 760px !important;
+  color: #46505a !important;
+  font-size: clamp(16px, 1.5vw, 19px) !important;
+  line-height: 1.62 !important;
+}
+
+.maintenanceSignalPanel,
+.printerTypesSignal,
+.consumablesSignal,
+.pcbRepairSignal,
+.industriesSignal,
+.usLaunchSignal {
+  border-radius: 30px !important;
+  padding: 24px !important;
+  background: var(--graphite) !important;
+  color: white !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  min-height: 420px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.maintenanceSignalPanel::before,
+.printerTypesSignal::before,
+.consumablesSignal::before,
+.pcbRepairSignal::before,
+.industriesSignal::before,
+.usLaunchSignal::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 20% 20%, rgba(17, 85, 204, 0.26), transparent 34%) !important;
+  background-size: 34px 34px, 34px 34px, auto !important;
+  opacity: 0.72 !important;
+}
+
+.maintenanceSignalPanel > *,
+.printerTypesSignal > *,
+.consumablesSignal > *,
+.pcbRepairSignal > *,
+.industriesSignal > *,
+.usLaunchSignal > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.maintenanceSignalPanel span,
+.printerTypesSignal span,
+.consumablesSignal span,
+.pcbRepairSignal span,
+.industriesSignal span,
+.usLaunchSignal span,
+.maintenancePackageCard > span,
+.maintenanceFitPanel span,
+.printerIntakePanel span,
+.printerTypeIssueBox small,
+.printerTypeSendBox small,
+.consumableCardTop span,
+.consumableExamples small,
+.consumableSendBox small,
+.consumableNotesPanel span,
+.pcbAreasPanel span,
+.industryNeeds small,
+.industryRequestPanel span,
+.usFitPanel span {
+  display: block !important;
+  color: var(--steel) !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+.maintenanceSignalPanel span,
+.printerTypesSignal span,
+.consumablesSignal span,
+.pcbRepairSignal span,
+.industriesSignal span,
+.usLaunchSignal span {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.maintenanceSignalPanel strong,
+.printerTypesSignal strong,
+.consumablesSignal strong,
+.pcbRepairSignal strong,
+.industriesSignal strong,
+.usLaunchSignal strong {
+  display: block !important;
+  margin-top: 10px !important;
+  color: white !important;
+  font-size: clamp(28px, 3vw, 42px) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.055em !important;
+  font-weight: 900 !important;
+}
+
+.maintenanceSignalPanel p,
+.printerTypesSignal p,
+.consumablesSignal p,
+.pcbRepairSignal p,
+.industriesSignal p,
+.usLaunchSignal p {
+  margin: 14px 0 0 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+.maintenanceMiniGrid,
+.printerTypeCodeRail,
+.consumableSignalChips,
+.pcbSignalGrid,
+.industriesSignalChips,
+.usLaunchChips {
+  margin-top: 22px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.maintenanceMiniGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+
+.maintenanceMiniGrid div,
+.printerTypeCodeRail b,
+.consumableSignalChips b,
+.pcbSignalGrid b,
+.industriesSignalChips b,
+.usLaunchChips b {
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 9px 11px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+}
+
+.maintenanceMiniGrid div {
+  border-radius: 18px !important;
+}
+
+.maintenanceMiniGrid b,
+.maintenanceMiniGrid small {
+  display: block !important;
+}
+
+.maintenanceMiniGrid small {
+  margin-top: 6px !important;
+  color: rgba(255, 255, 255, 0.62) !important;
+  line-height: 1.4 !important;
+}
+
+.maintenancePackageGrid,
+.consumableGrid,
+.industriesGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.printerTypeGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.pcbSignalCards {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.usPriorityGrid,
+.pcbFlowGrid,
+.usLaunchFlowGrid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.maintenancePackageCard,
+.printerTypeCard,
+.consumableCard,
+.industryCard,
+.pcbSignalCard,
+.usPriorityCard,
+.pcbFlowCard,
+.usLaunchFlowCard {
+  border-radius: 24px !important;
+  padding: 20px !important;
+}
+
+.maintenancePackageCard,
+.printerTypeCard,
+.consumableCard {
+  min-height: 430px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.industryCard {
+  min-height: 310px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.pcbFlowCard,
+.usLaunchFlowCard {
+  min-height: 260px !important;
+}
+
+.maintenancePackageCard h3,
+.consumableCardTop h3,
+.industryCard h3,
+.pcbSignalCard h3,
+.usPriorityCard h3,
+.printerTypeTopline b,
+.pcbFlowCard h3,
+.usLaunchFlowCard h3 {
+  margin: 14px 0 0 !important;
+  color: var(--ink) !important;
+  font-size: 24px !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.05em !important;
+  font-weight: 900 !important;
+}
+
+.printerTypeTopline b {
+  display: block !important;
+}
+
+.printerTypeTopline span,
+.pcbFlowCard b,
+.usLaunchFlowCard b,
+.consumableStep b {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 46px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  background: var(--graphite) !important;
+  color: white !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.maintenancePackageCard p,
+.printerTypeBestFor,
+.printerTypeSendBox p,
+.consumableCard > p,
+.consumableSendBox p,
+.consumableStep p,
+.industryCard p,
+.industryPainItem p,
+.pcbSignalCard p,
+.pcbFlowCard p,
+.usPriorityCard p,
+.usLaunchFlowCard p,
+.printerCompareRow p {
+  margin: 12px 0 0 !important;
+  color: #56616b !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.maintenanceCadence,
+.printerTypeIssueBox,
+.printerTypeSendBox,
+.consumableExamples,
+.consumableSendBox,
+.industryNeeds,
+.industryPainItem,
+.printerCompareRow {
+  margin-top: 16px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--line) !important;
+  background: rgba(255, 255, 255, 0.68) !important;
+  padding: 13px !important;
+}
+
+.maintenanceCadence {
+  background: #eaf0ff !important;
+  color: var(--blue-dark) !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1.35 !important;
+}
+
+.printerTypeSendBox,
+.consumableSendBox,
+.industryNeeds {
+  margin-top: auto !important;
+}
+
+.maintenancePackageCard ul,
+.maintenanceFitPanel ul,
+.printerTypeIssueBox ul,
+.printerIntakePanel ul,
+.consumableExamples ul,
+.consumableNotesPanel ul,
+.industryNeeds ul,
+.industryRequestPanel ul,
+.usFitPanel ul {
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  display: grid !important;
+  gap: 8px !important;
+}
+
+.maintenancePackageCard li,
+.maintenanceFitPanel li,
+.printerTypeIssueBox li,
+.printerIntakePanel li,
+.consumableExamples li,
+.consumableNotesPanel li,
+.industryNeeds li,
+.industryRequestPanel li,
+.usFitPanel li {
+  position: relative !important;
+  padding-left: 18px !important;
+  color: #46505a !important;
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+}
+
+.maintenancePackageCard li::before,
+.maintenanceFitPanel li::before,
+.printerTypeIssueBox li::before,
+.printerIntakePanel li::before,
+.consumableExamples li::before,
+.consumableNotesPanel li::before,
+.industryNeeds li::before,
+.industryRequestPanel li::before,
+.usFitPanel li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0.48em !important;
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 999px !important;
+  background: var(--blue) !important;
+}
+
+.maintenanceSplit,
+.printerTypeSplit,
+.consumablesSplit,
+.pcbRepairSplit,
+.industriesSplit,
+.usLaunchSplit {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 360px !important;
+  gap: 18px !important;
+}
+
+.maintenanceChecklistPanel,
+.maintenanceFitPanel,
+.maintenanceRequest,
+.printerComparePanel,
+.printerIntakePanel,
+.consumableIntakePanel,
+.consumableNotesPanel,
+.pcbChecklistPanel,
+.pcbAreasPanel,
+.pcbRepairRequest,
+.industryPainPanel,
+.industryRequestPanel,
+.usReadinessPanel,
+.usFitPanel,
+.usLaunchRequest {
+  border-radius: 28px !important;
+  padding: clamp(22px, 3vw, 34px) !important;
+}
+
+.maintenanceChecklistPanel h2,
+.maintenanceRequest h2,
+.printerComparePanel h2,
+.printerIntakePanel strong,
+.consumableIntakePanel h2,
+.consumableNotesPanel strong,
+.pcbChecklistPanel h2,
+.pcbRepairRequest h2,
+.pcbAreasPanel strong,
+.industryPainPanel h2,
+.industryRequestPanel strong,
+.usReadinessPanel h2,
+.usFitPanel strong,
+.usLaunchRequest h2 {
+  display: block !important;
+  margin: 14px 0 0 !important;
+  color: var(--ink) !important;
+  font-size: clamp(30px, 4vw, 54px) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.06em !important;
+  font-weight: 900 !important;
+}
+
+.printerIntakePanel strong,
+.consumableNotesPanel strong,
+.pcbAreasPanel strong,
+.industryRequestPanel strong,
+.usFitPanel strong {
+  font-size: 28px !important;
+  line-height: 1.05 !important;
+}
+
+.maintenanceCheckGrid,
+.pcbChecklistGrid,
+.usReadinessGrid,
+.industryPainGrid {
+  margin-top: 22px !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.maintenanceCheck,
+.pcbChecklistItem,
+.usReadinessItem {
+  border-radius: 18px !important;
+  border: 1px solid var(--line) !important;
+  background: rgba(255, 255, 255, 0.68) !important;
+  padding: 14px !important;
+  color: #46505a !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  font-weight: 780 !important;
+}
+
+.consumableSteps {
+  margin-top: 22px !important;
+  display: grid !important;
+  gap: 10px !important;
+}
+
+.consumableStep {
+  display: grid !important;
+  grid-template-columns: 56px 1fr !important;
+  gap: 14px !important;
+  align-items: start !important;
+  border-radius: 18px !important;
+  border: 1px solid var(--line) !important;
+  background: rgba(255, 255, 255, 0.68) !important;
+  padding: 14px !important;
+}
+
+.pcbAreaChips {
+  margin-top: 18px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.pcbAreaChips b {
+  border-radius: 999px !important;
+  border: 1px solid var(--line) !important;
+  background: rgba(255, 255, 255, 0.76) !important;
+  color: #47515a !important;
+  padding: 9px 11px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.maintenanceRequest,
+.pcbRepairRequest,
+.usLaunchRequest {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+}
+
+.printerIntakePanel .button,
+.consumableNotesPanel .button,
+.industryRequestPanel .button {
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1180px) {
+  .printerTypeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .maintenanceHero,
+  .printerTypesHero,
+  .consumablesHero,
+  .pcbRepairHero,
+  .industriesHero,
+  .usLaunchHero,
+  .maintenanceSplit,
+  .printerTypeSplit,
+  .consumablesSplit,
+  .pcbRepairSplit,
+  .industriesSplit,
+  .usLaunchSplit {
+    grid-template-columns: 1fr !important;
+  }
+
+  .maintenancePackageGrid,
+  .consumableGrid,
+  .industriesGrid,
+  .pcbSignalCards,
+  .usPriorityGrid,
+  .pcbFlowGrid,
+  .usLaunchFlowGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .maintenanceSignalPanel,
+  .printerTypesSignal,
+  .consumablesSignal,
+  .pcbRepairSignal,
+  .industriesSignal,
+  .usLaunchSignal,
+  .maintenancePackageCard,
+  .printerTypeCard,
+  .consumableCard,
+  .industryCard,
+  .pcbFlowCard,
+  .usLaunchFlowCard,
+  .usPriorityCard {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .maintenanceHero,
+  .maintenanceSection,
+  .printerTypesHero,
+  .printerTypesSection,
+  .consumablesHero,
+  .consumablesSection,
+  .pcbRepairHero,
+  .pcbRepairSection,
+  .industriesHero,
+  .industriesSection,
+  .usLaunchHero,
+  .usLaunchSection {
+    width: min(100% - 22px, 1200px) !important;
+  }
+
+  .maintenanceHero,
+  .printerTypesHero,
+  .consumablesHero,
+  .pcbRepairHero,
+  .industriesHero,
+  .usLaunchHero {
+    padding-top: 42px !important;
+  }
+
+  .maintenanceHeroCopy,
+  .maintenanceSignalPanel,
+  .maintenanceChecklistPanel,
+  .maintenanceFitPanel,
+  .maintenanceRequest,
+  .printerTypesHeroCopy,
+  .printerTypesSignal,
+  .printerComparePanel,
+  .printerIntakePanel,
+  .consumablesHeroCopy,
+  .consumablesSignal,
+  .consumableIntakePanel,
+  .consumableNotesPanel,
+  .pcbRepairHeroCopy,
+  .pcbRepairSignal,
+  .pcbChecklistPanel,
+  .pcbAreasPanel,
+  .pcbRepairRequest,
+  .industriesHeroCopy,
+  .industriesSignal,
+  .industryPainPanel,
+  .industryRequestPanel,
+  .usLaunchHeroCopy,
+  .usLaunchSignal,
+  .usReadinessPanel,
+  .usFitPanel,
+  .usLaunchRequest {
+    border-radius: 24px !important;
+    padding: 20px !important;
+  }
+
+  .maintenancePackageGrid,
+  .printerTypeGrid,
+  .consumableGrid,
+  .industriesGrid,
+  .pcbSignalCards,
+  .maintenanceCheckGrid,
+  .pcbChecklistGrid,
+  .industryPainGrid,
+  .usPriorityGrid,
+  .usReadinessGrid,
+  .pcbFlowGrid,
+  .usLaunchFlowGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .maintenanceRequest,
+  .pcbRepairRequest,
+  .usLaunchRequest {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
