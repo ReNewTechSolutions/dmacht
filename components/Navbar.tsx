@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const navItems = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
@@ -11,8 +9,8 @@ export default function Navbar() {
   return (
     <header className="topNav">
       <a className="brandMark" href="#top" aria-label="D-Macht home">
-        <span className="brandLogoWide">
-          <Image src="/brand/dmacht-logo.svg" alt="D-Macht" width={118} height={38} priority />
+        <span className="brandLogoWide" aria-hidden>
+          <img src="/brand/dmacht-logo.svg" alt="" />
         </span>
         <span className="brandTextBlock">
           <strong>D-Macht</strong>
