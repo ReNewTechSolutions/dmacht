@@ -1899,3 +1899,199 @@ summary {
     align-items: stretch;
   }
 }
+
+/* =======================================================================================
+   TRUE FINAL MOBILE NAV + HERO CLEANUP
+   Keep this at the bottom so it wins over the older duplicated blocks above.
+======================================================================================= */
+.topNavWrap {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  width: min(100% - 18px, 1200px) !important;
+  margin: 9px auto 0 !important;
+}
+
+.topNavWrap .topNav {
+  width: 100% !important;
+  min-height: 66px !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  border-radius: 0 !important;
+  border: 1px solid rgba(17, 20, 24, 0.1) !important;
+  background: rgba(244, 245, 242, 0.98) !important;
+  box-shadow: 0 12px 26px rgba(17, 20, 24, 0.08) !important;
+}
+
+.brandMark {
+  min-width: 0 !important;
+  gap: 10px !important;
+}
+
+.brandLogoWide {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 154px !important;
+  height: 50px !important;
+  flex: 0 0 auto !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: #111418 !important;
+  overflow: hidden !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 22px rgba(17, 20, 24, 0.12) !important;
+}
+
+.brandLogoWide img {
+  position: relative !important;
+  z-index: 2 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 5px 14px !important;
+}
+
+.brandLogoFallback {
+  display: none !important;
+}
+
+.navActions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.navLinks {
+  display: flex !important;
+}
+
+.navMenuButton {
+  display: none !important;
+}
+
+.mobileNavPanel {
+  display: none;
+}
+
+.heroSection {
+  padding-top: 34px !important;
+}
+
+.operationsImage {
+  object-fit: cover !important;
+  object-position: 72% center !important;
+}
+
+.operationsCard::before {
+  background:
+    linear-gradient(to bottom, rgba(37, 43, 49, 0.02), rgba(37, 43, 49, 0.18) 42%, rgba(37, 43, 49, 0.96) 72%, rgba(37, 43, 49, 1)),
+    linear-gradient(90deg, rgba(37, 43, 49, 0.68), transparent 70%) !important;
+}
+
+.statusRow {
+  max-width: calc(100% - 36px) !important;
+  top: 18px !important;
+  left: 18px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+}
+
+@media (max-width: 900px) {
+  .navLinks {
+    display: none !important;
+  }
+
+  .navMenuButton {
+    display: inline-flex !important;
+  }
+
+  .mobileNavPanel {
+    display: grid !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-6px) !important;
+    transition: max-height 220ms ease, opacity 160ms ease, transform 180ms ease, padding 180ms ease !important;
+    border: 1px solid rgba(17, 20, 24, 0.1) !important;
+    border-top: 0 !important;
+    background: rgba(244, 245, 242, 0.99) !important;
+    backdrop-filter: blur(18px) !important;
+    padding: 0 12px !important;
+    box-shadow: 0 18px 36px rgba(17, 20, 24, 0.08) !important;
+  }
+
+  .mobileNavPanel.is-open {
+    max-height: 360px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    padding: 12px !important;
+  }
+
+  .mobileNavPanel a {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--line) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    color: var(--graphite) !important;
+    padding: 0 13px !important;
+    font-size: 14px !important;
+    font-weight: 850 !important;
+  }
+
+  .mobileNavPanel .mobileNavCta {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: white !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .topNavWrap {
+    width: min(100% - 18px, 1200px) !important;
+    margin-top: 9px !important;
+  }
+
+  .topNavWrap .topNav {
+    min-height: 64px !important;
+    padding: 10px 11px !important;
+  }
+
+  .brandLogoWide {
+    width: 150px !important;
+    height: 48px !important;
+  }
+
+  .brandLogoWide img {
+    padding: 5px 13px !important;
+  }
+
+  .brandTextBlock,
+  .navCta {
+    display: none !important;
+  }
+
+  .heroSection {
+    padding-top: 32px !important;
+  }
+
+  .operationsImageFrame {
+    min-height: 250px !important;
+    max-height: 250px !important;
+  }
+
+  .operationsImage {
+    object-position: 74% center !important;
+  }
+
+  .operationsContent h2,
+  .operationsCard h2 {
+    font-size: clamp(28px, 9vw, 38px) !important;
+    line-height: 0.98 !important;
+  }
+}
