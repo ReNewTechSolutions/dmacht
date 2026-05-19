@@ -6,7 +6,9 @@ export default function Hero() {
       <div className="heroGrid">
         <div className="heroCopy">
           <div className="eyebrow">Factory operations dashboard • repair lab support</div>
+
           <h1>Industrial printer support built for production uptime.</h1>
+
           <p>
             D-Macht helps teams route repair, maintenance, parts, consumables, PCB support, and refurbished printer requests through one clear industrial service intake.
           </p>
@@ -32,7 +34,7 @@ export default function Hero() {
               src="/brand/hero-machine.png"
               alt=""
               fill
-              sizes="(max-width: 1000px) 90vw, 430px"
+              sizes="(max-width: 1000px) 90vw, 520px"
               priority
               className="operationsImage"
             />

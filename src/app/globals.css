@@ -1329,3 +1329,154 @@ summary {
     text-align: left;
   }
 }
+
+/* =======================================================================================
+   FINAL NAV + HERO IMAGE SIZE FIX
+======================================================================================= */
+.topNav {
+    width: min(100% - 32px, 1200px);
+    margin: 18px auto 0;
+    border: 1px solid rgba(17, 20, 24, 0.08);
+    border-radius: 0;
+    padding: 14px 20px;
+    min-height: 76px;
+  }
+  
+  .brandMark {
+    gap: 12px;
+  }
+  
+  .brandLogoFrame {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: white;
+  }
+  
+  .brandLogoFrame img {
+    object-fit: contain;
+    padding: 7px;
+  }
+  
+  .navLinks {
+    gap: 22px;
+  }
+  
+  .navLinks a {
+    font-size: 14px;
+    padding: 8px 6px;
+  }
+  
+  .navCta {
+    min-height: 48px;
+    padding: 0 22px;
+  }
+  
+  .heroSection {
+    padding-top: 18px;
+  }
+  
+  .heroGrid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.82fr);
+    min-height: 560px;
+    gap: 18px;
+  }
+  
+  .heroCopy {
+    padding: clamp(34px, 4.5vw, 58px) clamp(26px, 4vw, 54px);
+  }
+  
+  .heroCopy h1 {
+    max-width: 700px;
+    font-size: clamp(44px, 5.55vw, 76px);
+    line-height: 0.96;
+  }
+  
+  .operationsCard {
+    max-width: 520px;
+    justify-self: end;
+    margin: 28px 28px 28px 0;
+    min-height: 500px;
+  }
+  
+  .operationsImageFrame {
+    min-height: 315px;
+    max-height: 315px;
+  }
+  
+  .operationsImage {
+    object-fit: cover;
+    object-position: center 45%;
+  }
+  
+  .operationsContent {
+    padding: 22px;
+  }
+  
+  .operationsContent h2,
+  .operationsCard h2 {
+    font-size: clamp(25px, 2.7vw, 36px);
+  }
+  
+  .operationsContent p,
+  .operationsCard p {
+    margin-top: 12px;
+  }
+  
+  .ticketGrid {
+    margin-top: 16px;
+  }
+  
+  @media (max-width: 1000px) {
+    .topNav {
+      width: min(100% - 24px, 1200px);
+      margin-top: 12px;
+    }
+  
+    .heroGrid {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+  
+    .operationsCard {
+      max-width: none;
+      justify-self: stretch;
+      margin: 0 24px 24px;
+    }
+  
+    .operationsImageFrame {
+      min-height: 320px;
+      max-height: none;
+    }
+  }
+  
+  @media (max-width: 720px) {
+    .topNav {
+      width: min(100% - 22px, 1200px);
+      min-height: 66px;
+      padding: 10px 12px;
+    }
+  
+    .brandLogoFrame {
+      width: 42px;
+      height: 42px;
+    }
+  
+    .brandMark strong {
+      font-size: 14px;
+    }
+  
+    .navCta {
+      min-height: 40px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+  
+    .heroCopy h1 {
+      font-size: clamp(40px, 12vw, 58px);
+    }
+  
+    .operationsImageFrame {
+      min-height: 245px;
+    }
+  }

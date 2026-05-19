@@ -11,10 +11,10 @@ export default function Navbar() {
   return (
     <header className="topNav">
       <a className="brandMark" href="#top" aria-label="D-Macht home">
-        <span className="brandLogoFrame">
-          <Image src="/brand/dmacht-logo.svg" alt="D-Macht" width={42} height={42} priority />
+        <span className="brandLogoWide">
+          <Image src="/brand/dmacht-logo.svg" alt="D-Macht" width={118} height={38} priority />
         </span>
-        <span>
+        <span className="brandTextBlock">
           <strong>D-Macht</strong>
           <small>Industrial support desk</small>
         </span>
