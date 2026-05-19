@@ -21,10 +21,7 @@ export default function Navbar() {
       <div className="topNav">
         <a className="brandMark" href="#top" aria-label="D-Macht home" onClick={closeMenu}>
           <span className="brandLogoWide" aria-label="D-Macht logo">
-            <span className="brandLogoImage" aria-hidden />
-            <span className="brandLogoText" aria-hidden>
-              D-MACHT
-            </span>
+            <img src="/brand/dmacht-logo.png" alt="D-Macht logo" />
           </span>
 
           <span className="brandTextBlock">

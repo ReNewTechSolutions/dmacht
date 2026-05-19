@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import Hero from "../../components/Hero";
 import OperationsSnapshot from "../../components/OperationsSnapshot";
 import RegionSelector from "../../components/RegionSelector";
@@ -12,7 +11,6 @@ import Footer from "../../components/Footer";
 export default function Home() {
   return (
     <main className="siteShell">
-      <Navbar />
       <Hero />
       <OperationsSnapshot />
       <RegionSelector />
