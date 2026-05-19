@@ -1480,3 +1480,422 @@ summary {
       min-height: 245px;
     }
   }
+/* =======================================================================================
+   MOBILE STICKY NAV + HERO SPACING — FINAL OVERRIDES
+======================================================================================= */
+.topNavWrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: min(100% - 32px, 1200px);
+  margin: 18px auto 0;
+}
+
+.topNavWrap .topNav {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  min-height: 78px !important;
+  border: 1px solid rgba(17, 20, 24, 0.08) !important;
+  border-radius: 0 !important;
+  padding: 14px 20px !important;
+  background: rgba(244, 245, 242, 0.96) !important;
+  backdrop-filter: blur(18px) !important;
+  box-shadow: 0 14px 34px rgba(17, 20, 24, 0.08) !important;
+}
+
+.brandLogoWide {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 146px !important;
+  height: 50px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #111418, #252b31) !important;
+  border: 1px solid rgba(17, 20, 24, 0.16) !important;
+  overflow: hidden !important;
+  flex: 0 0 auto !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 24px rgba(17, 20, 24, 0.1) !important;
+}
+
+.brandLogoWide img {
+  position: relative !important;
+  z-index: 2 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  padding: 7px 12px !important;
+}
+
+.brandLogoFallback {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1 !important;
+}
+
+.brandTextBlock strong {
+  color: var(--ink) !important;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navMenuButton {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  position: relative;
+}
+
+.navMenuButton span {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--graphite);
+}
+
+.navMenuButton span:first-child {
+  top: 16px;
+}
+
+.navMenuButton span:last-child {
+  top: 26px;
+}
+
+.mobileNavPanel {
+  display: none;
+}
+
+.heroSection {
+  padding-top: clamp(34px, 4.5vw, 54px) !important;
+}
+
+@media (max-width: 900px) {
+  .topNavWrap {
+    width: min(100% - 24px, 1200px);
+    margin-top: 12px;
+  }
+
+  .topNavWrap .topNav {
+    min-height: 70px !important;
+  }
+
+  .navLinks {
+    display: none !important;
+  }
+
+  .navMenuButton {
+    display: inline-flex !important;
+  }
+
+  .mobileNavPanel {
+    display: grid;
+    gap: 8px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: max-height 220ms ease, opacity 160ms ease, transform 180ms ease, padding 180ms ease;
+    border: 1px solid rgba(17, 20, 24, 0.08);
+    border-top: 0;
+    background: rgba(244, 245, 242, 0.98);
+    backdrop-filter: blur(18px);
+    padding: 0 12px;
+    box-shadow: 0 18px 36px rgba(17, 20, 24, 0.08);
+  }
+
+  .mobileNavPanel.is-open {
+    max-height: 360px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    padding: 12px;
+  }
+
+  .mobileNavPanel a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--graphite);
+    padding: 0 13px;
+    font-size: 14px;
+    font-weight: 850;
+  }
+
+  .mobileNavPanel .mobileNavCta {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .heroSection {
+    padding-top: 30px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .topNavWrap {
+    width: min(100% - 18px, 1200px);
+    margin-top: 9px;
+  }
+
+  .topNavWrap .topNav {
+    min-height: 64px !important;
+    padding: 10px 11px !important;
+  }
+
+  .brandLogoWide {
+    width: 116px !important;
+    height: 42px !important;
+  }
+
+  .brandLogoFallback {
+    font-size: 13px !important;
+  }
+
+  .brandTextBlock {
+    display: none !important;
+  }
+
+  .navCta {
+    display: none !important;
+  }
+
+  .navMenuButton {
+    width: 42px;
+    height: 42px;
+  }
+
+  .heroSection {
+    padding-top: 26px !important;
+  }
+}
+
+/* =======================================================================================
+   SERVICE ROUTER REDESIGN — NO GENERIC SERVICE CARDS
+======================================================================================= */
+.serviceRouterHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.serviceRouterHeader .sectionIntro {
+  margin-bottom: 0;
+}
+
+.serviceRouterNote {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(20, 28, 36, 0.06);
+}
+
+.serviceRouterNote span,
+.diagnosticPanelTop span,
+.diagnosticMobileLabel {
+  display: block;
+  color: var(--steel);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.serviceRouterNote strong {
+  display: block;
+  margin-top: 9px;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+}
+
+.serviceRouterNote p {
+  margin: 10px 0 0;
+  color: #5b6670;
+  font-size: 13px;
+  line-height: 1.58;
+}
+
+.diagnosticPanel {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 40px rgba(20, 28, 36, 0.06);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.diagnosticPanelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(17, 85, 204, 0.08), transparent 58%),
+    rgba(255, 255, 255, 0.62);
+}
+
+.diagnosticPanelTop h3 {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-weight: 900;
+}
+
+.diagnosticTable {
+  display: grid;
+}
+
+.diagnosticRow {
+  display: grid;
+  grid-template-columns: 1.05fr 0.7fr 1.2fr 1.15fr;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.diagnosticRow:last-child {
+  border-bottom: 0;
+}
+
+.diagnosticRow > div,
+.diagnosticHead > span {
+  padding: 16px;
+  border-right: 1px solid var(--line);
+}
+
+.diagnosticRow > div:last-child,
+.diagnosticHead > span:last-child {
+  border-right: 0;
+}
+
+.diagnosticHead {
+  background: var(--graphite);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.diagnosticHead span {
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.diagnosticIssue strong {
+  display: block;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+
+.diagnosticRow b {
+  display: inline-flex;
+  border-radius: 999px;
+  background: rgba(17, 85, 204, 0.09);
+  color: var(--blue-dark);
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 850;
+}
+
+.diagnosticRow p {
+  margin: 0;
+  color: #56616b;
+  font-size: 13px;
+  line-height: 1.52;
+}
+
+.diagnosticMobileLabel {
+  display: none;
+  margin-bottom: 6px;
+}
+
+.supportStrip {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.supportStrip span {
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+  color: #47515a;
+  padding: 9px 11px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+  .serviceRouterHeader {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .diagnosticRow {
+    grid-template-columns: 1fr;
+  }
+
+  .diagnosticHead {
+    display: none;
+  }
+
+  .diagnosticRow {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .diagnosticRow > div {
+    padding: 0;
+    border-right: 0;
+  }
+
+  .diagnosticMobileLabel {
+    display: block;
+  }
+}
+
+@media (max-width: 720px) {
+  .diagnosticPanelTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
