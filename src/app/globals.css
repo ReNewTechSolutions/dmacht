@@ -2095,3 +2095,229 @@ summary {
     line-height: 0.98 !important;
   }
 }
+/* =======================================================================================
+   FINAL LOGO + NAV TREATMENT
+   Transparent logo first. If the PNG has a baked-in background, this gives it a clean frame.
+======================================================================================= */
+body > .topNavWrap {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  width: min(100% - 18px, 1240px) !important;
+  margin: 10px auto 0 !important;
+  pointer-events: none !important;
+}
+
+body > .topNavWrap .topNav,
+body > .topNavWrap .mobileNavPanel {
+  pointer-events: auto !important;
+}
+
+body > .topNavWrap .topNav {
+  width: 100% !important;
+  min-height: 82px !important;
+  margin: 0 !important;
+  padding: 6px 18px !important;
+  overflow: visible !important;
+  border-radius: 0 !important;
+  border: 1px solid rgba(17, 20, 24, 0.06) !important;
+  background: rgba(244, 245, 242, 0.62) !important;
+  backdrop-filter: blur(22px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+  box-shadow: 0 14px 38px rgba(17, 20, 24, 0.07) !important;
+}
+
+body > .topNavWrap .brandMark {
+  min-width: 0 !important;
+  gap: 14px !important;
+  overflow: visible !important;
+}
+
+body > .topNavWrap .brandLogoWide {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 210px !important;
+  height: 74px !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body > .topNavWrap .brandLogoWide::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 9px 4px !important;
+  z-index: 0 !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+  border: 1px solid rgba(17, 20, 24, 0.04) !important;
+  box-shadow: 0 12px 28px rgba(17, 20, 24, 0.06) !important;
+  opacity: 0 !important;
+}
+
+body > .topNavWrap .brandLogoWide img {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 205px !important;
+  height: auto !important;
+  max-width: none !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  filter: drop-shadow(0 10px 16px rgba(17, 20, 24, 0.14)) !important;
+}
+
+/* Add this class manually to .brandLogoWide if the PNG itself has a non-transparent background. */
+body > .topNavWrap .brandLogoWide.needs-frame::before {
+  opacity: 1 !important;
+}
+
+body > .topNavWrap .brandLogoImage,
+body > .topNavWrap .brandLogoText,
+body > .topNavWrap .brandLogoFallback {
+  display: none !important;
+}
+
+body > .topNavWrap .brandTextBlock strong {
+  color: var(--ink) !important;
+}
+
+body > .topNavWrap .navLinks {
+  display: flex !important;
+}
+
+body > .topNavWrap .navMenuButton {
+  display: none !important;
+}
+
+body > .topNavWrap .mobileNavPanel {
+  display: none;
+}
+
+.heroSection {
+  padding-top: clamp(56px, 5.4vw, 84px) !important;
+}
+
+#top,
+#services,
+#process,
+#tips,
+#faq,
+#request {
+  scroll-margin-top: 128px !important;
+}
+
+@media (max-width: 900px) {
+  body > .topNavWrap {
+    width: min(100% - 16px, 1240px) !important;
+    margin-top: 8px !important;
+  }
+
+  body > .topNavWrap .topNav {
+    min-height: 74px !important;
+    padding: 6px 10px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide {
+    width: 172px !important;
+    height: 64px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide img {
+    width: 168px !important;
+  }
+
+  body > .topNavWrap .brandTextBlock,
+  body > .topNavWrap .navLinks,
+  body > .topNavWrap .navCta {
+    display: none !important;
+  }
+
+  body > .topNavWrap .navMenuButton {
+    display: inline-flex !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel {
+    display: grid !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-6px) !important;
+    transition: max-height 220ms ease, opacity 160ms ease, transform 180ms ease, padding 180ms ease !important;
+    border: 1px solid rgba(17, 20, 24, 0.1) !important;
+    border-top: 0 !important;
+    background: rgba(244, 245, 242, 0.96) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    padding: 0 12px !important;
+    box-shadow: 0 18px 36px rgba(17, 20, 24, 0.08) !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel.is-open {
+    max-height: 360px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    padding: 12px !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--line) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    color: var(--graphite) !important;
+    padding: 0 13px !important;
+    font-size: 14px !important;
+    font-weight: 850 !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel .mobileNavCta {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: white !important;
+  }
+
+  .heroSection {
+    padding-top: 48px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body > .topNavWrap .topNav {
+    min-height: 68px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide {
+    width: 150px !important;
+    height: 58px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide img {
+    width: 148px !important;
+  }
+
+  .heroSection {
+    padding-top: 42px !important;
+  }
+
+  #top,
+  #services,
+  #process,
+  #tips,
+  #faq,
+  #request {
+    scroll-margin-top: 108px !important;
+  }
+}
