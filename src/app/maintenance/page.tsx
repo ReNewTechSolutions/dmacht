@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const packageTiers = [
   {
     name: "Essential PM",
@@ -93,6 +95,26 @@ export default function MaintenanceAMCPackages() {
             </div>
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="Preventive maintenance visual">
+        <div className="pageVisualFrame is-right">
+          <Image
+            src="/brand/maintenance-amc.png"
+            alt="D-Macht technician performing preventive maintenance on an industrial coding machine"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>Preventive maintenance for production uptime.</strong>
+              <span>Routine inspection, cleaner service planning, and fewer surprise equipment issues.</span>
+            </div>
+            <b className="pageVisualBadge">AMC ready</b>
+          </div>
+        </div>
       </section>
 
       <section className="maintenanceSection" id="packages" aria-label="Maintenance package paths">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 const launchPriorities = [
   {
     title: "Remote-first triage now",
@@ -93,6 +94,26 @@ export default function USLaunchKansasCity() {
             <b>Uptime</b>
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="US launch Kansas City visual">
+        <div className="pageVisualFrame is-right">
+          <Image
+            src="/brand/us-launch-kansas-city.png"
+            alt="D-Macht US industrial printer support launch in Kansas City"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>Remote intake now. Kansas City service growth next.</strong>
+              <span>Building a US support path for repair, maintenance, parts, consumables, and industrial uptime.</span>
+            </div>
+            <b className="pageVisualBadge">US launch</b>
+          </div>
+        </div>
       </section>
 
       <section className="usLaunchSection" id="launch-plan" aria-label="US launch priorities">

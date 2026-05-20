@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const consumableGroups = [
   {
     title: "Inks",
@@ -112,6 +114,26 @@ export default function PartsFluidsConsumables() {
             <b>TTO</b>
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="Parts fluids and consumables visual">
+        <div className="pageVisualFrame is-product">
+          <Image
+            src="/brand/parts-fluids-consumables.png"
+            alt="D-Macht industrial printer inks fluids filters ribbons and spare parts"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>Parts, fluids, and consumables matched with less guesswork.</strong>
+              <span>Send the current label, printer model, material, quantity, and urgency for clearer routing.</span>
+            </div>
+            <b className="pageVisualBadge">Supply routing</b>
+          </div>
+        </div>
       </section>
 
       <section className="consumablesSection" id="consumable-groups" aria-label="Consumable categories">

@@ -3845,3 +3845,156 @@ main.usLaunchPage section {
     align-items: stretch !important;
   }
 }
+/* =======================================================================================
+   PAGE VISUAL IMAGE BANNERS — NEW SUPPORT PAGE IMAGES
+   Use this shared section when adding the generated images under each page hero.
+======================================================================================= */
+.pageVisualSection {
+  width: min(100% - 32px, 1200px) !important;
+  margin: 18px auto 0 !important;
+  padding-top: 0 !important;
+}
+
+.pageVisualFrame {
+  position: relative !important;
+  width: 100% !important;
+  min-height: clamp(360px, 48vw, 620px) !important;
+  overflow: hidden !important;
+  border-radius: 32px !important;
+  border: 1px solid rgba(17, 20, 24, 0.1) !important;
+  background: var(--graphite) !important;
+  box-shadow: 0 22px 60px rgba(20, 28, 36, 0.11) !important;
+}
+
+.pageVisualFrame::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 28%, rgba(17, 20, 24, 0.08)),
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.12), transparent 32%) !important;
+}
+
+.pageVisualImage {
+  object-fit: cover !important;
+  object-position: center !important;
+  filter: saturate(1.02) contrast(1.02) !important;
+}
+
+.pageVisualCaption {
+  position: absolute !important;
+  left: clamp(16px, 2.6vw, 30px) !important;
+  right: clamp(16px, 2.6vw, 30px) !important;
+  bottom: clamp(16px, 2.6vw, 30px) !important;
+  z-index: 4 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: rgba(17, 20, 24, 0.58) !important;
+  backdrop-filter: blur(16px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
+  padding: 14px 16px !important;
+  color: white !important;
+}
+
+.pageVisualCaption strong {
+  display: block !important;
+  color: white !important;
+  font-size: clamp(18px, 2vw, 26px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.045em !important;
+  font-weight: 900 !important;
+}
+
+.pageVisualCaption span {
+  display: block !important;
+  margin-top: 5px !important;
+  color: rgba(255, 255, 255, 0.68) !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  font-weight: 650 !important;
+}
+
+.pageVisualBadge {
+  flex: 0 0 auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 38px !important;
+  border-radius: 999px !important;
+  background: rgba(17, 85, 204, 0.96) !important;
+  color: white !important;
+  padding: 0 13px !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 14px 28px rgba(17, 85, 204, 0.22) !important;
+}
+
+/* Slightly tighter crop options if a generated image needs better framing. */
+.pageVisualFrame.is-top .pageVisualImage {
+  object-position: center top !important;
+}
+
+.pageVisualFrame.is-left .pageVisualImage {
+  object-position: left center !important;
+}
+
+.pageVisualFrame.is-right .pageVisualImage {
+  object-position: right center !important;
+}
+
+.pageVisualFrame.is-product .pageVisualImage {
+  object-position: center 48% !important;
+}
+
+.pageVisualFrame.is-pcb .pageVisualImage {
+  object-position: center 52% !important;
+}
+
+@media (max-width: 900px) {
+  .pageVisualFrame {
+    min-height: clamp(300px, 60vw, 480px) !important;
+    border-radius: 28px !important;
+  }
+
+  .pageVisualCaption {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .pageVisualSection {
+    width: min(100% - 22px, 1200px) !important;
+    margin-top: 14px !important;
+  }
+
+  .pageVisualFrame {
+    min-height: 255px !important;
+    border-radius: 24px !important;
+  }
+
+  .pageVisualCaption {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    border-radius: 18px !important;
+    padding: 12px !important;
+  }
+
+  .pageVisualCaption strong {
+    font-size: 18px !important;
+  }
+
+  .pageVisualCaption span {
+    font-size: 11px !important;
+  }
+}

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const printerTypes = [
   {
     code: "CIJ",
@@ -107,6 +109,26 @@ export default function PrinterTypesSupported() {
             ))}
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="Printer types supported visual">
+        <div className="pageVisualFrame is-product">
+          <Image
+            src="/brand/printer-types-supported.png"
+            alt="D-Macht industrial coding and marking printer types including CIJ TIJ DOD laser and TTO systems"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>CIJ, TIJ, DOD, laser, and TTO support in one intake flow.</strong>
+              <span>Match the printer type, symptoms, material, and production impact before routing support.</span>
+            </div>
+            <b className="pageVisualBadge">Printer types</b>
+          </div>
+        </div>
       </section>
 
       <section className="printerTypesSection" id="printer-types" aria-label="Supported printer type cards">

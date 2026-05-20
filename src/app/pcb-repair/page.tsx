@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const repairSignals = [
   {
     title: "Power or boot failure",
@@ -101,6 +103,26 @@ export default function PCBRepairSupport() {
             <b>Display</b>
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="PCB repair support visual">
+        <div className="pageVisualFrame is-pcb">
+          <Image
+            src="/brand/pcb-repair-support.png"
+            alt="D-Macht PCB repair diagnostics with circuit board magnification tools and gloved technician support"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>Board-level diagnostics before expensive replacement.</strong>
+              <span>Clear photos, symptoms, visible damage, and machine context help route the repair path.</span>
+            </div>
+            <b className="pageVisualBadge">PCB review</b>
+          </div>
+        </div>
       </section>
 
       <section className="pcbRepairSection" id="repair-signals" aria-label="PCB repair signals">

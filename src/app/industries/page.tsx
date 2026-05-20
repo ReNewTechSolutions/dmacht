@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const industries = [
   {
     name: "Food and beverage",
@@ -99,6 +101,26 @@ export default function IndustriesServed() {
             <b>Manufacturing</b>
           </div>
         </aside>
+      </section>
+
+      <section className="pageVisualSection" aria-label="Industries served visual">
+        <div className="pageVisualFrame is-right">
+          <Image
+            src="/brand/industries-served.png"
+            alt="D-Macht industrial support across manufacturing packaging logistics and engineering environments"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 1200px"
+            className="pageVisualImage"
+          />
+          <div className="pageVisualCaption">
+            <div>
+              <strong>Industrial support across real production environments.</strong>
+              <span>Food, beverage, pharma, packaging, logistics, manufacturing, and engineering teams.</span>
+            </div>
+            <b className="pageVisualBadge">Industries</b>
+          </div>
+        </div>
       </section>
 
       <section className="industriesSection" id="industry-grid" aria-label="Industry cards">
