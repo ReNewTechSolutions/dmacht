@@ -3998,3 +3998,58 @@ main.usLaunchPage section {
     font-size: 11px !important;
   }
 }
+
+/* =======================================================================================
+   PAGE VISUAL IMAGE SIZE REFINEMENT
+   Makes routed-page banners feel less oversized/stretched.
+======================================================================================= */
+.pageVisualSection {
+  width: min(100% - 40px, 1080px) !important;
+  margin: 22px auto 0 !important;
+}
+
+.pageVisualFrame {
+  min-height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 28px !important;
+}
+
+.pageVisualImage {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* Keep text-heavy generated banners from cropping too aggressively */
+.pageVisualFrame.is-maintenance,
+.pageVisualFrame.is-printer-types,
+.pageVisualFrame.is-pcb-support {
+  min-height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+}
+
+.pageVisualFrame.is-maintenance .pageVisualImage,
+.pageVisualFrame.is-printer-types .pageVisualImage,
+.pageVisualFrame.is-pcb-support .pageVisualImage {
+  object-position: center top !important;
+}
+
+/* Product and city banners look better slightly wider */
+.pageVisualFrame.is-product,
+.pageVisualFrame.is-right {
+  aspect-ratio: 16 / 9 !important;
+}
+
+@media (max-width: 720px) {
+  .pageVisualSection {
+    width: min(100% - 22px, 1080px) !important;
+  }
+
+  .pageVisualFrame,
+  .pageVisualFrame.is-maintenance,
+  .pageVisualFrame.is-printer-types,
+  .pageVisualFrame.is-pcb-support {
+    aspect-ratio: 4 / 3 !important;
+    min-height: auto !important;
+    border-radius: 22px !important;
+  }
+}
