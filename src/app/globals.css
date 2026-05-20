@@ -4053,3 +4053,105 @@ main.usLaunchPage section {
     border-radius: 22px !important;
   }
 }
+
+/* =======================================================================================
+   MOBILE NAV FIX — allow more routed pages without clipping
+======================================================================================= */
+
+/* Switch to mobile menu earlier because we now have more nav links */
+@media (max-width: 1180px) {
+  body > .topNavWrap .navLinks,
+  body > .topNavWrap .navCta {
+    display: none !important;
+  }
+
+  body > .topNavWrap .navMenuButton {
+    display: inline-flex !important;
+  }
+
+  body > .topNavWrap .brandTextBlock {
+    display: none !important;
+  }
+
+  body > .topNavWrap .topNav {
+    min-height: 74px !important;
+    padding: 6px 12px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide {
+    width: 180px !important;
+    height: 64px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide img {
+    width: 176px !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel {
+    display: grid !important;
+    gap: 8px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-6px) !important;
+    transition: max-height 220ms ease, opacity 160ms ease, transform 180ms ease, padding 180ms ease !important;
+    border: 1px solid rgba(17, 20, 24, 0.1) !important;
+    border-top: 0 !important;
+    background: rgba(244, 245, 242, 0.98) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    padding: 0 12px !important;
+    box-shadow: 0 18px 36px rgba(17, 20, 24, 0.08) !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel.is-open {
+    max-height: calc(100dvh - 92px) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    padding: 12px !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--line) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    color: var(--graphite) !important;
+    padding: 0 13px !important;
+    font-size: 14px !important;
+    font-weight: 850 !important;
+    text-decoration: none !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel .mobileNavCta {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: white !important;
+  }
+}
+
+@media (max-width: 520px) {
+  body > .topNavWrap .brandLogoWide {
+    width: 150px !important;
+    height: 58px !important;
+  }
+
+  body > .topNavWrap .brandLogoWide img {
+    width: 148px !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel.is-open {
+    max-height: calc(100dvh - 82px) !important;
+  }
+
+  body > .topNavWrap .mobileNavPanel a {
+    min-height: 40px !important;
+    font-size: 13px !important;
+  }
+}
