@@ -31,11 +31,11 @@ export default function Hero() {
 
           <div className="heroMachineVisual" aria-hidden>
             <Image
-              src="/brand/og-image.png"
+              src="/brand/hero-machine.png"
               alt=""
               fill
               priority
-              sizes="(max-width: 900px) 100vw, 520px"
+              sizes="(max-width: 900px) 100vw, 560px"
               className="heroOgImage"
             />
             <div className="heroMachineShade" />

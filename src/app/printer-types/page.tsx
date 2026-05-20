@@ -112,7 +112,7 @@ export default function PrinterTypesSupported() {
       </section>
 
       <section className="pageVisualSection" aria-label="Printer types supported visual">
-        <div className="pageVisualFrame is-product">
+        <div className="pageVisualFrame is-printer-types">
           <Image
             src="/brand/printer-types-supported.png"
             alt="D-Macht industrial coding and marking printer types including CIJ TIJ DOD laser and TTO systems"

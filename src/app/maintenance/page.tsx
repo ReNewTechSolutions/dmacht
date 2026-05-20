@@ -98,7 +98,7 @@ export default function MaintenanceAMCPackages() {
       </section>
 
       <section className="pageVisualSection" aria-label="Preventive maintenance visual">
-        <div className="pageVisualFrame is-right">
+        <div className="pageVisualFrame is-maintenance">
           <Image
             src="/brand/maintenance-amc.png"
             alt="D-Macht technician performing preventive maintenance on an industrial coding machine"

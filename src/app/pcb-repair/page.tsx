@@ -106,7 +106,7 @@ export default function PCBRepairSupport() {
       </section>
 
       <section className="pageVisualSection" aria-label="PCB repair support visual">
-        <div className="pageVisualFrame is-pcb">
+        <div className="pageVisualFrame is-pcb-support">
           <Image
             src="/brand/pcb-repair-support.png"
             alt="D-Macht PCB repair diagnostics with circuit board magnification tools and gloved technician support"
