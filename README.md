@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DMacht
+
+A modern Next.js website for **DMacht**, built to present industrial repair services, printer support, PCB repair, maintenance offerings, and U.S. launch positioning through a polished, responsive business site.
+
+## Overview
+
+DMacht is a service-focused industrial technology website designed for credibility, clarity, and conversion. The site introduces DMacht’s repair and maintenance capabilities with structured service pages, professional visuals, responsive layouts, and clear calls to action.
+
+This project was built as a production-style business website using Next.js and modern frontend practices.
+
+## Features
+
+- Responsive Next.js website
+- Service-focused landing pages
+- Industrial printer repair content
+- PCB repair and maintenance sections
+- U.S. launch/service expansion pages
+- Mobile navigation and responsive layouts
+- Optimized image-driven sections
+- Professional business branding and CTA structure
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- CSS / module styling
+- Vercel-ready deployment
+
+## Project Structure
+
+```txt
+dmacht/
+├── app/
+│   ├── page.tsx
+│   ├── layout.tsx
+│   └── ...
+├── components/
+├── public/
+├── styles/
+├── package.json
+└── README.md
+```
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Production Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is structured as a business-facing website and can be extended with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- service inquiry forms
+- quote request workflows
+- SEO landing pages
+- analytics tracking
+- CRM or email integrations
+- multilingual support
+- expanded service documentation
 
-## Deploy on Vercel
+## Project Status
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Active / in progress.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The site is being refined as part of the broader ReNewTech Solutions portfolio of client-facing and business development projects.
+
+## Author
+
+Built by **Felicia Goad** at [ReNewTech Solutions](https://renewtech.solutions)
+
+Contact: [hello@renewtech.solutions](mailto:hello@renewtech.solutions)
