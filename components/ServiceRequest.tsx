@@ -1,3 +1,8 @@
+"use client";
+
+import type { FormEvent } from "react";
+import { contact } from "../data/site";
+
 const serviceTypes = [
   "Printer repair / breakdown support",
   "Preventive maintenance / AMC",
@@ -18,24 +23,51 @@ const urgencyOptions = [
   "General inquiry",
 ];
 
-export default function ServiceRequest() {
-  return (
-    <section className="requestSection" id="request" aria-label="Service request intake">
-      <div className="requestIntro">
-        <span className="eyebrow">Service request intake</span>
-        <h2>Submit one clear request. We route it to the right support path.</h2>
-        <p>
-          Requests are sent to the D-Macht support inboxes used for the current site. Include the printer model, fault code, location, urgency, and photos or video if available.
-        </p>
+const partCategories = [
+  "Power supply", "Pump", "Filter", "Printhead", "Head assembly", "Nozzle block",
+  "Keypad", "Display", "Sensor", "PCB", "Ink core assembly", "Ink", "Make-up fluid", "Cleaner", "Other / not sure",
+];
 
-        <div className="requestRoutingPanel">
-          <span>Routing note</span>
-          <strong>Use this for India service support or US/global coordination.</strong>
-          <p>Choose the closest service type. If you are not sure, select “Other / not sure” and describe the issue in plain language.</p>
+type ServiceRequestProps = {
+  variant?: "service" | "parts" | "refurbished" | "contact";
+};
+
+export default function ServiceRequest({ variant = "service" }: ServiceRequestProps) {
+  const isParts = variant === "parts";
+  const heading = isParts ? "Request a part or consumable." : variant === "refurbished" ? "Ask about available printers." : "Tell us what the printer is doing.";
+
+  function openEmail(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const files = Array.from(form.querySelectorAll<HTMLInputElement>('input[type="file"]'))
+      .flatMap((input) => Array.from(input.files ?? []))
+      .map((file) => file.name);
+    const lines = Array.from(data.entries()).flatMap(([key, value]) => {
+      if (typeof value !== "string" || !value.trim()) return [];
+      const label = key.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
+      return [`${label}: ${value.trim()}`];
+    });
+    if (files.length) lines.push(`Files to attach: ${files.join(", ")}`);
+    const subject = isParts ? "Parts / Consumables Inquiry" : variant === "refurbished" ? "Refurbished Printer Inquiry" : "Industrial Printer Service Request";
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+  }
+
+  return (
+    <section className="requestSection" id="request" aria-label={heading}>
+      <div className="requestIntro">
+        <span className="eyebrow">Request support</span>
+        <h2>{heading}</h2>
+        <p>Not sure what is wrong? Send a photo or video and D-Macht will help identify the issue. You can submit even if the exact model is unknown.</p>
+        <div className="requestHelp">
+          <strong>Production stopped?</strong>
+          <p>Include the exact error code and mark the urgency as line down.</p>
+          <a href={`mailto:${contact.email}?subject=Urgent%20Industrial%20Printer%20Breakdown`}>{contact.email}</a>
         </div>
       </div>
 
-      <form className="requestForm" action="mailto:support@dmacht.com" method="post" encType="text/plain">
+      <form className="requestForm" action={`mailto:${contact.email}`} method="post" encType="text/plain" onSubmit={openEmail}>
+        <input type="hidden" name="requestType" value={variant} />
         <div className="formRow">
           <label>
             <span>Name</span>
@@ -49,33 +81,27 @@ export default function ServiceRequest() {
 
         <div className="formRow">
           <label>
-            <span>Email</span>
+            <span>Email *</span>
             <input name="email" type="email" placeholder="you@company.com" required />
           </label>
           <label>
-            <span>Phone</span>
-            <input name="phone" type="tel" placeholder="Phone / WhatsApp" />
+            <span>Phone / WhatsApp *</span>
+            <input name="phone" type="tel" placeholder="Best callback number" required />
           </label>
         </div>
 
         <div className="formRow">
           <label>
-            <span>Region</span>
-            <select name="region" defaultValue="" required>
-              <option value="" disabled>
-                Choose region
-              </option>
-              <option>India service support</option>
-              <option>US / global support</option>
-            </select>
+            <span>Printer brand</span>
+            <input name="printerBrand" placeholder="Videojet, Domino, Linx…" />
           </label>
           <label>
-            <span>Service type</span>
-            <select name="serviceType" defaultValue="" required>
+            <span>{isParts ? "Category" : "Service needed"} *</span>
+            <select name={isParts ? "category" : "serviceType"} defaultValue="" required>
               <option value="" disabled>
-                Choose service type
+                {isParts ? "Choose category" : "Choose service"}
               </option>
-              {serviceTypes.map((type) => (
+              {(isParts ? partCategories : serviceTypes).map((type) => (
                 <option key={type}>{type}</option>
               ))}
             </select>
@@ -84,7 +110,7 @@ export default function ServiceRequest() {
 
         <div className="formRow">
           <label>
-            <span>Urgency</span>
+            <span>Urgency *</span>
             <select name="urgency" defaultValue="" required>
               <option value="" disabled>
                 Choose urgency
@@ -96,25 +122,42 @@ export default function ServiceRequest() {
           </label>
           <label>
             <span>Printer model</span>
-            <input name="printerModel" placeholder="Brand / model / serial if known" />
+            <input name="printerModel" placeholder="Model / serial if known" />
+          </label>
+        </div>
+
+        <div className="formRow">
+          <label>
+            <span>{isParts ? "Part number" : "Error code"}</span>
+            <input name={isParts ? "partNumber" : "errorCode"} placeholder={isParts ? "If known" : "Exact code if shown"} />
+          </label>
+          <label>
+            <span>Location *</span>
+            <input name="location" placeholder="City / plant location" required />
           </label>
         </div>
 
         <label className="fullField">
-          <span>Issue details</span>
+          <span>{isParts ? "What do you need? *" : "Problem description *"}</span>
           <textarea
             name="details"
-            placeholder="What is happening? Include fault code, print issue, when it started, photos available, location, and anything that changed."
+            placeholder={isParts ? "Describe the component, quantity, current label or application." : "What is happening, when did it start, and is production stopped?"}
             required
           />
         </label>
 
+        <label className="fullField fileField">
+          <span>Photo / video</span>
+          <input name="referenceFiles" type="file" accept="image/*,video/*" multiple />
+          <small>When your email app opens, attach the selected files before sending.</small>
+        </label>
+
         <button className="button primary" type="submit">
-          Submit service request
+          {isParts ? "Open parts inquiry" : "Open service request"}
         </button>
 
         <p className="requestFinePrint">
-          This opens your email app with the request details. For attachments, add photos or videos before sending.
+          Your details are placed into a new email to D-Macht. Review it, attach your photo or video, then send.
         </p>
       </form>
     </section>

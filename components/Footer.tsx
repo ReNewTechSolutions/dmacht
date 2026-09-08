@@ -1,40 +1,28 @@
 import Link from "next/link";
-
-const footerLinks = [
-  { label: "Maintenance / AMC", href: "/maintenance" },
-  { label: "Printer types", href: "/printer-types" },
-  { label: "Parts + fluids", href: "/parts-fluids-consumables" },
-  { label: "PCB repair", href: "/pcb-repair" },
-  { label: "Industries served", href: "/industries" },
-  { label: "US launch", href: "/us-launch-kansas-city" },
-];
-
-const supportTags = ["Repair", "Maintenance", "Parts", "Consumables", "PCB", "Refurbished printers"];
+import { contact, primaryNav } from "../data/site";
 
 export default function Footer() {
   return (
     <footer className="siteFooter" aria-label="D-Macht footer">
-      <div className="footerCta">
+      <div className="container footerCta">
         <div>
-          <span className="eyebrow">Ready to route the issue?</span>
-          <h2>Start with the machine details. D-Macht handles the next step.</h2>
-          <p>
-            Submit one clear service request for printer repair, maintenance, parts, consumables, PCB support, or sourcing coordination.
-          </p>
+          <span className="eyebrow light">Need your printer running again?</span>
+          <h2>Send the model, error code and a photo.</h2>
         </div>
-        <Link className="button primary" href="/#request">
+        <Link className="button lightButton" href="/contact#request">
           Request service
         </Link>
       </div>
 
-      <div className="footerLinkPanel" aria-label="Footer navigation">
-        <div className="footerLinkIntro">
-          <span className="eyebrow">Explore support</span>
-          <h3>Find the right path before sending a request.</h3>
+      <div className="container footerMain">
+        <div className="footerBrand">
+          <strong>D-MACHT</strong>
+          <p>Industrial printer repair, service, parts, consumables and refurbished equipment.</p>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <span>{contact.location}</span>
         </div>
-
         <nav className="footerLinks" aria-label="Footer page links">
-          {footerLinks.map((link) => (
+          {primaryNav.map((link) => (
             <Link key={link.href} href={link.href}>
               {link.label}
             </Link>
@@ -42,20 +30,9 @@ export default function Footer() {
         </nav>
       </div>
 
-      <div className="footerBottom">
-        <div className="footerBrandBlock">
-          <strong>D-Macht</strong>
-          <span>Industrial printer support desk</span>
-        </div>
-
-        <div className="footerMeta">
-          <div className="footerTagRow" aria-label="Support categories">
-            {supportTags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
-          </div>
-          <span>© {new Date().getFullYear()} D-Macht. A ReNewTech Solutions service line.</span>
-        </div>
+      <div className="container footerBottom">
+        <span>© {new Date().getFullYear()} D-Macht. A ReNewTech Solutions service line.</span>
+        <span>Independent industrial printer service company</span>
       </div>
     </footer>
   );

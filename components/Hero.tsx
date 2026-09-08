@@ -1,65 +1,47 @@
 import Image from "next/image";
+import Link from "next/link";
+import { brands } from "../data/site";
 
 export default function Hero() {
   return (
-    <section className="heroSection" id="top">
-      <div className="heroGrid">
-        <div className="heroCopy">
-          <div className="eyebrow">Factory operations dashboard • repair lab support</div>
-
-          <h1>Industrial printer support built for production uptime.</h1>
-
-          <p>
-            D-Macht helps teams route repair, maintenance, parts, consumables, PCB support, and refurbished printer requests through one clear industrial service intake.
+    <>
+      <section className="homeHero" id="top">
+        <div className="homeHeroCopy">
+          <span className="eyebrow">Pune-based repair & field support</span>
+          <h1>Industrial printer repair & service</h1>
+          <p className="heroTypes">CIJ <span>•</span> TIJ <span>•</span> DOD <span>•</span> Coding & marking systems</p>
+          <p className="heroLead">
+            Repair, maintenance, PCB-level diagnostics, spare parts and consumables for major industrial printer brands.
           </p>
-
-          <div className="heroActions">
-            <a className="button primary" href="#request">
-              Start service request
-            </a>
-            <a className="button secondary" href="#process">
-              See support process
-            </a>
+          <div className="buttonRow">
+            <Link className="button primary" href="/contact#request">
+              Request service
+            </Link>
+            <Link className="button secondary" href="/contact#request">
+              Call / WhatsApp
+            </Link>
           </div>
         </div>
-
-        <aside className="operationsCard heroMachineCard" aria-label="Service intake summary">
-          <div className="statusRow">
-            <span className="statusDot" />
-            Service intake online
+        <div className="homeHeroImage">
+          <Image
+            src="/brand/workshop-hero-v2.png"
+            alt="Technician diagnosing an open industrial continuous inkjet printer in a service workshop"
+            fill
+            loading="eager"
+            sizes="(max-width: 860px) 100vw, 58vw"
+          />
+          <div className="imageNote">
+            <strong>Workshop repair</strong>
+            <span>Diagnostics, components and complete printer systems</span>
           </div>
-
-          <div className="heroMachineVisual" aria-hidden>
-            <Image
-              src="/brand/hero-machine.png"
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 900px) 100vw, 560px"
-              className="heroOgImage"
-            />
-            <div className="heroMachineShade" />
-          </div>
-
-          <div className="operationsContent">
-            <h2>Start with machine details.</h2>
-            <p>
-              The fastest request includes brand, model, error code, photos/video, location, and whether production is stopped.
-            </p>
-
-            <div className="ticketGrid">
-              <div>
-                <span>Best for</span>
-                <strong>Repair, parts, fluids, maintenance</strong>
-              </div>
-              <div>
-                <span>Route</span>
-                <strong>India or US/global</strong>
-              </div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
+        </div>
+      </section>
+      <section className="brandBar" aria-label="Supported industrial printer brands">
+        <span>Major brands supported</span>
+        <div>
+          {brands.map((brand) => <strong key={brand}>{brand}</strong>)}
+        </div>
+      </section>
+    </>
   );
 }

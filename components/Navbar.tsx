@@ -1,18 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Maintenance", href: "/maintenance" },
-  { label: "Printer types", href: "/printer-types" },
-  { label: "Parts + fluids", href: "/parts-fluids-consumables" },
-  { label: "PCB repair", href: "/pcb-repair" },
-  { label: "Industries", href: "/industries" },
-  { label: "US launch", href: "/us-launch-kansas-city" },
-];
+import { primaryNav } from "../data/site";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -22,27 +12,18 @@ export default function Navbar() {
   }
 
   return (
-    <header className="topNavWrap">
-      <div className="topNav">
-        <Link className="brandMark" href="/" aria-label="D-Macht home" onClick={closeMenu}>
-          <span className="brandLogoWide" aria-label="D-Macht logo">
-            <Image
-              src="/brand/dmacht-logo.png"
-              alt="D-Macht logo"
-              width={420}
-              height={160}
-              priority
-            />
-          </span>
-
-          <span className="brandTextBlock">
-            <strong>D-Macht</strong>
-            <small>Industrial support desk</small>
+    <header className="siteHeader">
+      <div className="navbar">
+        <Link className="wordmark" href="/" aria-label="D-Macht home" onClick={closeMenu}>
+          <span className="wordmarkIcon" aria-hidden="true">D</span>
+          <span>
+            <strong>D-MACHT</strong>
+            <small>Industrial printer specialists</small>
           </span>
         </Link>
 
         <nav className="navLinks" aria-label="Primary navigation">
-          {navItems.map((item) => (
+          {primaryNav.map((item) => (
             <Link key={item.href} href={item.href} onClick={closeMenu}>
               {item.label}
             </Link>
@@ -50,7 +31,7 @@ export default function Navbar() {
         </nav>
 
         <div className="navActions">
-          <Link className="navCta" href="/#request" onClick={closeMenu}>
+          <Link className="navCta" href="/contact#request" onClick={closeMenu}>
             Request service
           </Link>
 
@@ -73,13 +54,13 @@ export default function Navbar() {
         className={`mobileNavPanel ${open ? "is-open" : ""}`}
         aria-label="Mobile navigation"
       >
-        {navItems.map((item) => (
+        {primaryNav.map((item) => (
           <Link key={item.href} href={item.href} onClick={closeMenu}>
             {item.label}
           </Link>
         ))}
 
-        <Link className="mobileNavCta" href="/#request" onClick={closeMenu}>
+        <Link className="mobileNavCta" href="/contact#request" onClick={closeMenu}>
           Request service
         </Link>
       </nav>

@@ -1,26 +1,27 @@
 import Hero from "../../components/Hero";
-import OperationsSnapshot from "../../components/OperationsSnapshot";
-import RegionSelector from "../../components/RegionSelector";
-import ServiceMatrix from "../../components/ServiceMatrix";
-import ProcessSteps from "../../components/ProcessSteps";
-import TroubleshootingTips from "../../components/TroubleshootingTips";
-import ServiceRequest from "../../components/ServiceRequest";
-import FAQ from "../../components/FAQ";
+import ServiceChoices from "../../components/ServiceChoices";
+import BreakdownCTA from "../../components/BreakdownCTA";
+import Capabilities from "../../components/Capabilities";
+import MaintenanceSection from "../../components/MaintenanceSection";
+import PartsPaths from "../../components/PartsPaths";
+import BrandsIndustries from "../../components/BrandsIndustries";
+import AboutPreview from "../../components/AboutPreview";
 import Footer from "../../components/Footer";
-
 
 export default function Home() {
   return (
-    <main className="siteShell">
-      <Hero />
-      <OperationsSnapshot />
-      <RegionSelector />
-      <ServiceMatrix />
-      <ProcessSteps />
-      <TroubleshootingTips />
-      <ServiceRequest />
-      <FAQ />
+    <>
+      <main>
+        <Hero />
+        <ServiceChoices />
+        <BreakdownCTA />
+        <Capabilities />
+        <MaintenanceSection />
+        <PartsPaths />
+        <BrandsIndustries />
+        <AboutPreview />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
