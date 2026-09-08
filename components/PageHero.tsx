@@ -20,7 +20,7 @@ export default function PageHero({
   image,
   imageAlt,
   primaryLabel = "Request service",
-  primaryHref = "/contact#request",
+  primaryHref = "/repair-service#request",
   secondaryLabel,
   secondaryHref,
 }: PageHeroProps) {

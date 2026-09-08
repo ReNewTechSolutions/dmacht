@@ -5,9 +5,10 @@ export const contact = {
 
 export const primaryNav = [
   { label: "Home", href: "/" },
-  { label: "Repair & Service", href: "/repair-service" },
-  { label: "Parts & Consumables", href: "/parts-consumables" },
-  { label: "Refurbished Printers", href: "/refurbished-printers" },
+  { label: "Services", href: "/repair-service" },
+  { label: "Spare Parts", href: "/parts-consumables" },
+  { label: "Printers", href: "/printers" },
+  { label: "Supported Brands", href: "/#supported-brands" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

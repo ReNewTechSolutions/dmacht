@@ -36,7 +36,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="aboutCoverage">
+        <section className="aboutCoverage" id="brands">
           <div className="container coverageGrid">
             <div><span className="eyebrow">Brands commonly supported</span><div className="simpleNameList">{brands.map((brand) => <span key={brand}>{brand}</span>)}</div></div>
             <div><span className="eyebrow">Production environments</span><div className="simpleNameList">{industries.map((industry) => <span key={industry}>{industry}</span>)}</div></div>

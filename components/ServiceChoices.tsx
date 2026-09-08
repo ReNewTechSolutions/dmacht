@@ -1,58 +1,44 @@
-import Image from "next/image";
 import Link from "next/link";
-import SectionHeading from "./SectionHeading";
+import { ArrowRight, Settings, ShoppingCart, Wrench } from "lucide-react";
 
-const services = [
+const actions = [
   {
-    title: "Printer repair",
-    copy: "Breakdowns, error codes, print-quality issues, mechanical faults and electrical faults.",
-    href: "/repair-service",
-    image: "/brand/workshop-hero-v2.png",
-    alt: "Open industrial printer undergoing workshop repair",
+    title: "Book Service",
+    copy: "Get your printer inspected, repaired and back up quickly.",
+    href: "/repair-service#request",
+    icon: Wrench,
+    tone: "service",
   },
   {
-    title: "PCB & electronic repair",
-    copy: "Chip-level diagnostics, board repair and component-level electronics work.",
-    href: "/repair-service#pcb-repair",
-    image: "/brand/pcb-workbench-v2.png",
-    alt: "Industrial printer circuit board being repaired under magnification",
-  },
-  {
-    title: "Parts & consumables",
-    copy: "Filters, pumps, nozzles, printheads, ink, make-up fluid and replacement components.",
+    title: "Buy Spare Parts",
+    copy: "Genuine and high-quality parts for all major brands.",
     href: "/parts-consumables",
-    image: "/brand/parts-bench-v2.png",
-    alt: "Industrial printer parts and consumables on a service bench",
+    icon: Settings,
+    tone: "parts",
   },
   {
-    title: "Refurbished printers",
-    copy: "Industrial coding equipment rebuilt, tested and prepared for production.",
-    href: "/refurbished-printers",
-    image: "/brand/refurbished-printers-v2.png",
-    alt: "Refurbished industrial coding printers being tested in a workshop",
+    title: "Buy Printers",
+    copy: "New and refurbished industrial coding printers.",
+    href: "/printers",
+    icon: ShoppingCart,
+    tone: "printers",
   },
 ];
 
 export default function ServiceChoices() {
   return (
-    <section className="section container" id="services">
-      <SectionHeading
-        eyebrow="What do you need?"
-        title="Start with the job that needs doing."
-        copy="Four clear ways D-Macht can help your production team get the printer—and the line—working again."
-      />
-      <div className="serviceChoiceGrid">
-        {services.map((service) => (
-          <article className="serviceChoice" key={service.title}>
-            <div className="serviceChoiceImage">
-              <Image src={service.image} alt={service.alt} fill sizes="(max-width: 760px) 100vw, 50vw" />
-            </div>
-            <div className="serviceChoiceCopy">
-              <h3>{service.title}</h3>
-              <p>{service.copy}</p>
-              <Link className="textLink" href={service.href}>View service <span aria-hidden="true">→</span></Link>
-            </div>
-          </article>
+    <section className="primaryActionsSection" aria-labelledby="primary-actions-title">
+      <h2 className="visuallyHidden" id="primary-actions-title">Choose how D-Macht can help</h2>
+      <div className="container primaryActionGrid">
+        {actions.map(({ title, copy, href, icon: Icon, tone }) => (
+          <Link className={`primaryActionCard ${tone}`} href={href} key={title}>
+            <span className="primaryActionIcon"><Icon size={34} strokeWidth={2.25} aria-hidden="true" /></span>
+            <span className="primaryActionCopy">
+              <strong>{title}</strong>
+              <small>{copy}</small>
+            </span>
+            <ArrowRight className="primaryActionArrow" size={26} aria-hidden="true" />
+          </Link>
         ))}
       </div>
     </section>

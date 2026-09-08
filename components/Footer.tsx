@@ -9,7 +9,7 @@ export default function Footer() {
           <span className="eyebrow light">Need your printer running again?</span>
           <h2>Send the model, error code and a photo.</h2>
         </div>
-        <Link className="button lightButton" href="/contact#request">
+        <Link className="button lightButton" href="/repair-service#request">
           Request service
         </Link>
       </div>

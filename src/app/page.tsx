@@ -1,10 +1,9 @@
 import Hero from "../../components/Hero";
 import ServiceChoices from "../../components/ServiceChoices";
-import BreakdownCTA from "../../components/BreakdownCTA";
+import BrandStrip from "../../components/BrandStrip";
+import CredibilityStrip from "../../components/CredibilityStrip";
 import Capabilities from "../../components/Capabilities";
-import MaintenanceSection from "../../components/MaintenanceSection";
 import PartsPaths from "../../components/PartsPaths";
-import BrandsIndustries from "../../components/BrandsIndustries";
 import AboutPreview from "../../components/AboutPreview";
 import Footer from "../../components/Footer";
 
@@ -14,11 +13,10 @@ export default function Home() {
       <main>
         <Hero />
         <ServiceChoices />
-        <BreakdownCTA />
+        <BrandStrip />
+        <CredibilityStrip />
         <Capabilities />
-        <MaintenanceSection />
         <PartsPaths />
-        <BrandsIndustries />
         <AboutPreview />
       </main>
       <Footer />
