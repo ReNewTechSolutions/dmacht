@@ -1,9 +1,13 @@
 "use client";
 
+import Image from "next/image";
+import { photography } from "../data/photography";
 import { useState } from "react";
 import { brands } from "../data/site";
 import { partGroups } from "../data/catalog";
 import ServiceRequest from "./ServiceRequest";
+
+const categoryPhotos = [photography.nozzle, photography.inkSystem, photography.electronics, photography.fluids];
 
 export default function PartsCatalog() {
   const [query, setQuery] = useState("");
@@ -28,7 +32,7 @@ export default function PartsCatalog() {
       </div>
       <p className="catalogNote">This is a category catalogue. Model and part-number matches are confirmed by D-Macht; no live stock or compatibility is implied.</p>
       <p role="status">{results.length} {results.length === 1 ? "category" : "categories"}{brand ? ` · For your ${brand} inquiry` : ""}</p>
-      <div className="catalogGrid">{results.map((group) => <article key={group.title}><h3>{group.title}</h3><p>{group.items.join(" · ")}</p>{group.title === "Inks, Fluids & Consumables" && <p>CIJ, DOD and TIJ ink products, plus solvents and cleaners for multiple printer brands. Send the current fluid label to check suitability.</p>}<a className="textLink" href="#parts-inquiry" onClick={() => choose(group.title)}>Request these parts →</a></article>)}</div>
+      <div className="catalogGrid">{results.map((group) => <article key={group.title}><div className="partsCategoryPhoto"><Image src={categoryPhotos[partGroups.indexOf(group)].src} alt={categoryPhotos[partGroups.indexOf(group)].alt} fill sizes="(max-width: 640px) calc(100vw - 80px), 320px" /></div><h3>{group.title}</h3><p>{group.items.join(" · ")}</p>{group.title === "Inks, Fluids & Consumables" && <p>CIJ, DOD and TIJ ink products, plus solvents and cleaners for multiple printer brands. Send the current fluid label to check suitability.</p>}<a className="textLink" href="#parts-inquiry" onClick={() => choose(group.title)}>Request these parts →</a></article>)}</div>
       {!results.length && <div className="emptyInventory"><h3>No category matches that term.</h3><p>Send the part number or a photo and we’ll help identify the component.</p></div>}
       <a className="textLink" href="#parts-inquiry" onClick={() => choose("Other / not sure")}>Ask about this brand, model or part number →</a>
       <aside className="photoCallout"><div><span className="eyebrow">Don’t know the part name?</span><h2>Send us a photo.</h2><p>Show the broken or existing component and its label. Include your printer brand and model so D-Macht can help identify it.</p></div><a className="button primary" href="#parts-inquiry" onClick={() => choose("Other / not sure", true)}>Add a component photo →</a></aside>

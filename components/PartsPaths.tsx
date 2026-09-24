@@ -18,7 +18,7 @@ export default function PartsPaths() {
           copy="A photo, label or part number is enough to start. D-Macht can help identify the component before supply."
         />
         <div className="partsFeatureImage">
-          <Image src="/brand/parts-bench-v2.png" alt="Industrial printer pumps filters nozzles electronics and fluids" fill sizes="(max-width: 860px) 100vw, 46vw" />
+          <Image src="/brand/photography/parts-bench.webp" alt="Industrial printer pumps filters nozzles electronics and fluids" fill sizes="(max-width: 860px) 100vw, 46vw" />
         </div>
       </div>
       <div className="partsPathGrid">

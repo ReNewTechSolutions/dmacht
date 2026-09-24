@@ -7,6 +7,8 @@ type PageHeroProps = {
   copy: string;
   image: string;
   imageAlt: string;
+  imagePosition?: string;
+  imageNote?: string;
   primaryLabel?: string;
   primaryHref?: string;
   secondaryLabel?: string;
@@ -19,6 +21,8 @@ export default function PageHero({
   copy,
   image,
   imageAlt,
+  imagePosition = "center",
+  imageNote,
   primaryLabel = "Request service",
   primaryHref = "/repair-service#request",
   secondaryLabel,
@@ -46,9 +50,10 @@ export default function PageHero({
           src={image}
           alt={imageAlt}
           fill
-          loading="eager"
+          style={{ objectPosition: imagePosition }}
           sizes="(max-width: 860px) 100vw, 52vw"
         />
+        {imageNote && <span className="imageContext">{imageNote}</span>}
       </div>
     </section>
   );

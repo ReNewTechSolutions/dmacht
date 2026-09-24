@@ -16,7 +16,7 @@ export default function Capabilities() {
     <section className="section container capabilitySection">
       <div className="capabilityVisual">
         <Image
-          src="/brand/pcb-workbench-v2.png"
+          src="/brand/photography/diagnostics.webp"
           alt="Technician carrying out component-level repair on an industrial printer PCB"
           fill
           sizes="(max-width: 860px) 100vw, 46vw"

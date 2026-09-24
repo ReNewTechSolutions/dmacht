@@ -3,6 +3,7 @@ import Image from "next/image";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import SectionHeading from "../../../components/SectionHeading";
+import { photography } from "../../../data/photography";
 import { brands, industries } from "../../../data/site";
 
 export const metadata = pageMetadata(
@@ -25,8 +26,9 @@ export default function AboutPage() {
           eyebrow="About D-Macht"
           title="A repair company built around industrial coding equipment."
           copy="D-Macht is a Pune-based technical service business for industrial printers—combining field support, workshop repair, electronic diagnosis, parts, consumables and refurbished equipment."
-          image="/brand/pcb-workbench-v2.png"
-          imageAlt="Component-level industrial printer circuit board repair"
+          image="/brand/photography/dee-service.webp"
+          imageAlt="Dee working with a screwdriver on an open industrial printer"
+          imagePosition="65% center"
           secondaryLabel="Explore repair services"
           secondaryHref="/repair-service"
         />
@@ -38,6 +40,10 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className="container applicationPhotoSection">
+          <div className="applicationPhotoFrame"><Image src={photography.application.src} alt={photography.application.alt} fill sizes="(max-width: 640px) calc(100vw - 32px), 440px" /></div>
+          <div><span className="eyebrow">On your production line</span><h2>Small codes. Essential information.</h2><p>Manufacturing dates, expiry dates and batch numbers on bottles, packaging and other production materials.</p></div>
+        </section>
         <section className="aboutCoverage" id="brands">
           <div className="container coverageGrid">
             <div><span className="eyebrow">Brands commonly supported</span><div className="simpleNameList">{brands.map((brand) => <span key={brand}>{brand}</span>)}</div></div>

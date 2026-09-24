@@ -14,10 +14,10 @@ export default function Hero() {
     <section className="homeHero" id="top">
       <Image
         className="homeHeroBackdrop"
-        src="/brand/dee-hero-v3.png"
+        src="/brand/photography/dee-hero.webp"
         alt="Dee, D-Macht founder and lead technician, beside an open industrial coding printer"
         fill
-        loading="eager"
+        preload
         sizes="100vw"
       />
       <div className="homeHeroWash" aria-hidden="true" />

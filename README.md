@@ -119,3 +119,7 @@ The shared social asset is `public/brand/dmacht-social.png` (1200 × 630). It us
 - Authoring: `scripts/build-social-image.py` composes the compact logo and outlined local Arial text into `scripts/dmacht-social-source.svg` (optional fontTools dependency).
 - Rasterization: `node scripts/render-social-image.mjs` regenerates the PNG from the self-contained SVG using the installed Sharp package.
 - Verification: after `npm run build`, run `node scripts/verify-metadata.mjs`; pass an origin to check a served deployment, e.g. `node scripts/verify-metadata.mjs https://www.dmacht.com`. This checks all six content routes for duplicate/conflicting metadata, canonical URLs, card references and PNG dimensions; live checks also compare image bytes with the committed asset.
+
+## Photography
+
+See [the imagery audit and asset map](docs/PHOTOGRAPHY.md) for sources, placements, reference-edit prompts and optimization decisions. The homepage retains the Dee hero and three main paths, then adds four photo links below supported brands. The service page pairs six distinct images with repair capabilities; maintenance remains in its dedicated section. Parts browsing and inquiry behavior are preserved. Printer photography is explicitly illustrative, separate from real inventory data.

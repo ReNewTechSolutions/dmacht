@@ -17,7 +17,7 @@ export default function PartsConsumablesPage() {
           eyebrow="Parts & consumables"
           title="The right part starts with the right details."
           copy="Request industrial printer components, ink and fluids by brand, model, part number or photo. If you are unsure, D-Macht can help identify the item."
-          image="/brand/parts-bench-v2.png"
+          image="/brand/photography/parts-bench.webp"
           imageAlt="Industrial printer pumps filters printheads electronics and fluid bottles"
           primaryLabel="Start an inquiry"
           primaryHref="#parts-inquiry"

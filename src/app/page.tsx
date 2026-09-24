@@ -1,3 +1,4 @@
+import ExpertisePhotography from "../../components/ExpertisePhotography";
 import Hero from "../../components/Hero";
 import ServiceChoices from "../../components/ServiceChoices";
 import BrandStrip from "../../components/BrandStrip";
@@ -11,6 +12,7 @@ export default function Home() {
         <Hero />
         <ServiceChoices />
         <BrandStrip />
+        <ExpertisePhotography />
         <CredibilityStrip />
       </main>
       <Footer />

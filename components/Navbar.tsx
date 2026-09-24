@@ -19,7 +19,7 @@ export default function Navbar() {
     <header className="siteHeader">
       <div className="navbar">
         <Link className="wordmark" href="/" aria-label="D-Macht home" onClick={closeMenu}>
-          <Image className="navLogo" src="/brand/dmacht-logo-compact.svg" alt="D-Macht" width={1620} height={276} priority />
+          <Image className="navLogo" src="/brand/dmacht-logo-compact.svg" alt="D-Macht" width={1620} height={276} />
         </Link>
 
         <nav className="navLinks" aria-label="Primary navigation">
