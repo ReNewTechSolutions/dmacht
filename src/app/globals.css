@@ -582,7 +582,7 @@ img { max-width: 100%; }
   .homeHero, .homeHeroInner { min-height: 540px; }
   .homeHeroBackdrop { object-position: 62% center; opacity: 0.6; }
   .heroPersonLabel { left: auto; right: 16px; bottom: 20px; padding: 8px 11px; }
-  .homeHeroWash { background: linear-gradient(90deg, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.9) 48%, rgba(248, 250, 252, 0.48) 100%); }
+  .homeHeroWash { background: linear-gradient(90deg, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.92) 48%, rgba(248, 250, 252, 0.58) 100%); }
   .homeHeroCopy { width: 100%; min-height: 540px; padding: 38px 0 42px; }
   .heroEyebrow { font-size: 9px; letter-spacing: 0.21em; }
   .homeHeroCopy h1, .pageHeroCopy h1 { font-size: clamp(41px, 12.2vw, 54px); }
