@@ -1,4 +1,5 @@
 import { pageMetadata } from "../../../lib/metadata";
+import Link from "next/link";
 import Image from "next/image";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
@@ -47,7 +48,7 @@ export default function AboutPage() {
         <section className="aboutCoverage" id="brands">
           <div className="container coverageGrid">
             <div><span className="eyebrow">Brands commonly supported</span><div className="simpleNameList">{brands.map((brand) => <span key={brand}>{brand}</span>)}</div></div>
-            <div id="industries"><span className="eyebrow">Production environments</span><div className="simpleNameList">{industries.map((industry) => <span key={industry}>{industry}</span>)}</div></div>
+            <div id="industries"><span className="eyebrow">Production environments</span><div className="simpleNameList">{industries.map((industry) => <span key={industry}>{industry}</span>)}</div><Link className="textLink" href="/industries">Explore production environments →</Link></div>
           </div>
         </section>
       </main>

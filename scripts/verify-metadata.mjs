@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 const origin = process.argv[2];
 const production = 'https://www.dmacht.com';
 const imageUrl = `${production}/brand/dmacht-social.png`;
-const routes = ['/', '/repair-service', '/parts-consumables', '/printers', '/about', '/contact'];
+const routes = ['/', '/repair-service', '/parts-consumables', '/printers', '/about', '/contact', '/industries'];
 const decode = (value) => value.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#x27;', "'");
 
 await Promise.all(routes.map(async (route) => {

@@ -1,3 +1,4 @@
+import IndustriesPreview from "../../components/IndustriesPreview";
 import ExpertisePhotography from "../../components/ExpertisePhotography";
 import Hero from "../../components/Hero";
 import ServiceChoices from "../../components/ServiceChoices";
@@ -13,6 +14,7 @@ export default function Home() {
         <ServiceChoices />
         <BrandStrip />
         <ExpertisePhotography />
+        <IndustriesPreview />
         <CredibilityStrip />
       </main>
       <Footer />

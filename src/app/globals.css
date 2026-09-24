@@ -721,3 +721,41 @@ img { max-width: 100%; }
   .applicationPhotoSection { grid-template-columns: 1fr; gap: 24px; padding-bottom: 56px; }
   .pageHeroImage { border-radius: 0; }
 }
+
+/* Application photography with useful routes back to the three business paths. */
+.industriesIntro { padding-block: 76px 46px; }
+.industriesIntro h1 { max-width: 960px; font-size: clamp(38px, 5vw, 66px); line-height: 1.08; margin: 18px 0 24px; letter-spacing: -.04em; }
+.industriesIntro > p { max-width: 790px; font-size: 19px; line-height: 1.75; color: var(--muted); }
+.industryImageNote { display: block; margin-top: 20px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.industryGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 38px 26px; padding-bottom: 70px; }
+.industryCard { min-width: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.industryPhoto { position: relative; aspect-ratio: 1.5; overflow: hidden; background: #eef1f4; }
+.industryPhoto img { object-fit: cover; }
+.industryCardBody { padding: 25px; display: flex; flex-direction: column; flex: 1; }
+.industryCard h2 { font-size: 25px; line-height: 1.2; letter-spacing: -.025em; }
+.industryCard p { color: var(--muted); line-height: 1.7; margin: 16px 0 24px; }
+.industrySupport { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 16px; margin: auto 0 0; padding: 16px 0 0; border-top: 1px solid var(--line); }
+.industrySupport a { display: inline-block; padding-block: 5px; font-size: 13px; font-weight: 700; color: #19589e; }
+.industrySupport a:hover, .textLink:hover { text-decoration: underline; }
+.industryContact { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding-bottom: 80px; }
+.industryContact > div { flex: 1 1 100%; }
+.industryContact h2, .industriesPreview h2 { font-size: clamp(30px, 3.5vw, 44px); line-height: 1.15; margin: 14px 0; }
+.industryContact p, .industriesPreview p { line-height: 1.7; color: var(--muted); }
+.industriesPreview { background: #f4f7fa; }
+.industriesPreviewHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
+.textLink { display: inline-block; color: #19589e; font-weight: 750; line-height: 1.6; }
+.industryPreviewGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 26px; }
+.industryPreviewCard .industryPhoto { border-radius: 8px; }
+.industryPreviewCard h3 { font-size: 20px; margin-top: 16px; }
+.industryPreviewCard h3 span { color: var(--accent); }
+.aboutCoverage .textLink { margin-top: 24px; }
+@media (min-width: 1101px) and (max-width: 1250px) { .navLinks a { padding-inline: 7px; font-size: 12px; } .navLogo { width: 215px; } }
+@media (max-width: 1000px) { .industryGrid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 640px) {
+  .industriesIntro { padding-block: 48px 30px; }
+  .industriesIntro > p { font-size: 17px; }
+  .industryGrid, .industryPreviewGrid { grid-template-columns: 1fr; gap: 28px; }
+  .industryCardBody { padding: 22px; }
+  .industriesPreviewHeading { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .industryContact { gap: 18px 25px; padding-bottom: 52px; }
+}

@@ -11,6 +11,7 @@ export const primaryNav = [
   { label: "Spare Parts", href: "/parts-consumables" },
   { label: "Printers", href: "/printers" },
   { label: "Supported Brands", href: "/#supported-brands" },
+  { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
