@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { contact, primaryNav } from "../data/site";
 
-export default function Footer() {
+export default function Footer({ showCta = true }: { showCta?: boolean }) {
   return (
     <footer className="siteFooter" aria-label="D-Macht footer">
-      <div className="container footerCta">
+      {showCta && <div className="container footerCta">
         <div>
 
           <h2>Need help with your printer?</h2>
@@ -13,7 +13,7 @@ export default function Footer() {
         <Link className="button lightButton" href="/repair-service#request">
           Request Service
         </Link>
-      </div>
+      </div>}
 
       <div className="container footerMain">
         <div className="footerBrand">
