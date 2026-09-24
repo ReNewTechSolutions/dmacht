@@ -50,6 +50,7 @@ export default function PageHero({
           src={image}
           alt={imageAlt}
           fill
+          loading="eager"
           style={{ objectPosition: imagePosition }}
           sizes="(max-width: 860px) 100vw, 52vw"
         />

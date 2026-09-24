@@ -33,7 +33,7 @@ All photos are in `public/brand/photography/`.
 
 ## Optimization and layout
 
-`prepare-photography.mjs` creates deterministic reference crops and WebP assets. It never enlarges the small reference tiles. Generated standalone photos are resized to 1200 × 800 and encoded as WebP at quality 84. Detail cards stay narrow enough for their source dimensions. Next.js Image provides responsive sizes and reserves space through intrinsic dimensions or aspect-ratio frames. AVIF/WebP negotiation is enabled. Below-fold images lazy-load; only the actual homepage hero is preloaded. Short labels sit below the homepage photos; no collage or caption paragraphs overlay them.
+`prepare-photography.mjs` creates deterministic reference crops and WebP assets. It never enlarges the small reference tiles. Generated standalone photos are resized to 1200 × 800 and encoded as WebP at quality 84. Detail cards stay narrow enough for their source dimensions. Next.js Image provides responsive sizes and reserves space through intrinsic dimensions or aspect-ratio frames. AVIF/WebP negotiation is enabled. Below-fold detail images lazy-load; internal-page hero images load eagerly because they can be the desktop LCP. Only the actual homepage hero is preloaded. Short labels sit below the homepage photos; no collage or caption paragraphs overlay them.
 
 ## Generation prompts (built-in tool; no CLI fallback)
 
