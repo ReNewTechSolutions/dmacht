@@ -39,9 +39,9 @@ reliability = outlined('RELIABILITY', 666, 659, 322, 30, 6)
 flexibility = outlined('FLEXIBILITY', 1087, 659, 323, 30, 6)
 full = f'''<g id="supporting-type" fill="#2c3945"><path d="{subtitle}"/><path d="{quality}"/><path d="{reliability}"/><path d="{flexibility}"/></g><g id="tagline-rules" fill="#babdbf"><path d="M91 642H307V647H91ZM1447 642H1691V647H1447Z"/></g><g id="tagline-separators" fill="#fa661f"><path d="M612 618H617V670H612ZM1035 618H1040V670H1035Z"/></g>'''
 
-def save(name, box, content, title):
-    (DEST/name).write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{box}" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title"><title id="title">{title}</title>{defs}<g transform="translate(-72 -233)">{content}</g></svg>\n')
+def save(name, box, content, title, y_offset=-233):
+    (DEST/name).write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{box}" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title"><title id="title">{title}</title>{defs}<g transform="translate(-72 {y_offset})">{content}</g></svg>\n')
 
 save('dmacht-logo.svg', '0 0 1620 437', mark+word+full, 'D-Macht — Industrial Coding &amp; Marking Solutions — Quality, Reliability, Flexibility')
 save('dmacht-logo-compact.svg', '0 0 1620 276', mark+word, 'D-Macht')
-save('dmacht-mark.svg', '0 0 513 276', mark, 'D-Macht symbol')
+save('dmacht-mark.svg', '0 0 513 513', mark, 'D-Macht symbol', y_offset=-114.5)

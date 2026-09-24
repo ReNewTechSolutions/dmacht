@@ -106,6 +106,6 @@ The September 2026 refinement uses `D-MACHT-compressed.pdf` for business content
 
 - `public/brand/dmacht-logo.svg`: complete horizontal identity on About and a white footer inset so the approved navy lettering retains contrast.
 - `public/brand/dmacht-logo-compact.svg`: mark + hyphen + MACHT, used in desktop/mobile navigation.
-- `public/brand/dmacht-mark.svg`: isolated motion-D, used as the SVG favicon. Its native wide proportions are preserved without distortion.
+- `public/brand/dmacht-mark.svg`: isolated motion-D, used as the SVG favicon. The native wide symbol is centered without distortion inside the smallest square viewBox that contains it.
 
 All three assets contain actual paths and vector gradients with transparent backgrounds, no raster images, no external references, and no runtime font dependency. `scripts/build-brand-assets.py` documents the reconstruction; it requires Python fontTools and the local Arial font only when regenerating the supporting lettering. The symbol and MACHT lettering use explicit vector geometry matched to the approved September 2026 reference. Supporting lettering uses outlined, dimension-matched local Arial.
