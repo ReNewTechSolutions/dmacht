@@ -2,18 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-
 export default function Hero() {
   return (
     <section className="homeHero" id="top">
-      <Image
-        className="homeHeroBackdrop"
-        src="/brand/photography/dee-hero.webp"
-        alt="Dee, D-Macht founder and lead technician, beside an open industrial coding printer"
-        fill
-        preload
-        sizes="100vw"
-      />
+      <div className="homeHeroVisual">
+        <Image
+          className="homeHeroBackdrop"
+          src="/brand/photography/dee-hero.webp"
+          alt="Dee, D-Macht founder and lead technician, beside an open industrial coding printer"
+          fill
+          preload
+          sizes="(max-width: 1200px) 100vw, 1200px"
+        />
+        <div className="heroPersonLabel" aria-label="Dee, founder and lead technician">
+          <strong>Dee</strong>
+          <span>Founder &amp; Lead Technician</span>
+        </div>
+      </div>
       <div className="homeHeroWash" aria-hidden="true" />
       <div className="container homeHeroInner">
         <div className="homeHeroCopy">
@@ -26,11 +31,6 @@ export default function Hero() {
               Request Service <ArrowRight size={20} aria-hidden="true" />
             </Link>
           </div>
-        </div>
-
-        <div className="heroPersonLabel" aria-label="Dee, founder and lead technician">
-          <strong>Dee</strong>
-          <span>Founder &amp;<br />Lead Technician</span>
         </div>
       </div>
     </section>
