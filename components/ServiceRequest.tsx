@@ -26,7 +26,7 @@ const printerTypes = [
   "CIJ continuous inkjet",
   "TIJ thermal inkjet",
   "DOD drop-on-demand",
-  "Not sure — recommend a printer",
+  "Not sure. Recommend a printer",
 ];
 
 type ServiceRequestProps = {
@@ -38,18 +38,21 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [handoff, setHandoff] = useState("");
   const [canShareFiles, setCanShareFiles] = useState(false);
+  const isContact = variant === "contact";
   const isParts = variant === "parts";
+  const contactOptions = ["Printer service", "Spare parts or consumables", "New or refurbished printer", "General inquiry"];
+  const requestOptions = isContact ? contactOptions : serviceTypes;
   const isPrinters = variant === "printers";
   const heading = isParts
-    ? "Request a part or consumable."
+    ? "Request Parts"
     : isPrinters
-      ? "Ask about new or refurbished printers."
-      : "Tell us what the printer is doing.";
+      ? "Request Price"
+      : isContact ? "Contact D-Macht" : "Request Service";
   const intro = isParts
-    ? "Send the brand, model, part number or a clear photo. If you do not know the part, D-Macht will help identify it."
+    ? "Send the brand, model, part number or a photo."
     : isPrinters
-      ? "Share the application, print requirement and preferred condition. D-Macht will confirm suitable equipment and current availability."
-      : "Not sure what’s wrong? Send us a photo or video and we’ll help identify the issue. You can submit even if the exact model is unknown.";
+      ? "Share your application and preferred condition. We will confirm options and availability."
+      : isContact ? "Tell us what you need. Add a model or photo if available." : "Describe the fault and add a photo. The model is optional.";
 
   async function openEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -68,7 +71,7 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
       ? "Spare Parts / Consumables Inquiry"
       : isPrinters
         ? "New / Refurbished Printer Inquiry"
-        : "Industrial Printer Service Request";
+        : isContact ? "D-Macht Inquiry" : "Industrial Printer Service Request";
     const body = lines.join("\n");
     const submitter = (event.nativeEvent as SubmitEvent).submitter;
     if (submitter instanceof HTMLButtonElement && submitter.value === "share" && navigator.canShare?.({ files: selectedFiles })) {
@@ -84,14 +87,14 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
   }
 
-  const selectorLabel = isParts ? "Category" : isPrinters ? "Printer type" : "What’s wrong with your printer?";
+  const selectorLabel = isParts ? "Category" : isPrinters ? "Printer type" : isContact ? "Inquiry type" : "What’s wrong with your printer?";
   const selectorOptions = isParts ? partCategories : isPrinters ? printerTypes : serviceTypes;
-  const detailsLabel = isParts ? "Part description" : isPrinters ? "Application and print requirement" : "Problem description";
+  const detailsLabel = isParts ? "Part description" : isPrinters ? "Application and print requirement" : isContact ? "Your inquiry" : "Problem description";
   const detailsPlaceholder = isParts
     ? "Describe the component, current label, where it fits, or what needs replacing."
     : isPrinters
       ? "What will you print on, what code is required, and what line speed or environment should we account for?"
-      : "What is happening, when did it start, and is production stopped?";
+      : isContact ? "How can D-Macht help?" : "What is happening, when did it start, and is production stopped?";
 
   return (
     <section className="requestSection" id="request" aria-label={heading}>
@@ -99,17 +102,12 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
         <span className="eyebrow">Request support</span>
         <h2>{heading}</h2>
         <p>{intro}</p>
-        <div className="requestHelp">
-          <strong>{isParts ? "Unsure which part fits?" : isPrinters ? "Need help choosing?" : "Production stopped?"}</strong>
-          <p>{isParts ? "A label or component photo is enough to start." : isPrinters ? "Describe the production line and D-Macht can narrow the options." : "Include the exact error code and mark the urgency as line down."}</p>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
-        </div>
       </div>
 
       <form className="requestForm" action={`mailto:${contact.email}`} method="post" encType="text/plain" onSubmit={openEmail}>
         <input type="hidden" name="requestType" value={variant} />
         {initial.listing && <input type="hidden" name="listing" value={initial.listing} />}
-        {!isParts && !isPrinters && <label className="fullField"><span>{selectorLabel} *</span><select name="serviceType" defaultValue="" required><option value="" disabled>Choose the problem or maintenance need</option>{serviceTypes.map((option) => <option key={option}>{option}</option>)}</select></label>}
+        {!isParts && !isPrinters && <label className="fullField"><span>{selectorLabel} *</span><select name="serviceType" defaultValue="" required><option value="" disabled>Choose inquiry type</option>{requestOptions.map((option) => <option key={option}>{option}</option>)}</select></label>}
         <div className="formRow">
           <label>
             <span>Name *</span>
@@ -159,8 +157,8 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
             </label>
           ) : (
             <label>
-              <span>Urgency *</span>
-              <select name="urgency" defaultValue="" required>
+              <span>Urgency{isContact ? "" : " *"}</span>
+              <select name="urgency" defaultValue={isContact ? "General inquiry" : ""} required={!isContact}>
                 <option value="" disabled>Choose urgency</option>
                 {urgencyOptions.map((urgency) => <option key={urgency}>{urgency}</option>)}
               </select>
@@ -185,8 +183,8 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
 
         {isParts ? (
           <label className="formCheckbox">
-            <input name="identificationHelp" defaultChecked={initial.photoHelp} type="checkbox" value="Yes — help identify the part" />
-            <span>I don’t know which part I need — help me identify it</span>
+            <input name="identificationHelp" defaultChecked={initial.photoHelp} type="checkbox" value="Yes, help identify the part" />
+            <span>Help me identify the part</span>
           </label>
         ) : null}
 
@@ -207,7 +205,7 @@ export default function ServiceRequest({ variant = "service", initial = {} }: Se
         </label>
 
         <button className="button primary requestSubmit" type="submit">
-          {isParts ? "Open Spare Parts Inquiry" : isPrinters ? "Request Price / Availability" : "Book Service — Open Email Draft"}
+          {isParts ? "Request Price" : isPrinters ? "Request Price" : isContact ? "Contact D-Macht" : "Request Service"}
           <ArrowRight size={18} aria-hidden="true" />
         </button>
 

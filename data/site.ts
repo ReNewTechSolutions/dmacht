@@ -7,10 +7,9 @@ export const contact = {
 
 export const primaryNav = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/repair-service" },
+  { label: "Service", href: "/repair-service" },
   { label: "Spare Parts", href: "/parts-consumables" },
   { label: "Printers", href: "/printers" },
-  { label: "Supported Brands", href: "/#supported-brands" },
   { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

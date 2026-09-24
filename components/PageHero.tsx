@@ -23,7 +23,7 @@ export default function PageHero({
   imageAlt,
   imagePosition = "center",
   imageNote,
-  primaryLabel = "Request service",
+  primaryLabel = "Request Service",
   primaryHref = "/repair-service#request",
   secondaryLabel,
   secondaryHref,

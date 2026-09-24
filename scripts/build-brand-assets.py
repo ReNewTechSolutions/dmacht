@@ -42,6 +42,6 @@ full = f'''<g id="supporting-type" fill="#2c3945"><path d="{subtitle}"/><path d=
 def save(name, box, content, title, y_offset=-233):
     (DEST/name).write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{box}" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title"><title id="title">{title}</title>{defs}<g transform="translate(-72 {y_offset})">{content}</g></svg>\n')
 
-save('dmacht-logo.svg', '0 0 1620 437', mark+word+full, 'D-Macht — Industrial Coding &amp; Marking Solutions — Quality, Reliability, Flexibility')
+save('dmacht-logo.svg', '0 0 1620 437', mark+word+full, 'D-Macht. Industrial Coding &amp; Marking Solutions. Quality, Reliability, Flexibility')
 save('dmacht-logo-compact.svg', '0 0 1620 276', mark+word, 'D-Macht')
 save('dmacht-mark.svg', '0 0 513 513', mark, 'D-Macht symbol', y_offset=-114.5)

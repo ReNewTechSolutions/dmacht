@@ -26,7 +26,7 @@ export default function Capabilities() {
       <div>
         <SectionHeading
           eyebrow="Repair capabilities"
-          title="We repair the machine—and the parts inside it."
+          title="We repair the machine, and the parts inside it."
           copy="Practical fault finding across the ink system, electronics, printhead and complete coding unit."
         />
         <div className="capabilityList">

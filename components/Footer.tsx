@@ -7,18 +7,18 @@ export default function Footer() {
     <footer className="siteFooter" aria-label="D-Macht footer">
       <div className="container footerCta">
         <div>
-          <span className="eyebrow light">Need your printer running again?</span>
-          <h2>Send the model, error code and a photo.</h2>
+
+          <h2>Need help with your printer?</h2>
         </div>
         <Link className="button lightButton" href="/repair-service#request">
-          Request service
+          Request Service
         </Link>
       </div>
 
       <div className="container footerMain">
         <div className="footerBrand">
-          <Link className="footerLogo" href="/" aria-label="D-Macht home"><Image src="/brand/dmacht-logo.svg" alt="D-Macht — Industrial Coding & Marking Solutions. Quality, Reliability, Flexibility." width={1620} height={437} /></Link>
-          <p>Industrial printer repair, service, parts, consumables and refurbished equipment.</p>
+          <Link className="footerLogo" href="/" aria-label="D-Macht home"><Image src="/brand/dmacht-logo.svg" alt="D-Macht, Industrial Coding & Marking Solutions. Quality, Reliability, Flexibility." width={1620} height={437} /></Link>
+          <p>Printer repair, spare parts and new or refurbished printers.</p>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
           <span>{contact.location}</span>
         </div>

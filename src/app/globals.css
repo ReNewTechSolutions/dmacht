@@ -759,3 +759,49 @@ img { max-width: 100%; }
   .industriesPreviewHeading { flex-direction: column; align-items: flex-start; gap: 18px; }
   .industryContact { gap: 18px 25px; padding-bottom: 52px; }
 }
+
+/* Final editorial pass: one type family, clear hierarchy, less decoration. */
+h1, h2, h3 { font-weight: 700; }
+.sectionHeading h2, .equipmentBand h2, .footerCta h2, .requestIntro h2 {
+  font-size: clamp(30px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -.035em;
+}
+.pageHero h1 { font-size: clamp(36px, 4vw, 56px); line-height: 1.08; letter-spacing: -.035em; }
+.industriesIntro h1 { font-size: clamp(36px, 4vw, 56px); }
+.eyebrow { letter-spacing: .07em; font-weight: 700; }
+.eyebrow::before { display: none; }
+.heroEyebrow { letter-spacing: .12em; }
+.heroPersonLabel strong { font-family: inherit; font-size: 26px; font-weight: 700; }
+.primaryActionCard, .navCta { box-shadow: none; }
+.primaryActionCard:hover { transform: none; box-shadow: none; }
+.catalogGrid article { border: 0; border-radius: 0; padding: 18px 0; }
+.repairServiceGrid h3 { font-size: 25px; line-height: 1.2; margin: 16px 0; }
+.repairServiceGrid p { margin-block: 10px; }
+.repairServiceGrid article { border-right: 0; }
+.industryCard { border: 0; border-radius: 0; }
+.industryCard .industryPhoto { border-radius: 8px; }
+.industryCardBody { padding: 22px 0 0; }
+.industrySupport { border: 0; padding-top: 4px; }
+.industrySupport a { font-size: 14px; }
+.industryImageNote, .imageContext { font-size: 14px; }
+.industryContact { padding-top: 20px; }
+.requestSection { background: #f5f7fa; }
+.requestForm { box-shadow: none; }
+.photoCallout, .emptyInventory { background: transparent; border: 0; padding-inline: 0; }
+.aboutCoverage p { margin-top: 20px; color: var(--muted); line-height: 1.7; }
+.contactMethods article > span { display: none; }
+.textLink { text-transform: none; letter-spacing: 0; font-size: 15px; }
+.industryPreviewCard h3 { font-weight: 700; }
+@media (max-width: 640px) {
+  .section { padding-block: 56px; }
+  .industryCardBody { padding: 20px 0 0; }
+  .industrySupport a { min-height: 44px; display: inline-flex; align-items: center; }
+  .heroPersonLabel strong { font-size: 22px; }
+}
+.repairServiceGrid article:nth-child(odd) { border-right: 0; }
+.repairServiceGrid p, .expertiseGrid p { font-size: 16px; }
+.heroPersonLabel span { font-size: 12px; letter-spacing: .03em; }
+.pageHeroCopy h1 { text-transform: none; }
+.requestForm label > span { font-size: 14px; font-weight: 700; text-transform: none; letter-spacing: 0; }
+.requestForm .fileField small, .requestFinePrint { font-size: 13px; line-height: 1.6; }
+.requestSection, .requestForm { border: 0; }
+@media (max-width: 1000px) { .requestSection { grid-template-columns: 1fr; gap: 28px; } }

@@ -9,7 +9,7 @@ export default function MobileServiceBar() {
       </a>
       <Link href="/contact#contact-methods">Call / WhatsApp</Link>
       <Link className="isPrimary" href="/repair-service#request">
-        Request service
+        Request Service
       </Link>
     </nav>
   );

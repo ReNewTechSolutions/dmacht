@@ -13,7 +13,7 @@ const expertise = [
 export default function ExpertisePhotography() {
   return (
     <section className="section container expertisePhotography" aria-labelledby="expertise-heading">
-      <div id="expertise-heading"><SectionHeading eyebrow="Hands-on technical work" title="Real industrial printer expertise." /></div>
+      <div id="expertise-heading"><SectionHeading eyebrow="Repair work" title="Industrial printer expertise." /></div>
       <div className="expertisePhotoGrid">
         {expertise.map(({ title, photo, href }) => (
           <Link className="expertisePhotoCard" href={href} key={title}>

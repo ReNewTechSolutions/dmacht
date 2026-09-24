@@ -5,7 +5,7 @@ import PrinterInventory from "../../../components/PrinterInventory";
 
 export const metadata = pageMetadata(
   "/printers",
-  "New & Refurbished Industrial Printers | D-Macht",
+  "Industrial Coding Printers | D-Macht",
   "Ask D-Macht in Pune about new handheld and refurbished industrial coding and marking printers. Share your CIJ, TIJ or DOD application to confirm suitable options.",
 );
 
@@ -15,14 +15,14 @@ export default function PrintersPage() {
       <main>
         <PageHero
           eyebrow="Industrial printers"
-          title="New and refurbished printers for real production lines."
-          copy="Browse the available buying paths, then tell D-Macht what you print, the line conditions and when you need the equipment."
+          title="New & Refurbished Printers"
+          copy="Choose new or refurbished equipment. Share your material, code and line speed to check suitable options."
           image="/brand/photography/printers-workshop.webp"
           imageAlt="Industrial coding printer cabinets on a clean workshop bench"
-          imageNote="Illustrative equipment image — not current inventory"
-          primaryLabel="Browse printer options"
+          imageNote="Illustrative equipment. Contact us for current stock."
+          primaryLabel="View Printers"
           primaryHref="#inventory"
-          secondaryLabel="Ask about a printer"
+          secondaryLabel="Request Price"
           secondaryHref="#request"
         />
 

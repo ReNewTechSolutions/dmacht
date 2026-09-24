@@ -3,7 +3,6 @@ import ExpertisePhotography from "../../components/ExpertisePhotography";
 import Hero from "../../components/Hero";
 import ServiceChoices from "../../components/ServiceChoices";
 import BrandStrip from "../../components/BrandStrip";
-import CredibilityStrip from "../../components/CredibilityStrip";
 import Footer from "../../components/Footer";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
         <BrandStrip />
         <ExpertisePhotography />
         <IndustriesPreview />
-        <CredibilityStrip />
       </main>
       <Footer />
     </>

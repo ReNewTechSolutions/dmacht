@@ -44,8 +44,8 @@ await Promise.all(routes.map(async (route) => {
   assert.equal(meta('twitter:card'), 'summary_large_image');
   assert(!html.includes('og-image-v2.png'), `${route}: no obsolete share image`);
   if (route === '/') {
-    assert.equal(title, 'D-Macht | Industrial Printer Repair, Spare Parts & Printers');
-    assert.equal(description, 'D-Macht provides industrial printer repair, spare parts, consumables, and new and refurbished CIJ, TIJ and DOD coding and marking printers in Pune, India.');
+    assert.equal(title, 'D-Macht | Industrial Printer Repair, Parts & Printers');
+    assert.equal(description, 'D-Macht provides industrial printer repair, spare parts, consumables, and new and refurbished CIJ, TIJ and DOD coding printers in Pune, India.');
   }
   console.log(`PASS ${route}: title, description, canonical, OG, Twitter; no duplicates`);
 }));
@@ -63,3 +63,16 @@ assert.equal(image.toString('ascii', 1, 4), 'PNG');
 assert.equal(image.readUInt32BE(16), 1200);
 assert.equal(image.readUInt32BE(20), 630);
 console.log('PASS share image: PNG, 1200 × 630' + (origin ? ', published bytes match verified asset' : ''));
+
+// Public indexing only: keep redirects out of the sitemap.
+const getArtifact = async (route, filename) => origin
+  ? (await fetch(new URL(route, origin))).text()
+  : readFile(new URL(`../.next/server/app/${filename}`, import.meta.url), 'utf8');
+const sitemap = await getArtifact('/sitemap.xml', 'sitemap.xml.body');
+const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
+assert.deepEqual(locations.sort(), routes.map((route) => new URL(route, production).href).sort());
+const robots = await getArtifact('/robots.txt', 'robots.txt.body');
+assert.match(robots, /Allow: \//);
+assert.match(robots, /Sitemap: https:\/\/www\.dmacht\.com\/sitemap\.xml/);
+assert(!robots.includes('Disallow: /\n'));
+console.log('PASS sitemap: seven canonical content routes; robots: public crawl allowed');

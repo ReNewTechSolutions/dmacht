@@ -4,14 +4,14 @@ import { ArrowRight, Settings, ShoppingCart, Wrench } from "lucide-react";
 const actions = [
   {
     title: "Book Service",
-    copy: "Get your printer inspected, repaired and back up quickly.",
+    copy: "Breakdown repair and preventive maintenance.",
     href: "/repair-service#request",
     icon: Wrench,
     tone: "service",
   },
   {
     title: "Buy Spare Parts",
-    copy: "Genuine and high-quality parts for all major brands.",
+    copy: "Printer components, inks and make-up fluids.",
     href: "/parts-consumables",
     icon: Settings,
     tone: "parts",

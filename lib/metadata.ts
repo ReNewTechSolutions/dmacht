@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const productionOrigin = "https://www.dmacht.com";
-export const siteTitle = "D-Macht | Industrial Printer Repair, Spare Parts & Printers";
+export const siteTitle = "D-Macht | Industrial Printer Repair, Parts & Printers";
 export const siteDescription =
-  "D-Macht provides industrial printer repair, spare parts, consumables, and new and refurbished CIJ, TIJ and DOD coding and marking printers in Pune, India.";
+  "D-Macht provides industrial printer repair, spare parts, consumables, and new and refurbished CIJ, TIJ and DOD coding printers in Pune, India.";
 
 const socialImage = {
   url: `${productionOrigin}/brand/dmacht-social.png`,
   width: 1200,
   height: 630,
   type: "image/png",
-  alt: "D-Macht — Industrial Printer Repair, Spare Parts & Printers. CIJ, TIJ and DOD Coding & Marking Solutions.",
+  alt: "D-Macht, Industrial Printer Repair, Spare Parts & Printers. CIJ, TIJ and DOD Coding & Marking Solutions.",
 };
 
 /** Keep search, canonical, Open Graph and Twitter metadata aligned per route. */

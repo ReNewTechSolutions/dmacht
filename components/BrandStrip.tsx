@@ -10,7 +10,7 @@ export default function BrandStrip() {
         <div className="brandStripNames">
           {brands.map((brand) => <span key={brand}>{brand}</span>)}
         </div>
-        <Link href="/about#brands">And more <ArrowRight size={15} aria-hidden="true" /></Link>
+        <Link href="/about#brands">View brands <ArrowRight size={15} aria-hidden="true" /></Link>
       </div>
     </section>
   );

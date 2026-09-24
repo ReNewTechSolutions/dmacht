@@ -127,3 +127,7 @@ See [the imagery audit and asset map](docs/PHOTOGRAPHY.md) for sources, placemen
 ## Production environments
 
 `/industries` is the consolidated application page for nine environments, with relevant links to Service, Parts and Printers. The homepage shows a three-image preview. See [industry imagery and QA](docs/INDUSTRIES.md) for sources, replacements, generation directions and optimization.
+
+## Final simplification and SEO
+
+See [the final editorial and SEO audit](docs/SITE-CLEANUP.md). Public content retains its existing URLs. The App Router now generates a seven-page sitemap and robots file. No new schema, fonts or client dependencies were added.
