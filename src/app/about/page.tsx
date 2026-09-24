@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../../lib/metadata";
 import Image from "next/image";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import SectionHeading from "../../../components/SectionHeading";
 import { brands, industries } from "../../../data/site";
 
-export const metadata: Metadata = {
-  title: "About D-Macht",
-  description: "Pune-based specialists in industrial printer repair, PCB diagnostics, maintenance, parts and refurbished coding equipment.",
-};
+export const metadata = pageMetadata(
+  "/about",
+  "About D-Macht | Industrial Coding & Marking Solutions",
+  "Meet D-Macht, Pune-based specialists in industrial printer service, PCB repair, spare parts, consumables, and new and refurbished coding equipment.",
+);
 
 const expertise = [
   { title: "Complete printer service", copy: "Fault finding across the ink system, printhead, electronics, controls and mechanical assemblies." },

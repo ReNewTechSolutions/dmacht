@@ -109,3 +109,13 @@ The September 2026 refinement uses `D-MACHT-compressed.pdf` for business content
 - `public/brand/dmacht-mark.svg`: isolated motion-D, used as the SVG favicon. The native wide symbol is centered without distortion inside the smallest square viewBox that contains it.
 
 All three assets contain actual paths and vector gradients with transparent backgrounds, no raster images, no external references, and no runtime font dependency. `scripts/build-brand-assets.py` documents the reconstruction; it requires Python fontTools and the local Arial font only when regenerating the supporting lettering. The symbol and MACHT lettering use explicit vector geometry matched to the approved September 2026 reference. Supporting lettering uses outlined, dimension-matched local Arial.
+
+## Social sharing and metadata
+
+`lib/metadata.ts` supplies matching search, canonical, Open Graph and Twitter metadata for every content route, using `https://www.dmacht.com` as the canonical origin. Redirect-only routes retain their existing destinations. The old homepage canonical inheritance is replaced by route-specific canonical and social URLs.
+
+The shared social asset is `public/brand/dmacht-social.png` (1200 × 630). It uses the compact SVG logo, two headline lines and the CIJ/TIJ/DOD supporting line. Serving the committed PNG needs no fonts, rendering service or network dependency. No automatic `opengraph-image`/`twitter-image` route is added because the existing explicit App Router metadata architecture covers both cards without duplicate declarations.
+
+- Authoring: `scripts/build-social-image.py` composes the compact logo and outlined local Arial text into `scripts/dmacht-social-source.svg` (optional fontTools dependency).
+- Rasterization: `node scripts/render-social-image.mjs` regenerates the PNG from the self-contained SVG using the installed Sharp package.
+- Verification: after `npm run build`, run `node scripts/verify-metadata.mjs`; pass an origin to check a served deployment, e.g. `node scripts/verify-metadata.mjs https://www.dmacht.com`. This checks all six content routes for duplicate/conflicting metadata, canonical URLs, card references and PNG dimensions; live checks also compare image bytes with the committed asset.

@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../../lib/metadata";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import PartsCatalog from "../../../components/PartsCatalog";
 
-export const metadata: Metadata = {
-  title: "Industrial Printer Parts & Consumables",
-  description: "Request pumps, filters, printheads, PCBs, ink, make-up fluid and industrial printer components by model, part number or photo.",
-};
+export const metadata = pageMetadata(
+  "/parts-consumables",
+  "Industrial Printer Spare Parts & Consumables | D-Macht",
+  "Find industrial printer spare parts, CIJ, TIJ and DOD inks, fluids and consumables. Ask D-Macht in Pune to identify a part by model, part number or photo.",
+);
 
 export default function PartsConsumablesPage() {
   return (

@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../../lib/metadata";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import SectionHeading from "../../../components/SectionHeading";
 import ServiceRequest from "../../../components/ServiceRequest";
 
-export const metadata: Metadata = {
-  title: "Industrial Printer Repair & Service",
-  description: "Breakdown repair, preventive maintenance, PCB repair and field service for CIJ, TIJ and DOD industrial printers.",
-};
+export const metadata = pageMetadata(
+  "/repair-service",
+  "Industrial Printer Repair & Service | D-Macht",
+  "Book CIJ, TIJ and DOD printer service in Pune. D-Macht offers PCB and chip-level repair, Ink Core Assembly repair, nozzle diagnosis, maintenance and AMC options.",
+);
 
 const repairServices = [
   { title: "Breakdown repair", problem: "Printer stopped, error code shown or production line down.", repair: "Fault diagnosis across ink, electrical, mechanical, sensor and control systems." },

@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../../lib/metadata";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import ServiceRequest from "../../../components/ServiceRequest";
 import { contact } from "../../../data/site";
 
-export const metadata: Metadata = {
-  title: "Request Industrial Printer Service",
-  description: "Request industrial printer repair, parts or maintenance from D-Macht in Pune. Send the model, error code and a photo or video.",
-};
+export const metadata = pageMetadata(
+  "/contact",
+  "Contact D-Macht | Service, Parts & Printer Inquiries",
+  "Contact D-Macht in Pune, India for industrial printer repair, spare parts, consumables, or new and refurbished printers. Share your model, fault details or photos.",
+);
 
 export default function ContactPage() {
   return (

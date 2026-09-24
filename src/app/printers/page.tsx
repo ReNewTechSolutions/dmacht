@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../../lib/metadata";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import PrinterInventory from "../../../components/PrinterInventory";
 
-export const metadata: Metadata = {
-  title: "New & Refurbished Industrial Printers",
-  description: "Ask about new and workshop-refurbished CIJ, TIJ and DOD industrial coding printers from D-Macht.",
-};
+export const metadata = pageMetadata(
+  "/printers",
+  "New & Refurbished Industrial Printers | D-Macht",
+  "Ask D-Macht in Pune about new handheld and refurbished industrial coding and marking printers. Share your CIJ, TIJ or DOD application to confirm suitable options.",
+);
 
 export default function PrintersPage() {
   return (
