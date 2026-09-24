@@ -48,3 +48,9 @@ Use case: precise-object-edit. Produce ONE standalone landscape equipment photog
 ## Verification
 
 All six content pages were reviewed at 1440px desktop and 390px mobile widths. Checks passed for loaded images, alt attributes, horizontal overflow, browser errors, parts filtering, photo-identification prefill and printer-condition prefill. The final service layout contains six unique detail photographs; preventive and AMC copy lives in the maintenance section. Lint and production build pass. Existing metadata/OG regression checks also pass. Thirteen published WebP assets total approximately 727 KB; the retained homepage hero falls from approximately 1,898 KB to 92 KB before responsive delivery.
+
+## CIJ solvent label correction
+
+The consumables category now uses `public/brand/photography/cij-ink-make-up-solvent.webp` (900 × 481, 23,446 bytes) instead of `ink-fluids.webp`. Built-in image editing preserved the two-bottle industrial composition and changed the right label to **CIJ Make-Up Solvent**. A second edit removed generated branding/trademark symbols; final labels contain only **CIJ Ink** and **CIJ Make-Up Solvent**. No HTML text overlay is used. The old source asset is retained for history and is no longer referenced by the site.
+
+Edit direction: preserve bottles, caps, workshop, lighting and framing; replace the right product name exactly; retain the left product name; remove all other logos, branding and trademark symbols. Optimized with Sharp WebP quality 85. Historical source descriptions above remain unchanged.

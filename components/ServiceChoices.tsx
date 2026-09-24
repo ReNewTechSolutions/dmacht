@@ -1,26 +1,26 @@
 import Link from "next/link";
-import { ArrowRight, Settings, ShoppingCart, Wrench } from "lucide-react";
+import { ServicePrinterIcon, PrinterPartsIcon, IndustrialPrinterIcon } from "./PrinterActionIcons";
 
 const actions = [
   {
     title: "Book Service",
     copy: "Breakdown repair and preventive maintenance.",
     href: "/repair-service#request",
-    icon: Wrench,
+    icon: ServicePrinterIcon,
     tone: "service",
   },
   {
     title: "Buy Spare Parts",
-    copy: "Printer components, inks and make-up fluids.",
+    copy: "Printer components, inks and make-up solvents.",
     href: "/parts-consumables",
-    icon: Settings,
+    icon: PrinterPartsIcon,
     tone: "parts",
   },
   {
     title: "Buy Printers",
     copy: "New and refurbished industrial coding printers.",
     href: "/printers",
-    icon: ShoppingCart,
+    icon: IndustrialPrinterIcon,
     tone: "printers",
   },
 ];
@@ -32,12 +32,12 @@ export default function ServiceChoices() {
       <div className="container primaryActionGrid">
         {actions.map(({ title, copy, href, icon: Icon, tone }) => (
           <Link className={`primaryActionCard ${tone}`} href={href} key={title}>
-            <span className="primaryActionIcon"><Icon size={34} strokeWidth={2.25} aria-hidden="true" /></span>
+            <span className="primaryActionIcon"><Icon size={34} /></span>
             <span className="primaryActionCopy">
               <strong>{title}</strong>
               <small>{copy}</small>
             </span>
-            <ArrowRight className="primaryActionArrow" size={26} aria-hidden="true" />
+            <svg className="primaryActionArrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
           </Link>
         ))}
       </div>

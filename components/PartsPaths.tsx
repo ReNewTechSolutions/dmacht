@@ -4,7 +4,7 @@ import SectionHeading from "./SectionHeading";
 
 const paths = [
   { title: "I need a part", copy: "Send the printer brand, model and part number if known.", href: "/parts-consumables#parts-inquiry" },
-  { title: "I need ink / make-up fluid", copy: "Send the current container label and printer model.", href: "/parts-consumables#parts-inquiry" },
+  { title: "I need ink / make-up solvent", copy: "Send the current container label and printer model.", href: "/parts-consumables#parts-inquiry" },
   { title: "I don’t know what I need", copy: "Upload a photo and describe where the component came from.", href: "/parts-consumables#parts-inquiry" },
 ];
 

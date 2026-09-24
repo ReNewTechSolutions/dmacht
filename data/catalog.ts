@@ -3,7 +3,7 @@ export const partGroups = [
   { title: "Printheads & nozzles", items: ["Gutter Block", "Head Cover", "Head Assembly", "Nozzle Block", "Printer Head", "Nozzle", "Related head-cover components"] },
   { title: "Ink systems & fluid handling", items: ["Pump", "By-Pass Kit", "Filter Kit", "Ink Core Assembly"] },
   { title: "Electronics & controls", items: ["Power Supply", "Keypad", "LED Display", "Keypad Plate", "Alternate / Refurbished PCB", "Sensors"] },
-  { title: "Inks, Fluids & Consumables", items: ["CIJ ink", "DOD ink", "TIJ ink", "Make-up fluids", "Solvents", "Cleaners"] },
+  { title: "Inks, Solvents & Consumables", items: ["CIJ ink", "DOD ink", "TIJ ink", "Make-up solvent", "Cleaners"] },
 ];
 
 export type PrinterListing = {
