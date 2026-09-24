@@ -1,6 +1,8 @@
 export const contact = {
   email: "support@dmacht.com",
   location: "Pune, Maharashtra, India",
+  address: "Survey No. 96/5A, Rajgad Colony, Behind Ghule Wasti Petrol Pump, Manjri, Pune 412307, India",
+  phones: ["+91 9960816363", "+91 7755957650"],
 };
 
 export const primaryNav = [
@@ -32,4 +34,6 @@ export const industries = [
   "Cosmetics",
   "Electronics",
   "Dairy",
+  "Cans",
+  "Groceries",
 ];

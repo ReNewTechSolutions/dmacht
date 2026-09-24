@@ -7,7 +7,7 @@ export default function MobileServiceBar() {
       <a href={`mailto:${contact.email}?subject=Industrial%20Printer%20Support`}>
         Email
       </a>
-      <Link href="/contact#request">Call / WhatsApp</Link>
+      <Link href="/contact#contact-methods">Call / WhatsApp</Link>
       <Link className="isPrimary" href="/repair-service#request">
         Request service
       </Link>

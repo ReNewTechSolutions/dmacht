@@ -169,24 +169,8 @@ img { max-width: 100%; }
   gap: 32px;
 }
 
-.wordmark { display: inline-flex; min-width: 310px; align-items: center; gap: 2px; color: var(--ink); }
-.wordmarkIcon {
-  display: grid;
-  width: 54px;
-  height: 48px;
-  place-items: center;
-  background: linear-gradient(145deg, #0d72e7 0 47%, #06162f 48% 100%);
-  color: #fff;
-  font-size: 33px;
-  font-weight: 900;
-  font-style: italic;
-  letter-spacing: -0.12em;
-  line-height: 1;
-  clip-path: polygon(13% 0, 100% 7%, 79% 100%, 0 92%);
-}
-.wordmarkText { display: flex; flex-direction: column; }
-.wordmark strong { font-size: 35px; font-weight: 900; letter-spacing: -0.065em; line-height: 0.88; }
-.wordmark small { margin-top: 8px; color: var(--ink); font-size: 9px; font-weight: 800; letter-spacing: 0.24em; line-height: 1; text-transform: uppercase; }
+.wordmark { display: inline-flex; align-items: center; flex-shrink: 0; padding: 10px 0; }
+.navLogo { display: block; width: 250px; height: auto; }
 
 .navLinks { display: flex; flex: 1; align-items: stretch; justify-content: center; gap: 5px; align-self: stretch; }
 .navLinks a { position: relative; display: inline-flex; align-items: center; padding: 0 11px; color: #15253e; font-size: 13px; font-weight: 650; white-space: nowrap; }
@@ -587,9 +571,6 @@ img { max-width: 100%; }
   .section { padding-block: 68px; }
   .navbar { width: calc(100% - 24px); min-height: 70px; }
   .wordmark { min-width: 0; }
-  .wordmarkIcon { width: 39px; height: 36px; font-size: 23px; }
-  .wordmark strong { font-size: 25px; }
-  .wordmark small { margin-top: 5px; font-size: 6px; letter-spacing: 0.16em; }
   .navCta { display: none; }
   .mobileNavPanel { top: 70px; right: 12px; left: 12px; }
   .homeHero, .homeHeroInner { min-height: 540px; }
@@ -685,3 +666,30 @@ img { max-width: 100%; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
+
+/* Brochure-informed browsing within the existing light visual system. */
+.catalogFilters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 28px 0 14px; }
+.catalogFilters label { display: grid; gap: 8px; font-weight: 700; }
+.catalogFilters input, .catalogFilters select { width: 100%; min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 4px; background: white; color: var(--ink); font: inherit; }
+.catalogNote { color: var(--muted); font-size: 14px; }
+.catalogGrid, .maintenanceOptions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin: 26px 0; }
+.catalogGrid article, .maintenanceOptions article { padding: 30px; border: 1px solid var(--line); background: #fff; border-radius: 8px; }
+.catalogGrid h3, .maintenanceOptions h3 { font-size: 23px; }
+.catalogGrid p, .maintenanceOptions p, .photoCallout p, .emptyInventory p { line-height: 1.75; margin: 14px 0 22px; color: var(--muted); }
+.photoCallout { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 34px; margin-top: 42px; background: #eef5fb; border-left: 4px solid var(--accent); border-radius: 8px; }
+.photoCallout > div { max-width: 620px; }
+.photoCallout .button { flex-shrink: 0; }
+.emptyInventory { margin-top: 30px; padding: 28px; background: #f3f6f9; border-radius: 8px; }
+.handoffStatus { padding: 16px; background: #eef5fb; line-height: 1.6; }
+:where(a, button, input, select, textarea):focus-visible { outline: 3px solid #2163af; outline-offset: 4px; }
+@media (max-width: 860px) { .catalogFilters { grid-template-columns: repeat(2, minmax(0, 1fr)); } .photoCallout { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 640px) { .catalogFilters, .catalogGrid, .maintenanceOptions { grid-template-columns: 1fr; } .catalogGrid article, .maintenanceOptions article, .photoCallout { padding: 24px; } }
+
+/* Approved vector identity: retain intrinsic proportions and clear space. */
+.footerBrand .footerLogo { display: block; width: min(100%, 460px); padding: 22px; background: #fff; border-radius: 6px; margin: 0 0 22px; }
+.footerLogo img { display: block; width: 100%; height: auto; }
+.aboutLogo { display: block; width: 100%; max-width: 560px; height: auto; margin-bottom: 36px; }
+.catalogGrid h2, .photoCallout h2 { font-size: clamp(26px, 3vw, 34px); line-height: 1.2; }
+#categories > h2, #inventory > h2 { font-size: clamp(32px, 4vw, 46px); line-height: 1.2; margin: 12px 0 18px; }
+[id] { scroll-margin-top: 112px; }
+@media (max-width: 640px) { .navLogo { width: 205px; } [id] { scroll-margin-top: 88px; } .footerBrand .footerLogo { padding: 16px; } }

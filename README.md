@@ -91,3 +91,21 @@ The site is being refined as part of the broader ReNewTech Solutions portfolio o
 Built by **Felicia Goad** at [ReNewTech Solutions](https://renewtech.solutions)
 
 Contact: [hello@renewtech.solutions](mailto:hello@renewtech.solutions)
+
+## Brochure content and inventory
+
+The September 2026 refinement uses `D-MACHT-compressed.pdf` for business content while retaining the light homepage design. The homepage is limited to the hero, three customer paths, brands and credibility strip. Technical details live on `/repair-service`, `/parts-consumables` and `/printers`; industries live on `/about#industries`.
+
+- `data/site.ts`: shared brands, industries and contacts. Existing Pune location and support email were retained; brochure phone numbers and street address supplement them.
+- `data/catalog.ts`: brochure page 4 part categories and the typed `PrinterListing` structure. Dee can add verified records to `printerInventory` with a unique ID, local photo path, alt text, brand, model, printer type, condition, specifications and availability. The empty array intentionally publishes no fictional inventory.
+- Parts search filters the known category descriptions. Brand, model and part number are inquiry details, carried into the form for manual compatibility confirmation; there is no live stock feed.
+- Inquiry forms open an email draft. Selected files remain local and must be attached manually, or shared with the inquiry through the device share sheet when file sharing is supported. The site does not store uploads or claim successful delivery. A receiving API/storage integration would be needed for server-side upload and receipt tracking.
+- `.vercel/project.json` links the existing `dmacht` Vercel project. Release from the current branch after lint, build and browser verification; verify the production alias after deployment.
+
+## Approved vector identity
+
+- `public/brand/dmacht-logo.svg`: complete horizontal identity on About and a white footer inset so the approved navy lettering retains contrast.
+- `public/brand/dmacht-logo-compact.svg`: mark + hyphen + MACHT, used in desktop/mobile navigation.
+- `public/brand/dmacht-mark.svg`: isolated motion-D, used as the SVG favicon. Its native wide proportions are preserved without distortion.
+
+All three assets contain actual paths and vector gradients with transparent backgrounds, no raster images, no external references, and no runtime font dependency. `scripts/build-brand-assets.py` documents the reconstruction; it requires Python fontTools and the local Arial font only when regenerating the supporting lettering. The symbol and MACHT lettering use explicit vector geometry matched to the approved September 2026 reference. Supporting lettering uses outlined, dimension-matched local Arial.

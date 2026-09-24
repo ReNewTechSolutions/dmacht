@@ -4,6 +4,7 @@ import MobileServiceBar from "../../components/MobileServiceBar";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  icons: { icon: [{ url: "/brand/dmacht-mark.svg", type: "image/svg+xml" }] },
   metadataBase: new URL("https://www.dmacht.com"),
   title: {
     default: "D-Macht | Industrial Printer Repair & Service in Pune",

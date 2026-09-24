@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { CalendarDays, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -18,11 +19,7 @@ export default function Navbar() {
     <header className="siteHeader">
       <div className="navbar">
         <Link className="wordmark" href="/" aria-label="D-Macht home" onClick={closeMenu}>
-          <span className="wordmarkIcon" aria-hidden="true">D</span>
-          <span className="wordmarkText">
-            <strong>-Macht</strong>
-            <small>Industrial Printer Solutions</small>
-          </span>
+          <Image className="navLogo" src="/brand/dmacht-logo-compact.svg" alt="D-Macht" width={1620} height={276} priority />
         </Link>
 
         <nav className="navLinks" aria-label="Primary navigation">

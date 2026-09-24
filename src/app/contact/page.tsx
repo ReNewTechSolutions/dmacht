@@ -27,8 +27,8 @@ export default function ContactPage() {
 
         <section className="contactMethods container" id="contact-methods">
           <article><span>01</span><h2>Email</h2><a href={`mailto:${contact.email}`}>{contact.email}</a><p>Best for fault details, photos, videos and part labels.</p></article>
-          <article><span>02</span><h2>Call / WhatsApp</h2><a href="#request">Request a callback</a><p>Add your active number below and choose phone or WhatsApp in the details.</p></article>
-          <article><span>03</span><h2>Location</h2><strong>{contact.location}</strong><p>Workshop coordination and field technical support.</p></article>
+          <article><span>02</span><h2>Call / WhatsApp</h2>{contact.phones.map((phone) => <p key={phone}><a href={`tel:${phone.replaceAll(" ", "")}`}>{phone}</a></p>)}<p>Or include a callback number in your inquiry.</p></article>
+          <article><span>03</span><h2>Location</h2><strong>{contact.location}</strong><p>{contact.address}</p></article>
         </section>
 
         <div className="container requestWrap"><ServiceRequest variant="contact" /></div>

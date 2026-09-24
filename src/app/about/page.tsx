@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Footer from "../../../components/Footer";
 import PageHero from "../../../components/PageHero";
 import SectionHeading from "../../../components/SectionHeading";
@@ -30,7 +31,7 @@ export default function AboutPage() {
         />
 
         <section className="section container aboutStory">
-          <SectionHeading eyebrow="What we do" title="Hands-on technical work, clearly explained." copy="Plant managers and maintenance teams need a practical answer: what failed, what can be repaired, what part is needed and how to get production moving again." />
+          <div><Image className="aboutLogo" src="/brand/dmacht-logo.svg" alt="D-Macht — Industrial Coding & Marking Solutions. Quality, Reliability, Flexibility." width={1620} height={437} /><SectionHeading eyebrow="What we do" title="Hands-on technical work, clearly explained." copy="Plant managers and maintenance teams need a practical answer: what failed, what can be repaired, what part is needed and how to get production moving again." /></div>
           <div className="expertiseGrid">
             {expertise.map((item) => <article key={item.title}><h2>{item.title}</h2><p>{item.copy}</p></article>)}
           </div>
@@ -39,7 +40,7 @@ export default function AboutPage() {
         <section className="aboutCoverage" id="brands">
           <div className="container coverageGrid">
             <div><span className="eyebrow">Brands commonly supported</span><div className="simpleNameList">{brands.map((brand) => <span key={brand}>{brand}</span>)}</div></div>
-            <div><span className="eyebrow">Production environments</span><div className="simpleNameList">{industries.map((industry) => <span key={industry}>{industry}</span>)}</div></div>
+            <div id="industries"><span className="eyebrow">Production environments</span><div className="simpleNameList">{industries.map((industry) => <span key={industry}>{industry}</span>)}</div></div>
           </div>
         </section>
       </main>

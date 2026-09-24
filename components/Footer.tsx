@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { contact, primaryNav } from "../data/site";
 
 export default function Footer() {
@@ -16,7 +17,7 @@ export default function Footer() {
 
       <div className="container footerMain">
         <div className="footerBrand">
-          <strong>D-MACHT</strong>
+          <Link className="footerLogo" href="/" aria-label="D-Macht home"><Image src="/brand/dmacht-logo.svg" alt="D-Macht — Industrial Coding & Marking Solutions. Quality, Reliability, Flexibility." width={1620} height={437} /></Link>
           <p>Industrial printer repair, service, parts, consumables and refurbished equipment.</p>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
           <span>{contact.location}</span>
