@@ -70,9 +70,9 @@ const getArtifact = async (route, filename) => origin
   : readFile(new URL(`../.next/server/app/${filename}`, import.meta.url), 'utf8');
 const sitemap = await getArtifact('/sitemap.xml', 'sitemap.xml.body');
 const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
-assert.deepEqual(locations.sort(), routes.map((route) => new URL(route, production).href).sort());
+assert.deepEqual(locations.sort(), [...routes, '/bazaarboxbeta'].map((route) => new URL(route, production).href).sort());
 const robots = await getArtifact('/robots.txt', 'robots.txt.body');
 assert.match(robots, /Allow: \//);
 assert.match(robots, /Sitemap: https:\/\/www\.dmacht\.com\/sitemap\.xml/);
 assert(!robots.includes('Disallow: /\n'));
-console.log('PASS sitemap: seven canonical content routes; robots: public crawl allowed');
+console.log('PASS sitemap: eight canonical content routes; robots: public crawl allowed');
