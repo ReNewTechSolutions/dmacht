@@ -2,17 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CalendarDays, Menu, X } from "lucide-react";
+import { CalendarDays, ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { primaryNav } from "../data/site";
+import styles from "./ProductNavigation.module.css";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const productsRef = useRef<HTMLDetailsElement>(null);
 
   function closeMenu() {
     setOpen(false);
+    if (productsRef.current) productsRef.current.open = false;
   }
 
   return (
@@ -33,6 +36,12 @@ export default function Navbar() {
               </Link>
             );
           })}
+          <details className={styles.products} ref={productsRef} data-active={pathname.startsWith("/bazaarboxbeta")}
+            onKeyDown={(event) => { if (event.key === "Escape" && productsRef.current) { productsRef.current.open = false; productsRef.current.querySelector("summary")?.focus(); } }}
+            onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}>
+            <summary>Products <ChevronDown size={14} aria-hidden="true" /></summary>
+            <div className={styles.menu}><Link href="/bazaarboxbeta" onClick={closeMenu} aria-current={pathname === "/bazaarboxbeta" ? "page" : undefined}>BazaarBox</Link></div>
+          </details>
         </nav>
 
         <div className="navActions">
@@ -64,6 +73,8 @@ export default function Navbar() {
             {item.label}
           </Link>
         ))}
+        <p className={styles.mobileProducts}>Products</p>
+        <Link href="/bazaarboxbeta" onClick={closeMenu} aria-current={pathname === "/bazaarboxbeta" ? "page" : undefined}>BazaarBox</Link>
 
         <Link className="mobileNavCta" href="/repair-service#request" onClick={closeMenu}>
           <CalendarDays size={18} aria-hidden="true" />

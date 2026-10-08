@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { pageMetadata, productionOrigin } from "../../../lib/metadata";
 import styles from "./page.module.css";
+import { policyLinks } from "../../../lib/bazaarbox-policies";
 
 const title = "BazaarBox | Local Marketplace by DMacht";
 const description = "BazaarBox is a local online marketplace operated by DMacht in India. Post listings from ₹10, connect with nearby buyers and sellers, and arrange local meetups.";
@@ -14,13 +15,6 @@ export const metadata: Metadata = {
   twitter: { ...base.twitter, images: [image] },
 };
 
-const policies = [
-  ["Terms & Conditions", "/terms"],
-  ["Privacy Policy", "/privacy"],
-  ["Refund & Cancellation Policy", "/refund-policy"],
-  ["Safety & Posting Rules", "/safety"],
-  ["Local Meetup / No Shipping Policy", "/shipping-delivery-policy"],
-] as const;
 const plans = [
   { name: "Single Listing", price: "₹10", quantity: "1 listing", note: "A simple start", detail: "Your published listing runs for 30 days." },
   { name: "Launch Pack", price: "₹50", quantity: "Up to 20 listings", note: "Introductory promotion", detail: "A 30-day posting window. Each published listing gets its own 30 days." },
@@ -102,9 +96,9 @@ export default function BazaarBoxPage() {
             </dl>
           </div>
           <div className={styles.policyPanel}>
-            <h3>Know before you list</h3>
+            <h3>Policies & Customer Support</h3>
             <p>Read the marketplace’s public policies and practical guidance.</p>
-            <ul>{policies.map(([label, path]) => <li key={path}><a href={`https://bazaarbox.app${path}`}>{label}<span aria-hidden="true">↗</span></a></li>)}</ul>
+            <ul>{policyLinks.map(({ label, href }) => <li key={href}><Link href={href}>{label}<span aria-hidden="true">→</span></Link></li>)}</ul>
           </div>
         </div>
       </section>

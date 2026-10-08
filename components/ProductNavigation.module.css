@@ -1,0 +1,10 @@
+.products { position: relative; align-self: center; }
+.products summary { display: flex; align-items: center; gap: 6px; min-height: 48px; padding: 0 11px; color: #15253e; font-size: 13px; font-weight: 650; cursor: pointer; list-style: none; }
+.products summary::-webkit-details-marker { display: none; }
+.products[open] summary, .products[data-active="true"] summary { color: var(--accent-dark); }
+.products .menu { position: absolute; top: 100%; right: 0; min-width: 190px; padding: 8px; border: 1px solid var(--line); border-radius: 9px; background: #fff; box-shadow: var(--shadow); }
+.products .menu a { display: flex; min-height: 48px; padding: 12px; border-radius: 6px; }
+.products .menu a::after { display: none; }
+.products .menu a:hover { background: var(--paper); }
+.mobileProducts { margin: 12px 12px 2px; color: var(--muted); font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .1em; }
+@media (min-width: 1101px) and (max-width: 1250px) { .products summary { padding-inline: 7px; font-size: 12px; } }

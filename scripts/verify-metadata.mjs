@@ -7,6 +7,7 @@ const origin = process.argv[2];
 const production = 'https://www.dmacht.com';
 const imageUrl = `${production}/brand/dmacht-social.png`;
 const routes = ['/', '/repair-service', '/parts-consumables', '/printers', '/about', '/contact', '/industries'];
+const policyKeys = Object.keys(JSON.parse(await readFile(new URL('../data/bazaarbox-policies.json', import.meta.url), 'utf8')));
 const decode = (value) => value.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#x27;', "'");
 
 await Promise.all(routes.map(async (route) => {
@@ -70,9 +71,9 @@ const getArtifact = async (route, filename) => origin
   : readFile(new URL(`../.next/server/app/${filename}`, import.meta.url), 'utf8');
 const sitemap = await getArtifact('/sitemap.xml', 'sitemap.xml.body');
 const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
-assert.deepEqual(locations.sort(), [...routes, '/bazaarboxbeta'].map((route) => new URL(route, production).href).sort());
+assert.deepEqual(locations.sort(), [...routes, '/bazaarboxbeta', ...policyKeys.map(key => `/bazaarboxbeta/${key}`)].map((route) => new URL(route, production).href).sort());
 const robots = await getArtifact('/robots.txt', 'robots.txt.body');
 assert.match(robots, /Allow: \//);
 assert.match(robots, /Sitemap: https:\/\/www\.dmacht\.com\/sitemap\.xml/);
 assert(!robots.includes('Disallow: /\n'));
-console.log('PASS sitemap: eight canonical content routes; robots: public crawl allowed');
+console.log('PASS sitemap: fourteen canonical content routes; robots: public crawl allowed');

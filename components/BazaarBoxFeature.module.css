@@ -1,0 +1,12 @@
+.section { padding: 48px 0; background: #fff; border-top: 1px solid var(--line); }
+.inner { display: grid; grid-template-columns: auto 1fr auto; gap: 36px; align-items: center; }
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand img { width: 64px; height: 64px; object-fit: contain; }
+.brand p { margin: 0 0 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent-dark); }
+.brand h2 { margin: 0; color: #111; font-size: 30px; font-weight: 850; letter-spacing: -.055em; }
+.brand h2 span { color: #ff5a00; }
+.copy h3 { margin: 0 0 8px; font-size: 21px; line-height: 1.4; }
+.copy p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 520px; }
+.inner > a { gap: 14px; }
+@media (max-width: 1000px) { .inner { grid-template-columns: auto 1fr; gap: 24px; } .inner > a { grid-column: 2; justify-self: start; } }
+@media (max-width: 600px) { .inner { grid-template-columns: 1fr; } .inner > a { grid-column: auto; } .section { padding: 36px 0; } }

@@ -4,6 +4,7 @@ import Hero from "../../components/Hero";
 import ServiceChoices from "../../components/ServiceChoices";
 import BrandStrip from "../../components/BrandStrip";
 import Footer from "../../components/Footer";
+import BazaarBoxFeature from "../../components/BazaarBoxFeature";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <BrandStrip />
         <ExpertisePhotography />
         <IndustriesPreview />
+        <BazaarBoxFeature />
       </main>
       <Footer />
     </>
